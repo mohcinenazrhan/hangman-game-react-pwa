@@ -4,6 +4,10 @@ import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import { blue, grey } from '@material-ui/core/colors';
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import { Home, Info, Assessment } from '@material-ui/icons';
 import './App.css';
 
 const theme = createMuiTheme({
@@ -24,11 +28,23 @@ const useStyles = makeStyles((theme) => ({
 	content: {
 		flexGrow: 1,
 		padding: theme.spacing(3)
+	},
+	footer: {
+		width: '100%',
+		flexGrow: 1,
+		position: 'fixed',
+		bottom: 0,
+		borderTop: '1px solid #eaeaea'
 	}
 }));
 
 function App() {
 	const classes = useStyles();
+	const [ value, setValue ] = React.useState(0);
+
+	function handleChange(event, newValue) {
+		setValue(newValue);
+	}
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -39,6 +55,21 @@ function App() {
 					<main className={classes.content}>My App</main>
 					<div className={classes.toolbar} />
 				</Container>
+				<footer className={classes.footer}>
+					<Paper square>
+						<Tabs
+							value={value}
+							onChange={handleChange}
+							variant="fullWidth"
+							indicatorColor="secondary"
+							textColor="secondary"
+						>
+							<Tab icon={<Home />} label="Home" />
+							<Tab icon={<Assessment />} label="My States" />
+							<Tab icon={<Info />} label="About" />
+						</Tabs>
+					</Paper>
+				</footer>
 			</div>
 		</ThemeProvider>
 	);
