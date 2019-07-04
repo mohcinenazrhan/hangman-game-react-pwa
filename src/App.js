@@ -7,8 +7,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { Home, Info, Assessment } from '@material-ui/icons';
-import { AppBar, Toolbar, Typography } from '@material-ui/core';
+import { Home, Info, Assessment, AccountCircle } from '@material-ui/icons';
+import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
 import './App.css';
 
 const theme = createMuiTheme({
@@ -43,6 +43,18 @@ function App() {
 	const classes = useStyles();
 	const [ value, setValue ] = React.useState(0);
 
+	const [ auth ] = React.useState(true);
+	const [ anchorEl, setAnchorEl ] = React.useState(null);
+	const open = Boolean(anchorEl);
+
+	function handleMenu(event) {
+		setAnchorEl(event.currentTarget);
+	}
+
+	function handleClose() {
+		setAnchorEl(null);
+	}
+
 	function handleChange(event, newValue) {
 		setValue(newValue);
 	}
@@ -56,6 +68,37 @@ function App() {
 						<Typography variant="h6" noWrap align="center">
 							App name
 						</Typography>
+						{auth && (
+							<div>
+								<IconButton
+									aria-label="Account of current user"
+									aria-controls="menu-appbar"
+									aria-haspopup="true"
+									onClick={handleMenu}
+									color="inherit"
+								>
+									<AccountCircle />
+								</IconButton>
+								<Menu
+									id="menu-appbar"
+									anchorEl={anchorEl}
+									anchorOrigin={{
+										vertical: 'top',
+										horizontal: 'right'
+									}}
+									keepMounted
+									transformOrigin={{
+										vertical: 'top',
+										horizontal: 'right'
+									}}
+									open={open}
+									onClose={handleClose}
+								>
+									<MenuItem onClick={handleClose}>Profile</MenuItem>
+									<MenuItem onClick={handleClose}>My account</MenuItem>
+								</Menu>
+							</div>
+						)}
 					</Toolbar>
 				</AppBar>
 				<Container maxWidth="lg">
