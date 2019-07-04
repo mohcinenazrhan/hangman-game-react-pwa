@@ -8,6 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Home, Info, Assessment } from '@material-ui/icons';
+import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import './App.css';
 
 const theme = createMuiTheme({
@@ -50,6 +51,15 @@ function App() {
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
 			<div className={'App ' + classes.root}>
+				<AppBar position="fixed">
+					<Toolbar>
+						<div className={classes.ToolbarTitleContainer}>
+							<Typography variant="h6" noWrap align="center">
+								App name
+							</Typography>
+						</div>
+					</Toolbar>
+				</AppBar>
 				<Container maxWidth="lg">
 					<div className={classes.toolbar} />
 					<main className={classes.content}>My App</main>
