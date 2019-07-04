@@ -53,11 +53,9 @@ function App() {
 			<div className={'App ' + classes.root}>
 				<AppBar position="fixed">
 					<Toolbar>
-						<div className={classes.ToolbarTitleContainer}>
-							<Typography variant="h6" noWrap align="center">
-								App name
-							</Typography>
-						</div>
+						<Typography variant="h6" noWrap align="center">
+							App name
+						</Typography>
 					</Toolbar>
 				</AppBar>
 				<Container maxWidth="lg">
