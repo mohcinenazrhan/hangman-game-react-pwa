@@ -36,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
 		position: 'fixed',
 		bottom: 0,
 		borderTop: '1px solid #eaeaea'
+	},
+	justifyContent: {
+		justifyContent: 'space-between'
 	}
 }));
 
@@ -64,7 +67,7 @@ function App() {
 			<CssBaseline />
 			<div className={'App ' + classes.root}>
 				<AppBar position="fixed">
-					<Toolbar>
+					<Toolbar className={classes.justifyContent}>
 						<Typography variant="h6" noWrap>
 							App name
 						</Typography>
