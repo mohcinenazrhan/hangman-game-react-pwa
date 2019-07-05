@@ -29,7 +29,8 @@ const useStyles = makeStyles((theme) => ({
 	toolbar: theme.mixins.toolbar,
 	content: {
 		flexGrow: 1,
-		padding: theme.spacing(3)
+		paddingTop: theme.spacing(3),
+		paddingBottom: theme.spacing(3)
 	},
 	footer: {
 		width: '100%',
