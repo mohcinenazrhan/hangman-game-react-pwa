@@ -14,7 +14,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 	wordLettres: {
 		height: 60,
-		width: '6%',
 		maxWidth: 60,
 		minWidth: 30,
 		border: '1px solid #fff',
@@ -41,7 +40,10 @@ function Game() {
 					return (
 						<div
 							className={classes.wordLettres}
-							style={{ backgroundColor: `rgb(${55 - cnt}, ${71 - cnt}, ${79 - cnt})` }}
+							style={{
+								backgroundColor: `rgb(${55 - cnt}, ${71 - cnt}, ${79 - cnt})`,
+								width: `${100 / wordToDiscover.length}%`
+							}}
 							key={index}
 						>
 							{'_'}
