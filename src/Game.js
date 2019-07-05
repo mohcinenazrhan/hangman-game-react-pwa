@@ -3,7 +3,8 @@ import { Button, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
-		margin: theme.spacing(1)
+		margin: theme.spacing(1),
+		fontWeight: 'bold'
 	},
 	wordContainer: {
 		display: 'flex',
