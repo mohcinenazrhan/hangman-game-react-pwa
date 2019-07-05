@@ -10,6 +10,7 @@ import Tab from '@material-ui/core/Tab';
 import { Home, Info, Assessment, AccountCircle } from '@material-ui/icons';
 import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
 import './App.css';
+import Game from './Game';
 
 const theme = createMuiTheme({
 	palette: {
@@ -106,7 +107,9 @@ function App() {
 				</AppBar>
 				<Container maxWidth="lg">
 					<div className={classes.toolbar} />
-					<main className={classes.content}>My App</main>
+					<main className={classes.content}>
+						<Game />
+					</main>
 					<div className={classes.toolbar} />
 				</Container>
 				<footer className={classes.footer}>
