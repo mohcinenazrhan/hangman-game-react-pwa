@@ -65,7 +65,7 @@ function App() {
 			<div className={'App ' + classes.root}>
 				<AppBar position="fixed">
 					<Toolbar>
-						<Typography variant="h6" noWrap align="center">
+						<Typography variant="h6" noWrap>
 							App name
 						</Typography>
 						{auth && (
