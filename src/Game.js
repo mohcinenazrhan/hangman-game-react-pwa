@@ -7,13 +7,16 @@ const useStyles = makeStyles((theme) => ({
 	},
 	wordContainer: {
 		display: 'flex',
+		flexWrap: 'wrap',
 		justifyContent: 'center',
 		marginTop: theme.spacing(3),
 		marginBottom: theme.spacing(3)
 	},
 	lettreHide: {
 		height: 60,
-		width: 60,
+		width: '6%',
+		maxWidth: 60,
+		minWidth: 30,
 		border: '1px solid #fff',
 		lineHeight: '60px',
 		fontSize: 18,
