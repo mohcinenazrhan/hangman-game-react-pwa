@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(3),
 		marginBottom: theme.spacing(3)
 	},
-	lettreHide: {
+	wordLettres: {
 		height: 60,
 		width: '6%',
 		maxWidth: 60,
@@ -35,7 +35,7 @@ function Game() {
 		<React.Fragment>
 			<div className={classes.wordContainer}>
 				{wordToDiscover.map((letter, index) => (
-					<div className={classes.lettreHide} key={index}>
+					<div className={classes.wordLettres} key={index}>
 						{'_'}
 					</div>
 				))}
