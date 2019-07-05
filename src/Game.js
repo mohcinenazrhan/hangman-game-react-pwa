@@ -5,24 +5,47 @@ const useStyles = makeStyles((theme) => ({
 	button: {
 		margin: theme.spacing(1)
 	},
-	input: {
-		display: 'none'
+	wordContainer: {
+		display: 'flex',
+		justifyContent: 'center',
+		marginTop: theme.spacing(3),
+		marginBottom: theme.spacing(3)
+	},
+	lettreHide: {
+		height: 60,
+		width: 60,
+		border: '1px solid #fff',
+		lineHeight: '60px',
+		fontSize: 18,
+		color: '#FFFFFF',
+		textAlign: 'center',
+		background: '#37474F'
 	}
 }));
 
 function Game() {
 	const classes = useStyles();
 	const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
+	const wordToDiscover = 'hilarious'.toUpperCase().split('');
 	return (
-		<div>
-			{alphabets.map((letter, index) => {
-				return (
-					<Button key={index} variant="contained" className={classes.button}>
-						{letter}
-					</Button>
-				);
-			})}
-		</div>
+		<React.Fragment>
+			<div className={classes.wordContainer}>
+				{wordToDiscover.map((letter, index) => (
+					<div className={classes.lettreHide} key={index}>
+						{'_'}
+					</div>
+				))}
+			</div>
+			<div>
+				{alphabets.map((letter, index) => {
+					return (
+						<Button key={index} variant="contained" className={classes.button}>
+							{letter}
+						</Button>
+					);
+				})}
+			</div>
+		</React.Fragment>
 	);
 }
 
