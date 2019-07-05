@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: 18,
 		color: '#FFFFFF',
 		textAlign: 'center',
-		background: '#37474F',
 		marginBottom: 5
 	}
 }));
@@ -31,14 +30,24 @@ function Game() {
 	const classes = useStyles();
 	const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
 	const wordToDiscover = 'pneumonoultramicroscopicsilicovolcanoconiosis'.toUpperCase().split('');
+	// rgb color counter for color gradients
+	// start by -2 to make it start at 0 since the counter step is by 2
+	let cnt = -2;
 	return (
 		<React.Fragment>
 			<div className={classes.wordContainer}>
-				{wordToDiscover.map((letter, index) => (
-					<div className={classes.wordLettres} key={index}>
-						{'_'}
-					</div>
-				))}
+				{wordToDiscover.map((letter, index) => {
+					cnt += 2;
+					return (
+						<div
+							className={classes.wordLettres}
+							style={{ backgroundColor: `rgb(${55 - cnt}, ${71 - cnt}, ${79 - cnt})` }}
+							key={index}
+						>
+							{'_'}
+						</div>
+					);
+				})}
 			</div>
 			<div>
 				{alphabets.map((letter, index) => {
