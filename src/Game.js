@@ -22,14 +22,15 @@ const useStyles = makeStyles((theme) => ({
 		fontSize: 18,
 		color: '#FFFFFF',
 		textAlign: 'center',
-		background: '#37474F'
+		background: '#37474F',
+		marginBottom: 5
 	}
 }));
 
 function Game() {
 	const classes = useStyles();
 	const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
-	const wordToDiscover = 'hilarious'.toUpperCase().split('');
+	const wordToDiscover = 'pneumonoultramicroscopicsilicovolcanoconiosis'.toUpperCase().split('');
 	return (
 		<React.Fragment>
 			<div className={classes.wordContainer}>
