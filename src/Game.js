@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, makeStyles } from '@material-ui/core';
+import progressDraw from './progress-draw.png';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -23,6 +24,12 @@ const useStyles = makeStyles((theme) => ({
 		color: '#FFFFFF',
 		textAlign: 'center',
 		marginBottom: 5
+	},
+	drawImgProgress: {
+		background: `url(${progressDraw})`,
+		width: 208,
+		height: 130,
+		margin: '0 auto'
 	}
 }));
 
@@ -35,6 +42,7 @@ function Game() {
 	let cnt = -2;
 	return (
 		<React.Fragment>
+			<div className={classes.drawImgProgress} />
 			<div className={classes.wordContainer}>
 				{wordToDiscover.map((letter, index) => {
 					cnt += 2;
