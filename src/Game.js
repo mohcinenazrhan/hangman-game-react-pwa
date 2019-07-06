@@ -45,6 +45,14 @@ function Game() {
 	});
 	const [ wordState, setWordState ] = useState(wordInitialState);
 
+	const alphabetsInitialState = alphabets.map((letter) => {
+		return {
+			letter: letter,
+			disabled: false
+		};
+	});
+	const [ alphabetsState, setAlphabetsState ] = useState(alphabetsInitialState);
+
 	// rgb color counter for color gradients
 	// start by -2 to make it start at 0 since the counter step is by 2
 	let cnt = -2;
@@ -58,6 +66,15 @@ function Game() {
 			return row;
 		});
 
+		// Disable the clicked button
+		const newAlphabetsState = alphabetsState.map((row) => {
+			if (letter === row.letter) {
+				row.disabled = true;
+			}
+			return row;
+		});
+
+		setAlphabetsState(newAlphabetsState);
 		setWordState(newWordState);
 	}
 
@@ -82,15 +99,16 @@ function Game() {
 				})}
 			</div>
 			<div>
-				{alphabets.map((letter, index) => {
+				{alphabetsState.map((row, index) => {
 					return (
 						<Button
 							key={index}
 							variant="contained"
 							className={classes.button}
-							onClick={() => handleBtnClick(letter)}
+							disabled={row.disabled}
+							onClick={() => handleBtnClick(row.letter)}
 						>
-							{letter}
+							{row.letter}
 						</Button>
 					);
 				})}
