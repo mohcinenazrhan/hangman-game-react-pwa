@@ -4,8 +4,13 @@ import progressDraw from './progress-draw.png';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
-		margin: theme.spacing(1),
-		fontWeight: 'bold'
+		margin: theme.spacing(0.5),
+		padding: 0,
+		fontWeight: 'bold',
+		[theme.breakpoints.up('sm')]: {
+			margin: theme.spacing(1),
+			padding: '6px 16px'
+		}
 	},
 	wordContainer: {
 		display: 'flex',
