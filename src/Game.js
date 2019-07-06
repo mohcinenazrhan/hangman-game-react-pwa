@@ -43,11 +43,24 @@ function Game() {
 			hidden: true
 		};
 	});
-	const [wordState] = useState(wordInitialState);
+	const [ wordState, setWordState ] = useState(wordInitialState);
 
 	// rgb color counter for color gradients
 	// start by -2 to make it start at 0 since the counter step is by 2
 	let cnt = -2;
+
+	function handleBtnClick(letter) {
+		// Show the letter founded
+		const newWordState = wordState.map((row) => {
+			if (letter === row.letter) {
+				row.hidden = false;
+			}
+			return row;
+		});
+
+		setWordState(newWordState);
+	}
+
 	return (
 		<React.Fragment>
 			<div className={classes.drawImgProgress} />
@@ -71,7 +84,12 @@ function Game() {
 			<div>
 				{alphabets.map((letter, index) => {
 					return (
-						<Button key={index} variant="contained" className={classes.button}>
+						<Button
+							key={index}
+							variant="contained"
+							className={classes.button}
+							onClick={() => handleBtnClick(letter)}
+						>
 							{letter}
 						</Button>
 					);
