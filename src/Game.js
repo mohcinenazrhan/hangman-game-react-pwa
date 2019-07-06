@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
 		height: 60,
 		maxWidth: 60,
 		minWidth: 30,
-		border: '1px solid #fff',
 		lineHeight: '60px',
 		fontSize: 18,
 		color: '#FFFFFF',
