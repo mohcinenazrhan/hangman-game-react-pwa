@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, makeStyles } from '@material-ui/core';
 import progressDraw from './progress-draw.png';
 
@@ -37,6 +37,14 @@ function Game() {
 	const classes = useStyles();
 	const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
 	const wordToDiscover = 'pneumonoultramicroscopicsilicovolcanoconiosis'.toUpperCase().split('');
+	const wordInitialState = wordToDiscover.map((letter) => {
+		return {
+			letter: letter,
+			hidden: true
+		};
+	});
+	const [wordState] = useState(wordInitialState);
+
 	// rgb color counter for color gradients
 	// start by -2 to make it start at 0 since the counter step is by 2
 	let cnt = -2;
@@ -44,7 +52,7 @@ function Game() {
 		<React.Fragment>
 			<div className={classes.drawImgProgress} />
 			<div className={classes.wordContainer}>
-				{wordToDiscover.map((letter, index) => {
+				{wordState.map((row, index) => {
 					cnt += 2;
 					return (
 						<div
@@ -55,7 +63,7 @@ function Game() {
 							}}
 							key={index}
 						>
-							{'_'}
+							{row.hidden ? '_' : row.letter}
 						</div>
 					);
 				})}
