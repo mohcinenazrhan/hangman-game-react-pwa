@@ -104,6 +104,13 @@ function Game() {
 		setWordState(newWordState);
 	}
 
+	function newGame() {
+		setIsCompleted(false);
+		setNbrTriesState(nbrTriesInitialState);
+		setAlphabetsState(alphabetsInitialState);
+		setWordState(wordInitialState);
+	}
+
 	return (
 		<React.Fragment>
 			<div className={classes.gameInfoContainer}>
@@ -130,7 +137,7 @@ function Game() {
 			{isCompletedState ? (
 				<div>
 					<Typography>Great, you've found the word successfully</Typography>
-					<Button variant="contained" color="primary" className={classes.button}>
+					<Button variant="contained" color="primary" className={classes.button} onClick={newGame}>
 						REPLAY
 					</Button>
 				</div>
