@@ -69,6 +69,9 @@ function Game() {
 	const nbrTriesInitialState = Math.floor(wordToDiscover.length / 2);
 	const [ nbrTriesState, setNbrTriesState ] = useState(nbrTriesInitialState);
 
+	// Game complet state
+	const [ isCompletedState, setIsCompleted ] = useState(false);
+
 	function handleBtnClick(letter) {
 		// Helper variables
 		let correctLetter = false;
@@ -89,6 +92,12 @@ function Game() {
 			}
 			return row;
 		});
+
+		const lettersFoundedLen = newWordState.filter((row) => row.hidden === false).length;
+		if (newWordState.length === lettersFoundedLen) {
+			console.log('Completed with success');
+			setIsCompleted(true);
+		}
 
 		if (!correctLetter) setNbrTriesState(nbrTriesState - 1);
 		setAlphabetsState(newAlphabetsState);
@@ -118,21 +127,25 @@ function Game() {
 					);
 				})}
 			</div>
-			<div>
-				{alphabetsState.map((row, index) => {
-					return (
-						<Button
-							key={index}
-							variant="contained"
-							className={classes.button}
-							disabled={row.disabled}
-							onClick={() => handleBtnClick(row.letter)}
-						>
-							{row.letter}
-						</Button>
-					);
-				})}
-			</div>
+			{isCompletedState ? (
+				"Great, you've found the word successfully"
+			) : (
+				<div>
+					{alphabetsState.map((row, index) => {
+						return (
+							<Button
+								key={index}
+								variant="contained"
+								className={classes.button}
+								disabled={row.disabled}
+								onClick={() => handleBtnClick(row.letter)}
+							>
+								{row.letter}
+							</Button>
+						);
+					})}
+				</div>
+			)}
 		</React.Fragment>
 	);
 }
