@@ -66,13 +66,18 @@ function Game() {
 	let cnt = -2;
 
 	// Number of tries allowed
-	const nbrTries = Math.floor(wordToDiscover.length / 2);
+	const nbrTriesInitialState = Math.floor(wordToDiscover.length / 2);
+	const [ nbrTriesState, setNbrTriesState ] = useState(nbrTriesInitialState);
 
 	function handleBtnClick(letter) {
+		// Helper variables
+		let correctLetter = false;
+
 		// Show the letter founded
 		const newWordState = wordState.map((row) => {
 			if (letter === row.letter) {
 				row.hidden = false;
+				correctLetter = true;
 			}
 			return row;
 		});
@@ -85,6 +90,7 @@ function Game() {
 			return row;
 		});
 
+		if (!correctLetter) setNbrTriesState(nbrTriesState - 1);
 		setAlphabetsState(newAlphabetsState);
 		setWordState(newWordState);
 	}
@@ -92,7 +98,7 @@ function Game() {
 	return (
 		<React.Fragment>
 			<div className={classes.gameInfoContainer}>
-				<Typography>{`You have ${nbrTries} numbers of attempts`}</Typography>
+				<Typography>{`You have ${nbrTriesState} attempts (wrong)`}</Typography>
 			</div>
 			<div className={classes.drawImgProgress} />
 			<div className={classes.wordContainer}>
