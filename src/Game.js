@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, makeStyles } from '@material-ui/core';
+import { Button, makeStyles, Typography } from '@material-ui/core';
 import progressDraw from './progress-draw.png';
 
 const useStyles = makeStyles((theme) => ({
@@ -11,6 +11,10 @@ const useStyles = makeStyles((theme) => ({
 			margin: theme.spacing(1),
 			padding: '6px 16px'
 		}
+	},
+	gameInfoContainer: {
+		marginTop: theme.spacing(3),
+		marginBottom: theme.spacing(3)
 	},
 	wordContainer: {
 		display: 'flex',
@@ -61,6 +65,9 @@ function Game() {
 	// start by -2 to make it start at 0 since the counter step is by 2
 	let cnt = -2;
 
+	// Number of tries allowed
+	const nbrTries = Math.floor(wordToDiscover.length / 2);
+
 	function handleBtnClick(letter) {
 		// Show the letter founded
 		const newWordState = wordState.map((row) => {
@@ -84,6 +91,9 @@ function Game() {
 
 	return (
 		<React.Fragment>
+			<div className={classes.gameInfoContainer}>
+				<Typography>{`You have ${nbrTries} numbers of attempts`}</Typography>
+			</div>
 			<div className={classes.drawImgProgress} />
 			<div className={classes.wordContainer}>
 				{wordState.map((row, index) => {
