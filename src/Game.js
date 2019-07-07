@@ -128,7 +128,12 @@ function Game() {
 				})}
 			</div>
 			{isCompletedState ? (
-				"Great, you've found the word successfully"
+				<div>
+					<Typography>Great, you've found the word successfully</Typography>
+					<Button variant="contained" color="primary" className={classes.button}>
+						REPLAY
+					</Button>
+				</div>
 			) : (
 				<div>
 					{alphabetsState.map((row, index) => {
