@@ -74,9 +74,13 @@ function Game() {
 	// Game complet state
 	const [ isCompletedState, setIsCompleted ] = useState(false);
 
+	// Game failed state
+	const [ isFailedState, setIsFailed ] = useState(false);
+
 	function handleBtnClick(letter) {
 		// Helper variables
-		let correctLetter = false;
+		let correctLetter = false,
+			newNbrTriesState = nbrTriesState;
 
 		// Show the letter founded
 		const newWordState = wordState.map((row) => {
@@ -95,19 +99,28 @@ function Game() {
 			return row;
 		});
 
+		if (!correctLetter) newNbrTriesState = nbrTriesState - 1;
+
 		const lettersFoundedLen = newWordState.filter((row) => row.hidden === false).length;
 		if (newWordState.length === lettersFoundedLen) {
 			console.log('Completed with success');
 			setIsCompleted(true);
 		}
 
-		if (!correctLetter) setNbrTriesState(nbrTriesState - 1);
+		// Check if the user is failed, if the number of tries allowed is end
+		if (newNbrTriesState === 0) {
+			console.log('Unfortunately, you failed');
+			setIsFailed(true);
+		}
+
+		setNbrTriesState(newNbrTriesState);
 		setAlphabetsState(newAlphabetsState);
 		setWordState(newWordState);
 	}
 
 	function newGame() {
 		setIsCompleted(false);
+		setIsFailed(false);
 		setNbrTriesState(nbrTriesInitialState);
 		setAlphabetsState(alphabetsInitialState);
 		setWordState(wordInitialState);
@@ -136,9 +149,15 @@ function Game() {
 					);
 				})}
 			</div>
-			{isCompletedState ? (
+			{isCompletedState || isFailedState ? (
 				<div>
-					<Typography>Great, you've found the word successfully</Typography>
+					<Typography>
+						{isCompletedState ? (
+							"Great, you've found the word successfully"
+						) : (
+							`Unfortunately, you failed, the expression was: ${wordToDiscover.join('')}`
+						)}
+					</Typography>
 					<Button variant="contained" color="primary" className={classes.button} onClick={newGame}>
 						REPLAY
 					</Button>
