@@ -66,7 +66,9 @@ function Game() {
 	let cnt = -2;
 
 	// Number of tries allowed
-	const nbrTriesInitialState = Math.floor(wordToDiscover.length / 2);
+	// Dinstact the letters to count the number of tries allowed
+	const dinstactLetters = wordToDiscover.filter((item, i, ar) => ar.indexOf(item) === i);
+	const nbrTriesInitialState = Math.floor(dinstactLetters.length / 2);
 	const [ nbrTriesState, setNbrTriesState ] = useState(nbrTriesInitialState);
 
 	// Game complet state
