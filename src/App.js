@@ -71,7 +71,7 @@ function App() {
 				<AppBar position="fixed">
 					<Toolbar className={classes.justifyContent}>
 						<Typography variant="h6" noWrap>
-							App name
+							Hangman Game
 						</Typography>
 						{auth && (
 							<div>
