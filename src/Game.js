@@ -59,11 +59,12 @@ function Game({ words, alphabets }) {
 	const [ isFailedState, setIsFailed ] = useState(false);
 	// Current word state
 	const [ currentWord, setCurrentWord ] = useState('');
+	// Game number state
+	const [ gameNbr, setGameNbr ] = useState(1);
 
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
 		() => {
-			if (isCompletedState === true || isFailedState === true) return;
 			if (words.length === 0 || alphabets.length === 0) return;
 
 			// The logic that has to run once a game
@@ -91,7 +92,7 @@ function Game({ words, alphabets }) {
 			setAlphabetsState(alphabetsInitialState);
 			setNbrTriesState(nbrTriesInitialState);
 		},
-		[ isCompletedState, isFailedState, words, alphabets ]
+		[ gameNbr, words, alphabets ]
 	);
 
 	function handleBtnClick(letter) {
@@ -142,6 +143,7 @@ function Game({ words, alphabets }) {
 		setNbrTriesState(0);
 		setAlphabetsState([]);
 		setWordState([]);
+		setGameNbr(gameNbr + 1);
 	}
 
 	return (
