@@ -53,10 +53,8 @@ function Game({ words, alphabets }) {
 	const [ wordState, setWordState ] = useState([]);
 	const [ alphabetsState, setAlphabetsState ] = useState([]);
 	const [ nbrTriesState, setNbrTriesState ] = useState(0);
-	// Game complet state
-	const [ isCompletedState, setIsCompleted ] = useState(false);
-	// Game failed state
-	const [ isFailedState, setIsFailed ] = useState(false);
+	// Game current state
+	const [ gameState, setGameState ] = useState('playing');
 	// Current word state
 	const [ currentWord, setCurrentWord ] = useState('');
 	// Game number state
@@ -122,13 +120,13 @@ function Game({ words, alphabets }) {
 		// Check if the user is failed, if the number of tries allowed is end
 		if (newNbrTriesState === 0) {
 			console.log('Unfortunately, you failed');
-			setIsFailed(true);
+			setGameState('failed');
 		} else {
 			// Check if the user is successfully found the word
 			const lettersFoundedLen = newWordState.filter((row) => row.hidden === false).length;
 			if (newWordState.length === lettersFoundedLen) {
 				console.log('Completed with success');
-				setIsCompleted(true);
+				setGameState('success');
 			}
 		}
 
@@ -138,8 +136,7 @@ function Game({ words, alphabets }) {
 	}
 
 	function newGame() {
-		setIsCompleted(false);
-		setIsFailed(false);
+		setGameState('playing');
 		setNbrTriesState(0);
 		setAlphabetsState([]);
 		setWordState([]);
@@ -169,20 +166,7 @@ function Game({ words, alphabets }) {
 					);
 				})}
 			</div>
-			{isCompletedState || isFailedState ? (
-				<div>
-					<Typography>
-						{isCompletedState ? (
-							"Great, you've found the word successfully"
-						) : (
-							`Unfortunately, you failed, the word was: ${currentWord}`
-						)}
-					</Typography>
-					<Button variant="contained" color="primary" className={classes.button} onClick={newGame}>
-						REPLAY
-					</Button>
-				</div>
-			) : (
+			{gameState === 'playing' ? (
 				<div>
 					{alphabetsState.map((row, index) => {
 						return (
@@ -197,6 +181,19 @@ function Game({ words, alphabets }) {
 							</Button>
 						);
 					})}
+				</div>
+			) : (
+				<div>
+					<Typography>
+						{gameState === 'success' ? (
+							"Great, you've found the word successfully"
+						) : (
+							`Unfortunately, you failed, the word was: ${currentWord}`
+						)}
+					</Typography>
+					<Button variant="contained" color="primary" className={classes.button} onClick={newGame}>
+						REPLAY
+					</Button>
 				</div>
 			)}
 		</React.Fragment>
