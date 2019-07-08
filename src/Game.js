@@ -101,16 +101,17 @@ function Game() {
 
 		if (!correctLetter) newNbrTriesState = nbrTriesState - 1;
 
-		const lettersFoundedLen = newWordState.filter((row) => row.hidden === false).length;
-		if (newWordState.length === lettersFoundedLen) {
-			console.log('Completed with success');
-			setIsCompleted(true);
-		}
-
 		// Check if the user is failed, if the number of tries allowed is end
 		if (newNbrTriesState === 0) {
 			console.log('Unfortunately, you failed');
 			setIsFailed(true);
+		} else {
+			// Check if the user is successfully found the word
+			const lettersFoundedLen = newWordState.filter((row) => row.hidden === false).length;
+			if (newWordState.length === lettersFoundedLen) {
+				console.log('Completed with success');
+				setIsCompleted(true);
+			}
 		}
 
 		setNbrTriesState(newNbrTriesState);
