@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Game() {
+function Game({ words, alphabets }) {
 	const classes = useStyles();
 	// rgb color counter for color gradients
 	// start by -2 to make it start at 0 since the counter step is by 2
@@ -64,18 +64,9 @@ function Game() {
 	useEffect(
 		() => {
 			if (isCompletedState === true || isFailedState === true) return;
+			if (words.length === 0 || alphabets.length === 0) return;
+
 			// The logic that has to run once a game
-			const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
-			const words = [
-				'January',
-				'April',
-				'March',
-				'Websites',
-				'Devices',
-				'How',
-				'Mobile',
-				'pneumonoultramicroscopicsilicovolcanoconiosis'
-			];
 			const wordToDiscover = words[Math.floor(Math.random() * words.length)];
 			const wordToDiscoverArray = wordToDiscover.toUpperCase().split('');
 			const wordInitialState = wordToDiscoverArray.map((letter) => {
@@ -100,7 +91,7 @@ function Game() {
 			setAlphabetsState(alphabetsInitialState);
 			setNbrTriesState(nbrTriesInitialState);
 		},
-		[ isCompletedState, isFailedState ]
+		[ isCompletedState, isFailedState, words, alphabets ]
 	);
 
 	function handleBtnClick(letter) {

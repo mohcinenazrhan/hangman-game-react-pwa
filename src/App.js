@@ -52,6 +52,26 @@ function App() {
 	const [ anchorEl, setAnchorEl ] = React.useState(null);
 	const open = Boolean(anchorEl);
 
+	const [ alphabets, setAlphabets ] = React.useState([]);
+	const [ words, setWords ] = React.useState([]);
+
+	React.useEffect(() => {
+		const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
+		const words = [
+			'January',
+			'April',
+			'March',
+			'Websites',
+			'Devices',
+			'How',
+			'Mobile',
+			'pneumonoultramicroscopicsilicovolcanoconiosis'
+		];
+
+		setAlphabets(alphabets);
+		setWords(words);
+	}, []);
+
 	function handleMenu(event) {
 		setAnchorEl(event.currentTarget);
 	}
@@ -109,7 +129,7 @@ function App() {
 				<Container maxWidth="lg">
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
-						<Game />
+						<Game alphabets={alphabets} words={words} />
 					</main>
 					<div className={classes.toolbar} />
 				</Container>
