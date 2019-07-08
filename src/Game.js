@@ -57,6 +57,8 @@ function Game() {
 	const [ isCompletedState, setIsCompleted ] = useState(false);
 	// Game failed state
 	const [ isFailedState, setIsFailed ] = useState(false);
+	// Current word state
+	const [ currentWord, setCurrentWord ] = useState('');
 
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
@@ -74,8 +76,9 @@ function Game() {
 				'Mobile',
 				'pneumonoultramicroscopicsilicovolcanoconiosis'
 			];
-			const wordToDiscover = words[Math.floor(Math.random() * words.length)].toUpperCase().split('');
-			const wordInitialState = wordToDiscover.map((letter) => {
+			const wordToDiscover = words[Math.floor(Math.random() * words.length)];
+			const wordToDiscoverArray = wordToDiscover.toUpperCase().split('');
+			const wordInitialState = wordToDiscoverArray.map((letter) => {
 				return {
 					letter: letter,
 					hidden: true
@@ -89,9 +92,10 @@ function Game() {
 			});
 			// Number of tries allowed
 			// Dinstact the letters to count the number of tries allowed
-			const dinstactLetters = wordToDiscover.filter((item, i, ar) => ar.indexOf(item) === i);
+			const dinstactLetters = wordToDiscoverArray.filter((item, i, ar) => ar.indexOf(item) === i);
 			const nbrTriesInitialState = Math.floor(dinstactLetters.length / 2);
 
+			setCurrentWord(wordToDiscover);
 			setWordState(wordInitialState);
 			setAlphabetsState(alphabetsInitialState);
 			setNbrTriesState(nbrTriesInitialState);
@@ -178,7 +182,7 @@ function Game() {
 						{isCompletedState ? (
 							"Great, you've found the word successfully"
 						) : (
-							`Unfortunately, you failed, the expression was: ${wordState.join('')}`
+							`Unfortunately, you failed, the expression was: ${currentWord}`
 						)}
 					</Typography>
 					<Button variant="contained" color="primary" className={classes.button} onClick={newGame}>
