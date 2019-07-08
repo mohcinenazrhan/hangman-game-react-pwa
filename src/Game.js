@@ -175,7 +175,7 @@ function Game({ words, alphabets }) {
 						{isCompletedState ? (
 							"Great, you've found the word successfully"
 						) : (
-							`Unfortunately, you failed, the expression was: ${currentWord}`
+							`Unfortunately, you failed, the word was: ${currentWord}`
 						)}
 					</Typography>
 					<Button variant="contained" color="primary" className={classes.button} onClick={newGame}>
