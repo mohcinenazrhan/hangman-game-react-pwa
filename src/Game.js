@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, makeStyles, Typography } from '@material-ui/core';
 import progressDraw from './progress-draw.png';
 
@@ -43,39 +43,61 @@ const useStyles = makeStyles((theme) => ({
 
 function Game() {
 	const classes = useStyles();
-	const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
-	const wordToDiscover = 'pneumonoultramicroscopicsilicovolcanoconiosis'.toUpperCase().split('');
-	const wordInitialState = wordToDiscover.map((letter) => {
-		return {
-			letter: letter,
-			hidden: true
-		};
-	});
-	const [ wordState, setWordState ] = useState(wordInitialState);
-
-	const alphabetsInitialState = alphabets.map((letter) => {
-		return {
-			letter: letter,
-			disabled: false
-		};
-	});
-	const [ alphabetsState, setAlphabetsState ] = useState(alphabetsInitialState);
-
 	// rgb color counter for color gradients
 	// start by -2 to make it start at 0 since the counter step is by 2
 	let cnt = -2;
 
-	// Number of tries allowed
-	// Dinstact the letters to count the number of tries allowed
-	const dinstactLetters = wordToDiscover.filter((item, i, ar) => ar.indexOf(item) === i);
-	const nbrTriesInitialState = Math.floor(dinstactLetters.length / 2);
-	const [ nbrTriesState, setNbrTriesState ] = useState(nbrTriesInitialState);
-
+	/**
+	 * useState(s)
+	 */
+	const [ wordState, setWordState ] = useState([]);
+	const [ alphabetsState, setAlphabetsState ] = useState([]);
+	const [ nbrTriesState, setNbrTriesState ] = useState(0);
 	// Game complet state
 	const [ isCompletedState, setIsCompleted ] = useState(false);
-
 	// Game failed state
 	const [ isFailedState, setIsFailed ] = useState(false);
+
+	// Similar to componentDidMount and componentDidUpdate:
+	useEffect(
+		() => {
+			if (isCompletedState === true || isFailedState === true) return;
+			// The logic that has to run once a game
+			const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
+			const words = [
+				'January',
+				'April',
+				'March',
+				'Websites',
+				'Devices',
+				'How',
+				'Mobile',
+				'pneumonoultramicroscopicsilicovolcanoconiosis'
+			];
+			const wordToDiscover = words[Math.floor(Math.random() * words.length)].toUpperCase().split('');
+			const wordInitialState = wordToDiscover.map((letter) => {
+				return {
+					letter: letter,
+					hidden: true
+				};
+			});
+			const alphabetsInitialState = alphabets.map((letter) => {
+				return {
+					letter: letter,
+					disabled: false
+				};
+			});
+			// Number of tries allowed
+			// Dinstact the letters to count the number of tries allowed
+			const dinstactLetters = wordToDiscover.filter((item, i, ar) => ar.indexOf(item) === i);
+			const nbrTriesInitialState = Math.floor(dinstactLetters.length / 2);
+
+			setWordState(wordInitialState);
+			setAlphabetsState(alphabetsInitialState);
+			setNbrTriesState(nbrTriesInitialState);
+		},
+		[ isCompletedState, isFailedState ]
+	);
 
 	function handleBtnClick(letter) {
 		// Helper variables
@@ -122,9 +144,9 @@ function Game() {
 	function newGame() {
 		setIsCompleted(false);
 		setIsFailed(false);
-		setNbrTriesState(nbrTriesInitialState);
-		setAlphabetsState(alphabetsInitialState);
-		setWordState(wordInitialState);
+		setNbrTriesState(0);
+		setAlphabetsState([]);
+		setWordState([]);
 	}
 
 	return (
@@ -141,7 +163,7 @@ function Game() {
 							className={classes.wordLettres}
 							style={{
 								backgroundColor: `rgb(${55 - cnt}, ${71 - cnt}, ${79 - cnt})`,
-								width: `${100 / wordToDiscover.length}%`
+								width: `${100 / wordState.length}%`
 							}}
 							key={index}
 						>
@@ -156,7 +178,7 @@ function Game() {
 						{isCompletedState ? (
 							"Great, you've found the word successfully"
 						) : (
-							`Unfortunately, you failed, the expression was: ${wordToDiscover.join('')}`
+							`Unfortunately, you failed, the expression was: ${wordState.join('')}`
 						)}
 					</Typography>
 					<Button variant="contained" color="primary" className={classes.button} onClick={newGame}>
