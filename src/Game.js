@@ -122,7 +122,8 @@ function Game({ words, alphabets }) {
 
 		if (!correctLetter) {
 			newNbrTriesState = nbrTriesState - 1;
-			setDrawProgress(drawProgressState + 1);
+			// Progress the draw if not the game failed yet
+			if (drawProgressState + 1 < progressDrawFinalStep) setDrawProgress(drawProgressState + 1);
 		}
 
 		// Check if the user is failed, if the number of tries allowed is end
