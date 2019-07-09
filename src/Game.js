@@ -37,7 +37,11 @@ const useStyles = makeStyles((theme) => ({
 		background: `url(${progressDraw})`,
 		width: 208,
 		height: 130,
-		margin: '0 auto'
+		margin: '0 auto',
+		transition: theme.transitions.create('background', {
+			easing: theme.transitions.easing.sharp,
+			duration: theme.transitions.duration.enteringScreen
+		})
 	}
 }));
 
