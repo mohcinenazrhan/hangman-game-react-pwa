@@ -46,6 +46,9 @@ function Game({ words, alphabets }) {
 	// rgb color counter for color gradients
 	// start by -2 to make it start at 0 since the counter step is by 2
 	let cnt = -2;
+	// Draw progress game
+	const progressDrawStartStep = 0;
+	const progressDrawFinalStep = 6;
 
 	/**
 	 * useState(s)
@@ -59,6 +62,8 @@ function Game({ words, alphabets }) {
 	const [ currentWord, setCurrentWord ] = useState('');
 	// Game number state
 	const [ gameNbr, setGameNbr ] = useState(1);
+	// Draw progress state
+	const [ drawProgressState, setDrawProgress ] = useState(progressDrawStartStep);
 
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
@@ -115,12 +120,16 @@ function Game({ words, alphabets }) {
 			return row;
 		});
 
-		if (!correctLetter) newNbrTriesState = nbrTriesState - 1;
+		if (!correctLetter) {
+			newNbrTriesState = nbrTriesState - 1;
+			setDrawProgress(drawProgressState + 1);
+		}
 
 		// Check if the user is failed, if the number of tries allowed is end
 		if (newNbrTriesState === 0) {
 			console.log('Unfortunately, you failed');
 			setGameState('failed');
+			setDrawProgress(progressDrawFinalStep);
 		} else {
 			// Check if the user is successfully found the word
 			const lettersFoundedLen = newWordState.filter((row) => row.hidden === false).length;
@@ -135,12 +144,19 @@ function Game({ words, alphabets }) {
 		setWordState(newWordState);
 	}
 
+	function getProgressDwar() {
+		return {
+			backgroundPosition: `${drawProgressState * -200}px`
+		};
+	}
+
 	function newGame() {
 		setGameState('playing');
 		setNbrTriesState(0);
 		setAlphabetsState([]);
 		setWordState([]);
 		setGameNbr(gameNbr + 1);
+		setDrawProgress(progressDrawStartStep);
 	}
 
 	return (
@@ -148,7 +164,7 @@ function Game({ words, alphabets }) {
 			<div className={classes.gameInfoContainer}>
 				<Typography>{`You have ${nbrTriesState} attempts (wrong)`}</Typography>
 			</div>
-			<div className={classes.drawImgProgress} />
+			<div className={classes.drawImgProgress} style={getProgressDwar()} />
 			<div className={classes.wordContainer}>
 				{wordState.map((row, index) => {
 					cnt += 2;
