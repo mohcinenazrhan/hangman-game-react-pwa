@@ -149,7 +149,7 @@ function Game({ words, alphabets }) {
 		setWordState(newWordState);
 	}
 
-	function getProgressDwar() {
+	function getProgressDraw() {
 		return {
 			backgroundPosition: `${drawProgressState * -200}px`
 		};
@@ -169,7 +169,7 @@ function Game({ words, alphabets }) {
 			<div className={classes.gameInfoContainer}>
 				<Typography>{`You have ${nbrTriesState} attempts (wrong)`}</Typography>
 			</div>
-			<div className={classes.drawImgProgress} style={getProgressDwar()} />
+			<div className={classes.drawImgProgress} style={getProgressDraw()} />
 			<div className={classes.wordContainer}>
 				{wordState.map((row, index) => {
 					cnt += 2;
