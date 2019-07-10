@@ -210,6 +210,7 @@ function Game({ words, alphabets }) {
 							<Button
 								key={index}
 								variant="contained"
+								color="secondary"
 								className={classes.button}
 								disabled={row.disabled}
 								onClick={() => handleBtnClick(row.letter)}
