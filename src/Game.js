@@ -130,8 +130,10 @@ function Game({ words, alphabets }) {
 			if (drawProgressState + 1 < progressDrawFinalStep) setDrawProgress(drawProgressState + 1);
 		}
 
-		// Check if the user is failed, if the number of tries allowed is end
-		if (newNbrTriesState === 0) {
+		// Check if the user is failed, if the number of wrong tries allowed is end
+		if (newNbrTriesState < 0) {
+			// reset to 0
+			newNbrTriesState = 0;
 			console.log('Unfortunately, you failed');
 			setGameState('failed');
 			setDrawProgress(progressDrawFinalStep);
