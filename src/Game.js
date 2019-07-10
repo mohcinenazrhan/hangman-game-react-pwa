@@ -144,7 +144,7 @@ function Game({ words, alphabets }) {
 			newWordState = showWrongLetters(newWordState);
 		} else {
 			// Check if the user is successfully found the word
-			const lettersFoundedLen = newWordState.filter((row) => row.hidden === false).length;
+			const lettersFoundedLen = newWordState.filter((row) => row.state === 'found').length;
 			if (newWordState.length === lettersFoundedLen) {
 				console.log('Completed with success');
 				setGameState('success');
