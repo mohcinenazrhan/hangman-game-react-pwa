@@ -72,6 +72,8 @@ function Game({ words, alphabets }) {
 	const [ gameNbr, setGameNbr ] = useState(1);
 	// Draw progress state
 	const [ drawProgressState, setDrawProgress ] = useState(progressDrawStartStep);
+	// Score state
+	const [ score, setScore ] = useState(0);
 
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
@@ -102,6 +104,8 @@ function Game({ words, alphabets }) {
 			setWordState(wordInitialState);
 			setAlphabetsState(alphabetsInitialState);
 			setNbrTriesState(nbrTriesInitialState);
+			// Initial score is the length of the word to discover
+			setScore(wordToDiscoverArray.length);
 		},
 		[ gameNbr, words, alphabets ]
 	);
@@ -183,6 +187,7 @@ function Game({ words, alphabets }) {
 	return (
 		<React.Fragment>
 			<div className={classes.gameInfoContainer}>
+				<Typography>{`You will gain ${score} points`}</Typography>
 				<Typography>{`You have ${nbrTriesState} attempts (wrong)`}</Typography>
 			</div>
 			<div className={classes.drawImgProgress} style={getProgressDraw()} />
