@@ -235,7 +235,7 @@ function Game({ words, alphabets }) {
 					<Typography>
 						{gameState === 'success' ? (
 							`Great, you've found the word successfully, you win ${score} points, with ${nbrTries -
-								nbrTriesState} wrong attempts`
+								nbrTriesState}/${nbrTries} wrong attempts`
 						) : (
 							`Unfortunately, you lose, the word was: ${currentWord}, you win 0 points, with ${nbrTries -
 								nbrTriesState} wrong attempts`
