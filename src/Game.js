@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, makeStyles, Typography } from '@material-ui/core';
+import clsx from 'clsx';
 import progressDraw from './progress-draw.png';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
 		color: '#FFFFFF',
 		textAlign: 'center',
 		marginBottom: 5
+	},
+	notFoundedLetters: {
+		color: '#cacaca'
 	},
 	drawImgProgress: {
 		background: `url(${progressDraw})`,
@@ -80,7 +84,7 @@ function Game({ words, alphabets }) {
 			const wordInitialState = wordToDiscoverArray.map((letter) => {
 				return {
 					letter: letter,
-					hidden: true
+					state: 'hidden'
 				};
 			});
 			const alphabetsInitialState = alphabets.map((letter) => {
@@ -108,9 +112,9 @@ function Game({ words, alphabets }) {
 			newNbrTriesState = nbrTriesState;
 
 		// Show the letter founded
-		const newWordState = wordState.map((row) => {
+		let newWordState = wordState.map((row) => {
 			if (letter === row.letter) {
-				row.hidden = false;
+				row.state = 'found';
 				correctLetter = true;
 			}
 			return row;
@@ -137,6 +141,7 @@ function Game({ words, alphabets }) {
 			console.log('Unfortunately, you failed');
 			setGameState('failed');
 			setDrawProgress(progressDrawFinalStep);
+			newWordState = showWrongLetters(newWordState);
 		} else {
 			// Check if the user is successfully found the word
 			const lettersFoundedLen = newWordState.filter((row) => row.hidden === false).length;
@@ -149,6 +154,15 @@ function Game({ words, alphabets }) {
 		setNbrTriesState(newNbrTriesState);
 		setAlphabetsState(newAlphabetsState);
 		setWordState(newWordState);
+	}
+
+	function showWrongLetters(wordState) {
+		return wordState.map((row) => {
+			if (row.state === 'hidden') {
+				row.state = 'show';
+			}
+			return row;
+		});
 	}
 
 	function getProgressDraw() {
@@ -177,14 +191,14 @@ function Game({ words, alphabets }) {
 					cnt += 2;
 					return (
 						<div
-							className={classes.wordLettres}
+							className={clsx(classes.wordLettres, row.state === 'show' && classes.notFoundedLetters)}
 							style={{
 								backgroundColor: `rgb(${55 - cnt}, ${71 - cnt}, ${79 - cnt})`,
 								width: `${100 / wordState.length}%`
 							}}
 							key={index}
 						>
-							{row.hidden ? '_' : row.letter}
+							{row.state === 'hidden' ? '_' : row.letter}
 						</div>
 					);
 				})}
