@@ -231,7 +231,7 @@ function Game({ words, alphabets }) {
 				<div>
 					<Typography>
 						{gameState === 'success' ? (
-							"Great, you've found the word successfully"
+							`Great, you've found the word successfully, you win ${score} points`
 						) : (
 							`Unfortunately, you failed, the word was: ${currentWord}`
 						)}
