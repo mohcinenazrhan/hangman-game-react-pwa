@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: 5
 	},
 	notFoundedLetters: {
-		color: '#cacaca'
+		color: '#bc000f'
 	},
 	drawImgProgress: {
 		background: `url(${progressDraw})`,
