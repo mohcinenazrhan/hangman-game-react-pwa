@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
 		minWidth: 30,
 		lineHeight: '60px',
 		fontSize: 18,
-		color: '#FFFFFF',
+		color: '#000',
 		textAlign: 'center',
 		marginBottom: 5
 	},
@@ -52,8 +52,8 @@ const useStyles = makeStyles((theme) => ({
 function Game({ words, alphabets }) {
 	const classes = useStyles();
 	// rgb color counter for color gradients
-	// start by -2 to make it start at 0 since the counter step is by 2
-	let cnt = -2;
+	// start by -1 to make it start at 0 since the counter step is by 1
+	let cnt = -1;
 	// Draw progress game
 	const progressDrawStartStep = 0;
 	const progressDrawFinalStep = 6;
@@ -188,12 +188,12 @@ function Game({ words, alphabets }) {
 			<div className={classes.drawImgProgress} style={getProgressDraw()} />
 			<div className={classes.wordContainer}>
 				{wordState.map((row, index) => {
-					cnt += 2;
+					cnt += 1;
 					return (
 						<div
 							className={clsx(classes.wordLettres, row.state === 'show' && classes.notFoundedLetters)}
 							style={{
-								backgroundColor: `rgb(${55 - cnt}, ${71 - cnt}, ${79 - cnt})`,
+								backgroundColor: `rgb(${224 - cnt}, ${224 - cnt}, ${224 - cnt})`,
 								width: `${100 / wordState.length}%`
 							}}
 							key={index}
