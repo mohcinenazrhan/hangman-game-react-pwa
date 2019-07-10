@@ -233,7 +233,7 @@ function Game({ words, alphabets }) {
 						{gameState === 'success' ? (
 							`Great, you've found the word successfully, you win ${score} points`
 						) : (
-							`Unfortunately, you failed, the word was: ${currentWord}`
+							`Unfortunately, you lose, the word was: ${currentWord}, you win 0 points`
 						)}
 					</Typography>
 					<Button variant="contained" color="primary" className={classes.button} onClick={newGame}>
