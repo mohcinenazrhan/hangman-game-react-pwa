@@ -64,6 +64,8 @@ function Game({ words, alphabets }) {
 	const [ wordState, setWordState ] = useState([]);
 	const [ alphabetsState, setAlphabetsState ] = useState([]);
 	const [ nbrTriesState, setNbrTriesState ] = useState(0);
+	// Store given number tries
+	const [ nbrTries, setNbrTries ] = useState(0);
 	// Game current state
 	const [ gameState, setGameState ] = useState('playing');
 	// Current word state
@@ -104,6 +106,7 @@ function Game({ words, alphabets }) {
 			setWordState(wordInitialState);
 			setAlphabetsState(alphabetsInitialState);
 			setNbrTriesState(nbrTriesInitialState);
+			setNbrTries(nbrTriesInitialState);
 			// Initial score is the length of the word to discover
 			setScore(wordToDiscoverArray.length);
 		},
@@ -231,7 +234,8 @@ function Game({ words, alphabets }) {
 				<div>
 					<Typography>
 						{gameState === 'success' ? (
-							`Great, you've found the word successfully, you win ${score} points`
+							`Great, you've found the word successfully, you win ${score} points, with ${nbrTries -
+								nbrTriesState} wrong attempts`
 						) : (
 							`Unfortunately, you lose, the word was: ${currentWord}, you win 0 points`
 						)}
