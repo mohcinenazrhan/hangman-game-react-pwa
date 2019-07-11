@@ -198,6 +198,13 @@ function Game({ words, alphabets }) {
 			return row;
 		});
 
+		// Check if the user is successfully found the word
+		const lettersFoundedLen = newWordState.filter((row) => row.state === 'found').length;
+		if (newWordState.length === lettersFoundedLen) {
+			console.log('Completed with success');
+			setGameState('success');
+		}
+
 		setScore(score - 1);
 		setWordState(newWordState);
 	}
