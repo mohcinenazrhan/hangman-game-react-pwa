@@ -189,11 +189,27 @@ function Game({ words, alphabets }) {
 		setDrawProgress(progressDrawStartStep);
 	}
 
+	function handleHelpClick() {
+		const hiddenLetters = wordState.filter((row) => row.state === 'hidden');
+		const randLetter = hiddenLetters[Math.floor(Math.random() * hiddenLetters.length)];
+
+		const newWordState = wordState.map((row) => {
+			if (row === randLetter) row.state = 'found';
+			return row;
+		});
+
+		setScore(score - 1);
+		setWordState(newWordState);
+	}
+
 	return (
 		<React.Fragment>
 			<div className={classes.gameInfoContainer}>
 				{gameState === 'playing' && (
 					<React.Fragment>
+						<Button variant="contained" className={classes.button} onClick={handleHelpClick}>
+							Get Help = -1 point
+						</Button>
 						<Typography>{`You will gain ${score} points`}</Typography>
 						<Typography>{`You have ${nbrTriesState} attempts (wrong)`}</Typography>
 					</React.Fragment>
