@@ -207,7 +207,12 @@ function Game({ words, alphabets }) {
 			<div className={classes.gameInfoContainer}>
 				{gameState === 'playing' && (
 					<React.Fragment>
-						<Button variant="contained" className={classes.button} onClick={handleHelpClick}>
+						<Button
+							variant="contained"
+							disabled={score === 0}
+							className={classes.button}
+							onClick={handleHelpClick}
+						>
 							Get Help = -1 point
 						</Button>
 						<Typography>{`You will gain ${score} points`}</Typography>
