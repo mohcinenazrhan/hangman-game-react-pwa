@@ -192,8 +192,12 @@ function Game({ words, alphabets }) {
 	return (
 		<React.Fragment>
 			<div className={classes.gameInfoContainer}>
-				{gameState === 'playing' && <Typography>{`You will gain ${score} points`}</Typography>}
-				{gameState === 'playing' && <Typography>{`You have ${nbrTriesState} attempts (wrong)`}</Typography>}
+				{gameState === 'playing' && (
+					<React.Fragment>
+						<Typography>{`You will gain ${score} points`}</Typography>
+						<Typography>{`You have ${nbrTriesState} attempts (wrong)`}</Typography>
+					</React.Fragment>
+				)}
 			</div>
 			<div className={classes.drawImgProgress} style={getProgressDraw()} />
 			<div className={classes.wordContainer}>
