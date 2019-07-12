@@ -85,6 +85,12 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
 		() => {
+			// Check if all the wolds are used
+			if (wordsState.length === 0) {
+				console.log('The words end');
+				return;
+			}
+
 			// The logic that has to run once a game
 			const wordToDiscover = wordsState[Math.floor(Math.random() * wordsState.length)];
 			// Remove random word from words array to avoid choose it again
