@@ -76,6 +76,8 @@ function Game({ words, alphabets }) {
 	const [ drawProgressState, setDrawProgress ] = useState(progressDrawStartStep);
 	// Score state
 	const [ score, setScore ] = useState(0);
+	// Total score state
+	const [ totalScore, setTotalScore ] = useState(0);
 
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
@@ -156,6 +158,7 @@ function Game({ words, alphabets }) {
 			const lettersFoundedLen = newWordState.filter((row) => row.state === 'found').length;
 			if (newWordState.length === lettersFoundedLen) {
 				console.log('Completed with success');
+				setTotalScore(totalScore + score);
 				setGameState('success');
 			}
 		}
@@ -211,6 +214,7 @@ function Game({ words, alphabets }) {
 
 	return (
 		<React.Fragment>
+			<div>Your total score: {totalScore}</div>
 			<div className={classes.gameInfoContainer}>
 				{gameState === 'playing' && (
 					<React.Fragment>
