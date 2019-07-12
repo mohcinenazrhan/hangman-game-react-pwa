@@ -84,8 +84,6 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
 		() => {
-			if (words.length === 0 || alphabets.length === 0) return;
-
 			// The logic that has to run once a game
 			const wordToDiscover = words[Math.floor(Math.random() * words.length)];
 			const wordToDiscoverArray = wordToDiscover.toUpperCase().split('');
