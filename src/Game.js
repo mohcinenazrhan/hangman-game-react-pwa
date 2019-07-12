@@ -155,6 +155,7 @@ function Game({ words, alphabets }) {
 			setGameState('failed');
 			setDrawProgress(progressDrawFinalStep);
 			newWordState = showWrongLetters(newWordState);
+			setTotalScore(totalScore + score);
 		} else {
 			// Check if the user is successfully found the word
 			const lettersFoundedLen = newWordState.filter((row) => row.state === 'found').length;
