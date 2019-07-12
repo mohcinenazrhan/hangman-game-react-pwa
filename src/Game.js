@@ -120,7 +120,8 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 	function handleBtnClick(letter) {
 		// Helper variables
 		let correctLetter = false,
-			newNbrTriesState = nbrTriesState;
+			newNbrTriesState = nbrTriesState,
+			newScore = score;
 
 		// Show the letter founded
 		let newWordState = wordState.map((row) => {
@@ -144,7 +145,7 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 			// Progress the draw if not the game failed yet
 			if (drawProgressState + 1 < progressDrawFinalStep) setDrawProgress(drawProgressState + 1);
 			// Remove one point from the score
-			setScore(score - 1);
+			newScore = score - 1;
 		}
 
 		// Check if the user is failed, if the number of wrong tries allowed is end
@@ -155,17 +156,18 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 			setGameState('failed');
 			setDrawProgress(progressDrawFinalStep);
 			newWordState = showWrongLetters(newWordState);
-			updateScoreState(totalScore + score);
+			updateScoreState(totalScore + newScore);
 		} else {
 			// Check if the user is successfully found the word
 			const lettersFoundedLen = newWordState.filter((row) => row.state === 'found').length;
 			if (newWordState.length === lettersFoundedLen) {
 				console.log('Completed with success');
-				updateScoreState(totalScore + score);
+				updateScoreState(totalScore + newScore);
 				setGameState('success');
 			}
 		}
 
+		setScore(newScore);
 		setNbrTriesState(newNbrTriesState);
 		setAlphabetsState(newAlphabetsState);
 		setWordState(newWordState);
