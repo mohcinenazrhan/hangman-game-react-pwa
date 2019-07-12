@@ -165,6 +165,7 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 			setGameState('failed');
 			setDrawProgress(progressDrawFinalStep);
 			newWordState = showWrongLetters(newWordState);
+			newScore = 0;
 			updateScoreState(totalScore + newScore);
 		} else {
 			// Check if the user is successfully found the word
