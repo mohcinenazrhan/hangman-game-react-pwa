@@ -287,18 +287,24 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 				</div>
 			) : (
 				<div>
-					<Typography>
-						{gameState === 'success' ? (
-							`Great, you've found the word successfully, you win ${score} points, with ${nbrTries -
-								nbrTriesState}/${nbrTries} wrong attempts`
-						) : (
-							`Unfortunately, you lose, the word was: ${currentWord}, you had ${score} points, with ${nbrTries -
-								nbrTriesState} wrong attempts`
-						)}
-					</Typography>
-					<Button variant="contained" color="primary" className={classes.button} onClick={newGame}>
-						REPLAY
-					</Button>
+					{wordsState.length === 0 ? (
+						'Session end'
+					) : (
+						<React.Fragment>
+							<Typography>
+								{gameState === 'success' ? (
+									`Great, you've found the word successfully, you win ${score} points, with ${nbrTries -
+										nbrTriesState}/${nbrTries} wrong attempts`
+								) : (
+									`Unfortunately, you lose, the word was: ${currentWord}, you had ${score} points, with ${nbrTries -
+										nbrTriesState} wrong attempts`
+								)}
+							</Typography>
+							<Button variant="contained" color="primary" className={classes.button} onClick={newGame}>
+								REPLAY
+							</Button>
+						</React.Fragment>
+					)}
 				</div>
 			)}
 		</React.Fragment>
