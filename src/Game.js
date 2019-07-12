@@ -275,7 +275,7 @@ function Game({ words, alphabets }) {
 							`Great, you've found the word successfully, you win ${score} points, with ${nbrTries -
 								nbrTriesState}/${nbrTries} wrong attempts`
 						) : (
-							`Unfortunately, you lose, the word was: ${currentWord}, you win 0 points, with ${nbrTries -
+							`Unfortunately, you lose, the word was: ${currentWord}, you had ${score} points, with ${nbrTries -
 								nbrTriesState} wrong attempts`
 						)}
 					</Typography>
