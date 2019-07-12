@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Game({ words, alphabets, points }) {
+function Game({ words, alphabets, points, updateUserPoints }) {
 	const classes = useStyles();
 	// rgb color counter for color gradients
 	// start by -1 to make it start at 0 since the counter step is by 1
@@ -155,13 +155,13 @@ function Game({ words, alphabets, points }) {
 			setGameState('failed');
 			setDrawProgress(progressDrawFinalStep);
 			newWordState = showWrongLetters(newWordState);
-			setTotalScore(totalScore + score);
+			updateScoreState(totalScore + score);
 		} else {
 			// Check if the user is successfully found the word
 			const lettersFoundedLen = newWordState.filter((row) => row.state === 'found').length;
 			if (newWordState.length === lettersFoundedLen) {
 				console.log('Completed with success');
-				setTotalScore(totalScore + score);
+				updateScoreState(totalScore + score);
 				setGameState('success');
 			}
 		}
@@ -169,6 +169,11 @@ function Game({ words, alphabets, points }) {
 		setNbrTriesState(newNbrTriesState);
 		setAlphabetsState(newAlphabetsState);
 		setWordState(newWordState);
+	}
+
+	function updateScoreState(newScore) {
+		setTotalScore(newScore);
+		updateUserPoints(newScore);
 	}
 
 	function showWrongLetters(wordState) {

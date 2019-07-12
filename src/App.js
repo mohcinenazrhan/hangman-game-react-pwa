@@ -84,6 +84,11 @@ function App() {
 		setValue(newValue);
 	}
 
+	function updateUserPoints(newPoints) {
+		setPoints(newPoints);
+		console.log('newPoints', newPoints);
+	}
+
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
@@ -130,7 +135,14 @@ function App() {
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
 						{alphabets.length !== 0 &&
-						words.length !== 0 && <Game alphabets={alphabets} words={words} points={points} />}
+						words.length !== 0 && (
+							<Game
+								alphabets={alphabets}
+								words={words}
+								points={points}
+								updateUserPoints={updateUserPoints}
+							/>
+						)}
 					</main>
 					<div className={classes.toolbar} />
 				</Container>
