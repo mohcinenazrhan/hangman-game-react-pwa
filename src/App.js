@@ -56,6 +56,9 @@ function App() {
 	const [ alphabets, setAlphabets ] = React.useState([]);
 	const [ words, setWords ] = React.useState([]);
 
+	// State for the dependencies if ready
+	const [ isReady, setIsReady ] = React.useState(false);
+
 	React.useEffect(() => {
 		const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
 
@@ -71,6 +74,7 @@ function App() {
 		setWords([ 'neighborly', 'tender', 'tightfisted', 'bag', 'die', 'sing', 'pear', 'ignore', 'stale', 'reflect' ]);
 		setAlphabets(alphabets);
 		setPoints(13);
+		setIsReady(true);
 	}, []);
 
 	function handleMenu(event) {
@@ -135,8 +139,9 @@ function App() {
 				<Container maxWidth="lg">
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
-						{alphabets.length !== 0 &&
-						words.length !== 0 && (
+						{!isReady ? (
+							'Preparing'
+						) : (
 							<Game
 								alphabets={alphabets}
 								words={words}
