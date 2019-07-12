@@ -57,19 +57,17 @@ function App() {
 
 	React.useEffect(() => {
 		const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
-		const words = [
-			'January',
-			'April',
-			'March',
-			'Websites',
-			'Devices',
-			'How',
-			'Mobile',
-			'pneumonoultramicroscopicsilicovolcanoconiosis'
-		];
+
+		fetch('https://random-word-api.herokuapp.com/word?key=TE2AB90K&number=10')
+			.then((response) => response.json())
+			.then((data) => {
+				setWords(data);
+			})
+			.catch((error) => {
+				console.log('Error occure while trying to get response: ', error);
+			});
 
 		setAlphabets(alphabets);
-		setWords(words);
 	}, []);
 
 	function handleMenu(event) {
