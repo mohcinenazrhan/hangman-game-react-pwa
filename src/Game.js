@@ -61,6 +61,7 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 	/**
 	 * useState(s)
 	 */
+	const [ wordsState, setWordsState ] = useState(words);
 	const [ wordState, setWordState ] = useState([]);
 	const [ alphabetsState, setAlphabetsState ] = useState([]);
 	const [ nbrTriesState, setNbrTriesState ] = useState(0);
@@ -85,7 +86,9 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 	useEffect(
 		() => {
 			// The logic that has to run once a game
-			const wordToDiscover = words[Math.floor(Math.random() * words.length)];
+			const wordToDiscover = wordsState[Math.floor(Math.random() * wordsState.length)];
+			// Remove random word from words array to avoid choose it again
+			const newWordsState = wordsState.filter((value) => value !== wordToDiscover);
 			const wordToDiscoverArray = wordToDiscover.toUpperCase().split('');
 			const wordInitialState = wordToDiscoverArray.map((letter) => {
 				return {
@@ -104,6 +107,7 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 			const dinstactLetters = wordToDiscoverArray.filter((item, i, ar) => ar.indexOf(item) === i);
 			const nbrTriesInitialState = Math.floor(dinstactLetters.length / 2);
 
+			setWordsState(newWordsState);
 			setCurrentWord(wordToDiscover);
 			setWordState(wordInitialState);
 			setAlphabetsState(alphabetsInitialState);
@@ -112,7 +116,7 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 			// Initial score is the length of the word to discover
 			setScore(wordToDiscoverArray.length);
 		},
-		[ gameNbr, words, alphabets ]
+		[ gameNbr ]
 	);
 
 	function handleBtnClick(letter) {
