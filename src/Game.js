@@ -116,6 +116,7 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 			// Initial score is the length of the word to discover
 			setScore(wordToDiscoverArray.length);
 		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[ gameNbr ]
 	);
 
