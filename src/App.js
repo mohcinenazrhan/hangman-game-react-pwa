@@ -59,15 +59,16 @@ function App() {
 	React.useEffect(() => {
 		const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
 
-		fetch('https://random-word-api.herokuapp.com/word?key=TE2AB90K&number=10')
-			.then((response) => response.json())
-			.then((data) => {
-				setWords(data);
-			})
-			.catch((error) => {
-				console.log('Error occure while trying to get response: ', error);
-			});
+		// fetch('https://random-word-api.herokuapp.com/word?key=TE2AB90K&number=10')
+		// 	.then((response) => response.json())
+		// 	.then((data) => {
+		// 		setWords(data);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log('Error occure while trying to get response: ', error);
+		// 	});
 
+		setWords([ 'neighborly', 'tender', 'tightfisted', 'bag', 'die', 'sing', 'pear', 'ignore', 'stale', 'reflect' ]);
 		setAlphabets(alphabets);
 		setPoints(13);
 	}, []);
