@@ -254,7 +254,10 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 					</React.Fragment>
 				)}
 			</div>
-			<div className={classes.drawImgProgress} style={getProgressDraw()} />
+			<div
+				className={clsx(classes.drawImgProgress, wordsState.length === 0 && classes.hide)}
+				style={getProgressDraw()}
+			/>
 			<div className={clsx(classes.wordContainer, wordsState.length === 0 && classes.hide)}>
 				{wordState.map((row, index) => {
 					cnt += 1;
