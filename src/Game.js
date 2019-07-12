@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Game({ words, alphabets }) {
+function Game({ words, alphabets, points }) {
 	const classes = useStyles();
 	// rgb color counter for color gradients
 	// start by -1 to make it start at 0 since the counter step is by 1
@@ -77,7 +77,7 @@ function Game({ words, alphabets }) {
 	// Score state
 	const [ score, setScore ] = useState(0);
 	// Total score state
-	const [ totalScore, setTotalScore ] = useState(0);
+	const [ totalScore, setTotalScore ] = useState(points);
 	// Help btn state
 	const [ helpBtnState, setHelpBtnState ] = useState(false);
 

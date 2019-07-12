@@ -52,6 +52,7 @@ function App() {
 	const [ anchorEl, setAnchorEl ] = React.useState(null);
 	const open = Boolean(anchorEl);
 
+	const [ points, setPoints ] = React.useState(0);
 	const [ alphabets, setAlphabets ] = React.useState([]);
 	const [ words, setWords ] = React.useState([]);
 
@@ -68,6 +69,7 @@ function App() {
 			});
 
 		setAlphabets(alphabets);
+		setPoints(13);
 	}, []);
 
 	function handleMenu(event) {
@@ -127,7 +129,8 @@ function App() {
 				<Container maxWidth="lg">
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
-						{alphabets.length !== 0 && words.length !== 0 && <Game alphabets={alphabets} words={words} />}
+						{alphabets.length !== 0 &&
+						words.length !== 0 && <Game alphabets={alphabets} words={words} points={points} />}
 					</main>
 					<div className={classes.toolbar} />
 				</Container>
