@@ -129,7 +129,7 @@ function App() {
 				<Container maxWidth="lg">
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
-						<Game alphabets={alphabets} words={words} />
+						{alphabets.length !== 0 && words.length !== 0 && <Game alphabets={alphabets} words={words} />}
 					</main>
 					<div className={classes.toolbar} />
 				</Container>
