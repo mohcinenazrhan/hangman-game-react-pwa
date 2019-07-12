@@ -301,7 +301,7 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 								)}
 							</Typography>
 							<Button variant="contained" color="primary" className={classes.button} onClick={newGame}>
-								REPLAY
+								NEXT WORD
 							</Button>
 						</React.Fragment>
 					)}
