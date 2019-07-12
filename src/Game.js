@@ -46,6 +46,9 @@ const useStyles = makeStyles((theme) => ({
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.enteringScreen
 		})
+	},
+	hide: {
+		display: 'none'
 	}
 }));
 
@@ -252,7 +255,7 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 				)}
 			</div>
 			<div className={classes.drawImgProgress} style={getProgressDraw()} />
-			<div className={classes.wordContainer}>
+			<div className={clsx(classes.wordContainer, wordsState.length === 0 && classes.hide)}>
 				{wordState.map((row, index) => {
 					cnt += 1;
 					return (
