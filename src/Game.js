@@ -78,6 +78,8 @@ function Game({ words, alphabets }) {
 	const [ score, setScore ] = useState(0);
 	// Total score state
 	const [ totalScore, setTotalScore ] = useState(0);
+	// Help btn state
+	const [ helpBtnState, setHelpBtnState ] = useState(false);
 
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
@@ -190,6 +192,7 @@ function Game({ words, alphabets }) {
 		setWordState([]);
 		setGameNbr(gameNbr + 1);
 		setDrawProgress(progressDrawStartStep);
+		setHelpBtnState(false);
 	}
 
 	function handleHelpClick() {
@@ -201,11 +204,10 @@ function Game({ words, alphabets }) {
 			return row;
 		});
 
-		// Check if the user is successfully found the word
-		const lettersFoundedLen = newWordState.filter((row) => row.state === 'found').length;
-		if (newWordState.length === lettersFoundedLen) {
-			console.log('Completed with success');
-			setGameState('success');
+		// Disable help btn if only one letter remains
+		const lettersHiddenLen = newWordState.filter((row) => row.state === 'hidden').length;
+		if (lettersHiddenLen === 1) {
+			setHelpBtnState(true);
 		}
 
 		setScore(score - 1);
@@ -220,7 +222,7 @@ function Game({ words, alphabets }) {
 					<React.Fragment>
 						<Button
 							variant="contained"
-							disabled={score === 0}
+							disabled={helpBtnState}
 							className={classes.button}
 							onClick={handleHelpClick}
 						>
