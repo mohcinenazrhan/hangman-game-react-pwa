@@ -169,13 +169,13 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 			setDrawProgress(progressDrawFinalStep);
 			newWordState = showWrongLetters(newWordState);
 			newScore = 0;
-			updateScoreState(totalScore + newScore);
+			updateScoreState(newScore);
 		} else {
 			// Check if the user is successfully found the word
 			const lettersFoundedLen = newWordState.filter((row) => row.state === 'found').length;
 			if (newWordState.length === lettersFoundedLen) {
 				console.log('Completed with success');
-				updateScoreState(totalScore + newScore);
+				updateScoreState(newScore);
 				setGameState('success');
 			}
 		}
@@ -187,8 +187,8 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 	}
 
 	function updateScoreState(newScore) {
-		setTotalScore(newScore);
-		updateUserPoints(newScore);
+		setTotalScore(newScore + totalScore);
+		updateUserPoints(newScore + totalScore);
 	}
 
 	function showWrongLetters(wordState) {
