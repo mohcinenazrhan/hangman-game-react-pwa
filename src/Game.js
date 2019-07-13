@@ -237,7 +237,9 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 
 	return (
 		<React.Fragment>
-			<div>Your total score: {totalScore}</div>
+			<div>
+				<Typography>Your total score: {totalScore}</Typography>
+			</div>
 			<div className={classes.gameInfoContainer}>
 				{gameState === 'playing' && (
 					<React.Fragment>
