@@ -82,6 +82,8 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 	const [ score, setScore ] = useState(0);
 	// Total score state
 	const [ totalScore, setTotalScore ] = useState(points);
+	// Session score state
+	const [ sessionScore, setSessionScore ] = useState(0);
 	// Help btn state
 	const [ helpBtnState, setHelpBtnState ] = useState(false);
 
@@ -189,6 +191,7 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 	function updateScoreState(newScore) {
 		setTotalScore(newScore + totalScore);
 		updateUserPoints(newScore + totalScore);
+		setSessionScore((sessionScore) => sessionScore + newScore);
 	}
 
 	function showWrongLetters(wordState) {
@@ -239,6 +242,7 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 		<React.Fragment>
 			<div>
 				<Typography>Your total score: {totalScore}</Typography>
+				<Typography>Your session score: {sessionScore}</Typography>
 			</div>
 			<div className={classes.gameInfoContainer}>
 				{gameState === 'playing' && (
