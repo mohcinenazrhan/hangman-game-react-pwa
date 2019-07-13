@@ -162,6 +162,12 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 			newScore = score - 1;
 		}
 
+		// Disable help btn if only one letter remains
+		const lettersHiddenLen = newWordState.filter((row) => row.state === 'hidden').length;
+		if (lettersHiddenLen === 1) {
+			setHelpBtnState(true);
+		}
+
 		// Check if the user is failed, if the number of wrong tries allowed is end
 		if (newNbrTriesState < 0) {
 			// reset to 0
