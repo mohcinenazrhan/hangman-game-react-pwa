@@ -13,6 +13,7 @@ import './App.css';
 import Game from './Game';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
+import StatesPage from './pages/StatesPage';
 
 const theme = createMuiTheme({
 	palette: {
@@ -164,7 +165,7 @@ function App() {
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
 						{page === 'home' && <HomePage changeCurrentPage={changeCurrentPage} />}
-						{page === 'states' && <Typography>My States</Typography>}
+						{page === 'states' && <StatesPage />}
 						{page === 'about' && <AboutPage />}
 						{page === 'game' &&
 							(!isReady ? (
