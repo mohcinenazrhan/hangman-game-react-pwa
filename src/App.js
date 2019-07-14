@@ -8,7 +8,7 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Home, Info, Assessment, AccountCircle } from '@material-ui/icons';
-import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Button } from '@material-ui/core';
 import './App.css';
 import Game from './Game';
 
@@ -59,6 +59,9 @@ function App() {
 	// State for the dependencies if ready
 	const [ isReady, setIsReady ] = React.useState(false);
 
+	// State for the current page
+	const [ page, setPage ] = React.useState('home');
+
 	React.useEffect(() => {
 		const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
 
@@ -92,6 +95,10 @@ function App() {
 	function updateUserPoints(newPoints) {
 		setPoints(newPoints);
 		console.log('newPoints', newPoints);
+	}
+
+	function changeCurrentPage(page) {
+		setPage(page);
 	}
 
 	return (
@@ -139,7 +146,14 @@ function App() {
 				<Container maxWidth="lg">
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
-						{!isReady ? (
+						{page === 'home' ? (
+							<React.Fragment>
+								<Typography variant="h4" component="h1">
+									Customize your game session
+								</Typography>
+								<Button onClick={() => changeCurrentPage('game')}>Start new session</Button>
+							</React.Fragment>
+						) : !isReady ? (
 							'Preparing'
 						) : (
 							<Game
