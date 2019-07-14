@@ -36,9 +36,14 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage = ({ changeCurrentPage }) => {
 	const classes = useStyles();
+	const NumberOfWordsRange = {
+		min: '1',
+		max: '15'
+	};
 
 	const [ valueLanguage, setValueLanguage ] = React.useState('english');
 	const [ valueDifficulty, setValueDifficulty ] = React.useState('Easy');
+	const [ numberOfWords, setNumberOfWords ] = React.useState(5);
 
 	function handleLanguageChange(event) {
 		setValueLanguage(event.target.value);
@@ -46,6 +51,14 @@ const HomePage = ({ changeCurrentPage }) => {
 
 	function handleDifficultyChange(event) {
 		setValueDifficulty(event.target.value);
+	}
+
+	function handleNumberOfWordsChange(event) {
+		if (
+			parseInt(event.target.value) >= parseInt(NumberOfWordsRange.min) &&
+			parseInt(event.target.value) <= parseInt(NumberOfWordsRange.max)
+		)
+			setNumberOfWords(event.target.value);
 	}
 
 	return (
@@ -88,6 +101,26 @@ const HomePage = ({ changeCurrentPage }) => {
 						<FormControlLabel value="Hard" control={<Radio />} label="Hard" />
 					</RadioGroup>
 				</FormControl>
+			</div>
+			<div className={classes.marginTopBottom}>
+				<FormControlLabel
+					value="Number of words"
+					control={
+						<Input
+							name="number-of-words"
+							type="number"
+							inputProps={NumberOfWordsRange}
+							value={numberOfWords}
+							id="number-of-words"
+							onChange={handleNumberOfWordsChange}
+						/>
+					}
+					label="Number of words"
+					labelPlacement="top"
+				/>
+				<Typography variant="caption" display="block" gutterBottom>
+					Choose between {NumberOfWordsRange.min} and {NumberOfWordsRange.max} words
+				</Typography>
 			</div>
 			<Button onClick={() => changeCurrentPage('game')}>Start new session</Button>
 		</React.Fragment>
