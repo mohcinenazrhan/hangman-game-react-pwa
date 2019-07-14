@@ -8,9 +8,10 @@ import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Home, Info, Assessment, AccountCircle } from '@material-ui/icons';
-import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem, Button } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
 import './App.css';
 import Game from './Game';
+import HomePage from './pages/HomePage';
 
 const theme = createMuiTheme({
 	palette: {
@@ -147,12 +148,7 @@ function App() {
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
 						{page === 'home' ? (
-							<React.Fragment>
-								<Typography variant="h4" component="h1">
-									Customize your game session
-								</Typography>
-								<Button onClick={() => changeCurrentPage('game')}>Start new session</Button>
-							</React.Fragment>
+							<HomePage changeCurrentPage={changeCurrentPage} />
 						) : !isReady ? (
 							'Preparing'
 						) : (
