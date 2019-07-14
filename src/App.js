@@ -89,8 +89,23 @@ function App() {
 		setAnchorEl(null);
 	}
 
-	function handleChange(event, newValue) {
+	function handleTabChange(event, newValue) {
 		setValue(newValue);
+		switch (newValue) {
+			case 0:
+				setPage('home');
+				break;
+			case 1:
+				setPage('states');
+				break;
+			case 2:
+				setPage('about');
+				break;
+
+			default:
+				setPage('home');
+				break;
+		}
 	}
 
 	function updateUserPoints(newPoints) {
@@ -147,18 +162,20 @@ function App() {
 				<Container maxWidth="lg">
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
-						{page === 'home' ? (
-							<HomePage changeCurrentPage={changeCurrentPage} />
-						) : !isReady ? (
-							'Preparing'
-						) : (
-							<Game
-								alphabets={alphabets}
-								words={words}
-								points={points}
-								updateUserPoints={updateUserPoints}
-							/>
-						)}
+						{page === 'home' && <HomePage changeCurrentPage={changeCurrentPage} />}
+						{page === 'states' && <Typography>My States</Typography>}
+						{page === 'about' && <Typography>About</Typography>}
+						{page === 'game' &&
+							(!isReady ? (
+								'Preparing'
+							) : (
+								<Game
+									alphabets={alphabets}
+									words={words}
+									points={points}
+									updateUserPoints={updateUserPoints}
+								/>
+							))}
 					</main>
 					<div className={classes.toolbar} />
 				</Container>
@@ -166,7 +183,7 @@ function App() {
 					<Paper square>
 						<Tabs
 							value={value}
-							onChange={handleChange}
+							onChange={handleTabChange}
 							variant="fullWidth"
 							indicatorColor="secondary"
 							textColor="secondary"
