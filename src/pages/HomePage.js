@@ -3,6 +3,10 @@ import {
 	Typography,
 	Button,
 	FormControl,
+	FormLabel,
+	RadioGroup,
+	FormControlLabel,
+	Radio,
 	InputLabel,
 	Select,
 	MenuItem,
@@ -34,9 +38,14 @@ const HomePage = ({ changeCurrentPage }) => {
 	const classes = useStyles();
 
 	const [ valueLanguage, setValueLanguage ] = React.useState('english');
+	const [ valueDifficulty, setValueDifficulty ] = React.useState('Easy');
 
 	function handleLanguageChange(event) {
 		setValueLanguage(event.target.value);
+	}
+
+	function handleDifficultyChange(event) {
+		setValueDifficulty(event.target.value);
 	}
 
 	return (
@@ -62,6 +71,22 @@ const HomePage = ({ changeCurrentPage }) => {
 						<MenuItem value="Arabic">Arabic</MenuItem>
 					</Select>
 					<FormHelperText>Select a language</FormHelperText>
+				</FormControl>
+			</div>
+			<div className={classes.marginTopBottom}>
+				<FormControl component="fieldset" className={classes.formControl}>
+					<FormLabel component="legend">Difficulty</FormLabel>
+					<RadioGroup
+						aria-label="Difficulty"
+						name="difficulty"
+						className={classes.group}
+						value={valueDifficulty}
+						onChange={handleDifficultyChange}
+					>
+						<FormControlLabel value="Easy" control={<Radio />} label="Easy" />
+						<FormControlLabel value="Medium" control={<Radio />} label="Medium" />
+						<FormControlLabel value="Hard" control={<Radio />} label="Hard" />
+					</RadioGroup>
 				</FormControl>
 			</div>
 			<Button onClick={() => changeCurrentPage('game')}>Start new session</Button>
