@@ -122,7 +122,9 @@ const HomePage = ({ changeCurrentPage }) => {
 					Choose between {NumberOfWordsRange.min} and {NumberOfWordsRange.max} words
 				</Typography>
 			</div>
-			<Button onClick={() => changeCurrentPage('game')}>Start new session</Button>
+			<Button variant="contained" color="primary" onClick={() => changeCurrentPage('game')}>
+				Start new session
+			</Button>
 		</React.Fragment>
 	);
 };
