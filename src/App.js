@@ -12,6 +12,7 @@ import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@materi
 import './App.css';
 import Game from './Game';
 import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
 
 const theme = createMuiTheme({
 	palette: {
@@ -164,7 +165,7 @@ function App() {
 					<main className={classes.content}>
 						{page === 'home' && <HomePage changeCurrentPage={changeCurrentPage} />}
 						{page === 'states' && <Typography>My States</Typography>}
-						{page === 'about' && <Typography>About</Typography>}
+						{page === 'about' && <AboutPage />}
 						{page === 'game' &&
 							(!isReady ? (
 								'Preparing'
