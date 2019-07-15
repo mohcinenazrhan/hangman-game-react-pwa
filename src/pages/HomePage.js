@@ -74,7 +74,8 @@ const HomePage = () => {
 			// 		console.log('Error occure while trying to get response: ', error);
 			// 	});
 
-			setWords([
+			// Load the appropriate words according to the language selected and number of the words wanted
+			let sessionWords = [
 				'neighborly',
 				'tender',
 				'tightfisted',
@@ -84,8 +85,52 @@ const HomePage = () => {
 				'pear',
 				'ignore',
 				'stale',
-				'reflect'
-			]);
+				'reflect',
+				'sound',
+				'orthographic',
+				'distinguish',
+				'diaeresis',
+				'coming'
+			];
+			if (valueLanguage === 'Frensh') {
+				sessionWords = [
+					'ambiance',
+					'gruyère',
+					'dégât',
+					'aïeul',
+					'août',
+					'henné',
+					'secrète',
+					'bêtise',
+					'œstrogène',
+					'sympa',
+					'Toutefois',
+					'présente',
+					'français',
+					'écriture',
+					'Sommaire'
+				];
+			} else if (valueLanguage === 'Arabic') {
+				sessionWords = [
+					'الأبجدية',
+					'اللغات',
+					'تعتمد',
+					'الكتابة',
+					'الهمزة',
+					'الشعبي',
+					'عمودي',
+					'دائري',
+					'الترتيب',
+					'أكبر',
+					'علامة',
+					'نصف',
+					'اليسرى',
+					'بلعومي',
+					'مختلف'
+				];
+			}
+
+			setWords(sessionWords.slice(0, numberOfWords));
 			setAlphabets(alphabetsArray);
 			setPoints(13);
 			setIsReady(true);
