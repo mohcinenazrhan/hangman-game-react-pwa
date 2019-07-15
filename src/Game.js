@@ -97,9 +97,11 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 			}
 
 			// The logic that has to run once a game
-			const wordToDiscover = wordsState[Math.floor(Math.random() * wordsState.length)];
+			const wordToDiscover =
+				wordsState.length > 1 ? wordsState[Math.floor(Math.random() * wordsState.length)] : wordsState[0];
 			// Remove random word from words array to avoid choose it again
-			const newWordsState = wordsState.filter((value) => value !== wordToDiscover);
+			const newWordsState =
+				wordsState.length > 1 ? wordsState.filter((value) => value !== wordToDiscover) : wordToDiscover;
 			const wordToDiscoverArray = wordToDiscover.toUpperCase().split('');
 			const wordInitialState = wordToDiscoverArray.map((letter) => {
 				return {
