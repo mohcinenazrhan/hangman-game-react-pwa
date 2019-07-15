@@ -42,7 +42,7 @@ const HomePage = () => {
 		max: '15'
 	};
 
-	const [ valueLanguage, setValueLanguage ] = React.useState('english');
+	const [ valueLanguage, setValueLanguage ] = React.useState('English');
 	const [ valueDifficulty, setValueDifficulty ] = React.useState('Easy');
 	const [ numberOfWords, setNumberOfWords ] = React.useState(5);
 	const [ points, setPoints ] = React.useState(0);
