@@ -58,7 +58,12 @@ const HomePage = () => {
 			if (!newSession) return;
 			console.log(valueLanguage, valueDifficulty, numberOfWords);
 
-			const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
+			// Set the appropriate alphabets according the language selected
+			let alphabets = 'abcdefghijklmnopqrstuvwxyz';
+			if (valueLanguage === 'Frensh') alphabets = 'abcdefghijklmnopqrstuvwxyzéèàçù';
+			else if (valueLanguage === 'Arabic') alphabets = 'يوهنملكقفغعظطضصشسزرذدخحجثتبأ';
+			// Array alphabets letters
+			const alphabetsArray = alphabets.toUpperCase().split('');
 
 			// fetch('https://random-word-api.herokuapp.com/word?key=TE2AB90K&number=10')
 			// 	.then((response) => response.json())
@@ -81,7 +86,7 @@ const HomePage = () => {
 				'stale',
 				'reflect'
 			]);
-			setAlphabets(alphabets);
+			setAlphabets(alphabetsArray);
 			setPoints(13);
 			setIsReady(true);
 		},
