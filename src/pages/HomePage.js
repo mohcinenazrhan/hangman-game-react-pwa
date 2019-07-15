@@ -132,7 +132,7 @@ const HomePage = () => {
 								name="language"
 								className={classes.selectEmpty}
 							>
-								<MenuItem value="english">English</MenuItem>
+								<MenuItem value="English">English</MenuItem>
 								<MenuItem value="Frensh">Frensh</MenuItem>
 								<MenuItem value="Arabic">Arabic</MenuItem>
 							</Select>
