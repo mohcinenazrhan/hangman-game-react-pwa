@@ -10,7 +10,6 @@ import Tab from '@material-ui/core/Tab';
 import { Home, Info, Assessment, AccountCircle } from '@material-ui/icons';
 import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
 import './App.css';
-import Game from './Game';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import StatesPage from './pages/StatesPage';
@@ -55,33 +54,8 @@ function App() {
 	const [ anchorEl, setAnchorEl ] = React.useState(null);
 	const open = Boolean(anchorEl);
 
-	const [ points, setPoints ] = React.useState(0);
-	const [ alphabets, setAlphabets ] = React.useState([]);
-	const [ words, setWords ] = React.useState([]);
-
-	// State for the dependencies if ready
-	const [ isReady, setIsReady ] = React.useState(false);
-
 	// State for the current page
 	const [ page, setPage ] = React.useState('home');
-
-	React.useEffect(() => {
-		const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
-
-		// fetch('https://random-word-api.herokuapp.com/word?key=TE2AB90K&number=10')
-		// 	.then((response) => response.json())
-		// 	.then((data) => {
-		// 		setWords(data);
-		// 	})
-		// 	.catch((error) => {
-		// 		console.log('Error occure while trying to get response: ', error);
-		// 	});
-
-		setWords([ 'neighborly', 'tender', 'tightfisted', 'bag', 'die', 'sing', 'pear', 'ignore', 'stale', 'reflect' ]);
-		setAlphabets(alphabets);
-		setPoints(13);
-		setIsReady(true);
-	}, []);
 
 	function handleMenu(event) {
 		setAnchorEl(event.currentTarget);
@@ -108,15 +82,6 @@ function App() {
 				setPage('home');
 				break;
 		}
-	}
-
-	function updateUserPoints(newPoints) {
-		setPoints(newPoints);
-		console.log('newPoints', newPoints);
-	}
-
-	function changeCurrentPage(page) {
-		setPage(page);
 	}
 
 	return (
@@ -164,20 +129,9 @@ function App() {
 				<Container maxWidth="lg">
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
-						{page === 'home' && <HomePage changeCurrentPage={changeCurrentPage} />}
+						{page === 'home' && <HomePage />}
 						{page === 'states' && <StatesPage />}
 						{page === 'about' && <AboutPage />}
-						{page === 'game' &&
-							(!isReady ? (
-								'Preparing'
-							) : (
-								<Game
-									alphabets={alphabets}
-									words={words}
-									points={points}
-									updateUserPoints={updateUserPoints}
-								/>
-							))}
 					</main>
 					<div className={classes.toolbar} />
 				</Container>

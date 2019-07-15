@@ -14,6 +14,7 @@ import {
 	Input
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Game from '../Game';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const HomePage = ({ changeCurrentPage }) => {
+const HomePage = () => {
 	const classes = useStyles();
 	const NumberOfWordsRange = {
 		min: '1',
@@ -44,6 +45,31 @@ const HomePage = ({ changeCurrentPage }) => {
 	const [ valueLanguage, setValueLanguage ] = React.useState('english');
 	const [ valueDifficulty, setValueDifficulty ] = React.useState('Easy');
 	const [ numberOfWords, setNumberOfWords ] = React.useState(5);
+	const [ points, setPoints ] = React.useState(0);
+	const [ alphabets, setAlphabets ] = React.useState([]);
+	const [ words, setWords ] = React.useState([]);
+	const [ newSession, setNewSession ] = React.useState(false);
+
+	// State for the dependencies if ready
+	const [ isReady, setIsReady ] = React.useState(false);
+
+	React.useEffect(() => {
+		const alphabets = 'abcdefghijklmnopqrstuvwxyz'.toUpperCase().split('');
+
+		// fetch('https://random-word-api.herokuapp.com/word?key=TE2AB90K&number=10')
+		// 	.then((response) => response.json())
+		// 	.then((data) => {
+		// 		setWords(data);
+		// 	})
+		// 	.catch((error) => {
+		// 		console.log('Error occure while trying to get response: ', error);
+		// 	});
+
+		setWords([ 'neighborly', 'tender', 'tightfisted', 'bag', 'die', 'sing', 'pear', 'ignore', 'stale', 'reflect' ]);
+		setAlphabets(alphabets);
+		setPoints(13);
+		setIsReady(true);
+	}, []);
 
 	function handleLanguageChange(event) {
 		setValueLanguage(event.target.value);
@@ -61,70 +87,86 @@ const HomePage = ({ changeCurrentPage }) => {
 			setNumberOfWords(event.target.value);
 	}
 
+	function updateUserPoints(newPoints) {
+		setPoints(newPoints);
+	}
+
+	function startNewSession() {
+		setNewSession(true);
+	}
+
 	return (
 		<React.Fragment>
-			<Typography variant="h4" component="h1">
-				Customize your game session
-			</Typography>
-			<div className={classes.marginTopBottom}>
-				<FormControl className={classes.formControl}>
-					<InputLabel shrink htmlFor="language-label-placeholder">
-						Languages
-					</InputLabel>
-					<Select
-						value={valueLanguage}
-						onChange={handleLanguageChange}
-						input={<Input name="language" id="language-label-placeholder" />}
-						displayEmpty
-						name="language"
-						className={classes.selectEmpty}
-					>
-						<MenuItem value="english">English</MenuItem>
-						<MenuItem value="Frensh">Frensh</MenuItem>
-						<MenuItem value="Arabic">Arabic</MenuItem>
-					</Select>
-					<FormHelperText>Select a language</FormHelperText>
-				</FormControl>
-			</div>
-			<div className={classes.marginTopBottom}>
-				<FormControl component="fieldset" className={classes.formControl}>
-					<FormLabel component="legend">Difficulty</FormLabel>
-					<RadioGroup
-						aria-label="Difficulty"
-						name="difficulty"
-						className={classes.group}
-						value={valueDifficulty}
-						onChange={handleDifficultyChange}
-					>
-						<FormControlLabel value="Easy" control={<Radio />} label="Easy" />
-						<FormControlLabel value="Medium" control={<Radio />} label="Medium" />
-						<FormControlLabel value="Hard" control={<Radio />} label="Hard" />
-					</RadioGroup>
-				</FormControl>
-			</div>
-			<div className={classes.marginTopBottom}>
-				<FormControlLabel
-					value="Number of words"
-					control={
-						<Input
-							name="number-of-words"
-							type="number"
-							inputProps={NumberOfWordsRange}
-							value={numberOfWords}
-							id="number-of-words"
-							onChange={handleNumberOfWordsChange}
+			{newSession === false ? (
+				<React.Fragment>
+					<Typography variant="h4" component="h1">
+						Customize your game session
+					</Typography>
+					<div className={classes.marginTopBottom}>
+						<FormControl className={classes.formControl}>
+							<InputLabel shrink htmlFor="language-label-placeholder">
+								Languages
+							</InputLabel>
+							<Select
+								value={valueLanguage}
+								onChange={handleLanguageChange}
+								input={<Input name="language" id="language-label-placeholder" />}
+								displayEmpty
+								name="language"
+								className={classes.selectEmpty}
+							>
+								<MenuItem value="english">English</MenuItem>
+								<MenuItem value="Frensh">Frensh</MenuItem>
+								<MenuItem value="Arabic">Arabic</MenuItem>
+							</Select>
+							<FormHelperText>Select a language</FormHelperText>
+						</FormControl>
+					</div>
+					<div className={classes.marginTopBottom}>
+						<FormControl component="fieldset" className={classes.formControl}>
+							<FormLabel component="legend">Difficulty</FormLabel>
+							<RadioGroup
+								aria-label="Difficulty"
+								name="difficulty"
+								className={classes.group}
+								value={valueDifficulty}
+								onChange={handleDifficultyChange}
+							>
+								<FormControlLabel value="Easy" control={<Radio />} label="Easy" />
+								<FormControlLabel value="Medium" control={<Radio />} label="Medium" />
+								<FormControlLabel value="Hard" control={<Radio />} label="Hard" />
+							</RadioGroup>
+						</FormControl>
+					</div>
+					<div className={classes.marginTopBottom}>
+						<FormControlLabel
+							value="Number of words"
+							control={
+								<Input
+									name="number-of-words"
+									type="number"
+									inputProps={NumberOfWordsRange}
+									value={numberOfWords}
+									id="number-of-words"
+									onChange={handleNumberOfWordsChange}
+								/>
+							}
+							label="Number of words"
+							labelPlacement="top"
 						/>
-					}
-					label="Number of words"
-					labelPlacement="top"
-				/>
-				<Typography variant="caption" display="block" gutterBottom>
-					Choose between {NumberOfWordsRange.min} and {NumberOfWordsRange.max} words
-				</Typography>
-			</div>
-			<Button variant="contained" color="primary" onClick={() => changeCurrentPage('game')}>
-				Start new session
-			</Button>
+						<Typography variant="caption" display="block" gutterBottom>
+							Choose between {NumberOfWordsRange.min} and {NumberOfWordsRange.max} words
+						</Typography>
+					</div>
+					<Button variant="contained" color="primary" onClick={startNewSession}>
+						Start new session
+					</Button>
+				</React.Fragment>
+			) : !isReady ? (
+				'Preparing'
+			) : (
+				<Game alphabets={alphabets} words={words} points={points} updateUserPoints={updateUserPoints} />
+			)}
 		</React.Fragment>
 	);
 };
