@@ -182,7 +182,13 @@ const HomePage = () => {
 			) : !isReady ? (
 				'Preparing'
 			) : (
-				<Game alphabets={alphabets} words={words} points={points} updateUserPoints={updateUserPoints} />
+				<Game
+					alphabets={alphabets}
+					valueDifficulty={valueDifficulty}
+					words={words}
+					points={points}
+					updateUserPoints={updateUserPoints}
+				/>
 			)}
 		</React.Fragment>
 	);
