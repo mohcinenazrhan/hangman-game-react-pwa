@@ -249,6 +249,9 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 			<div>
 				<Typography>Your total score: {totalScore}</Typography>
 				<Typography>Your session score: {sessionScore}</Typography>
+				<Typography>
+					{gameNbr}/{words.length} words
+				</Typography>
 			</div>
 			<div className={classes.gameInfoContainer}>
 				{gameState === 'playing' && (
