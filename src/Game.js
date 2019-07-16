@@ -86,22 +86,24 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 	const [ sessionScore, setSessionScore ] = useState(0);
 	// Help btn state
 	const [ helpBtnState, setHelpBtnState ] = useState(false);
+	// Session state
+	const [ isSessionEnd, setIsSessionEnd ] = useState(false);
 
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
 		() => {
 			// Check if all the wolds are used
-			if (wordsState.length === 0) {
+			if (isSessionEnd) {
 				console.log('The words end');
 				return;
 			}
 
 			// The logic that has to run once a game
-			const wordToDiscover =
-				wordsState.length > 1 ? wordsState[Math.floor(Math.random() * wordsState.length)] : wordsState[0];
+			const wordToDiscover = wordsState[Math.floor(Math.random() * wordsState.length)];
 			// Remove random word from words array to avoid choose it again
-			const newWordsState =
-				wordsState.length > 1 ? wordsState.filter((value) => value !== wordToDiscover) : wordToDiscover;
+			const newWordsState = wordsState.filter((value) => value !== wordToDiscover);
+			console.log(wordsState, newWordsState);
+
 			const wordToDiscoverArray = wordToDiscover.toUpperCase().split('');
 			const wordInitialState = wordToDiscoverArray.map((letter) => {
 				return {
@@ -180,6 +182,8 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 			newWordState = showWrongLetters(newWordState);
 			newScore = 0;
 			updateScoreState(newScore);
+			// if this current word is the last one
+			if (wordsState.length === 0) setIsSessionEnd(true);
 		} else {
 			// Check if the user is successfully found the word
 			const lettersFoundedLen = newWordState.filter((row) => row.state === 'found').length;
@@ -187,6 +191,8 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 				console.log('Completed with success');
 				updateScoreState(newScore);
 				setGameState('success');
+				// if this current word is the last one
+				if (wordsState.length === 0) setIsSessionEnd(true);
 			}
 		}
 
@@ -271,11 +277,8 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 					</React.Fragment>
 				)}
 			</div>
-			<div
-				className={clsx(classes.drawImgProgress, wordsState.length === 0 && classes.hide)}
-				style={getProgressDraw()}
-			/>
-			<div className={clsx(classes.wordContainer, wordsState.length === 0 && classes.hide)}>
+			<div className={clsx(classes.drawImgProgress, isSessionEnd && classes.hide)} style={getProgressDraw()} />
+			<div className={clsx(classes.wordContainer, isSessionEnd && classes.hide)}>
 				{wordState.map((row, index) => {
 					cnt += 1;
 					return (
@@ -311,7 +314,7 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 				</div>
 			) : (
 				<div>
-					{wordsState.length === 0 ? (
+					{isSessionEnd ? (
 						'Session end'
 					) : (
 						<React.Fragment>
