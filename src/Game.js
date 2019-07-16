@@ -88,8 +88,8 @@ function Game({ words, alphabets, points, updateUserPoints, prepareNewSession })
 	const [ helpBtnState, setHelpBtnState ] = useState(false);
 	// Session state
 	const [ isSessionEnd, setIsSessionEnd ] = useState(false);
-	// Show session states
-	const [ showSessionStates, setShowSessionStates ] = useState(false);
+	// Show state
+	const [ show, setShow ] = useState('game');
 
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
@@ -259,7 +259,7 @@ function Game({ words, alphabets, points, updateUserPoints, prepareNewSession })
 	}
 
 	function sessionStates() {
-		setShowSessionStates(true);
+		setShow('states');
 	}
 
 	return (
@@ -287,7 +287,7 @@ function Game({ words, alphabets, points, updateUserPoints, prepareNewSession })
 					</React.Fragment>
 				)}
 			</div>
-			{!showSessionStates && (
+			{show === 'game' && (
 				<React.Fragment>
 					<div className={classes.drawImgProgress} style={getProgressDraw()} />
 					<div className={classes.wordContainer}>
@@ -377,7 +377,7 @@ function Game({ words, alphabets, points, updateUserPoints, prepareNewSession })
 					</div>
 				</React.Fragment>
 			)}
-			{showSessionStates && (
+			{show === 'states' && (
 				<React.Fragment>
 					<Typography>My session states</Typography>
 					<Button variant="contained" color="primary" className={classes.button} onClick={newSession}>
