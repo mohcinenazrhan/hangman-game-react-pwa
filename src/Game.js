@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Game({ words, alphabets, points, updateUserPoints }) {
+function Game({ words, alphabets, points, updateUserPoints, prepareNewSession }) {
 	const classes = useStyles();
 	// rgb color counter for color gradients
 	// start by -1 to make it start at 0 since the counter step is by 1
@@ -252,6 +252,10 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 		setWordState(newWordState);
 	}
 
+	function newSession() {
+		prepareNewSession();
+	}
+
 	return (
 		<React.Fragment>
 			<div>
@@ -315,7 +319,12 @@ function Game({ words, alphabets, points, updateUserPoints }) {
 			) : (
 				<div>
 					{isSessionEnd ? (
-						'Session end'
+						<React.Fragment>
+							<Typography>The session is end</Typography>
+							<Button variant="contained" color="primary" className={classes.button} onClick={newSession}>
+								Go for another session
+							</Button>
+						</React.Fragment>
 					) : (
 						<React.Fragment>
 							<Typography>

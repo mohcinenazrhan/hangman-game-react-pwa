@@ -162,6 +162,10 @@ const HomePage = () => {
 		setNewSession(true);
 	}
 
+	function prepareNewSession() {
+		setNewSession(false);
+	}
+
 	return (
 		<React.Fragment>
 			{newSession === false ? (
@@ -238,6 +242,7 @@ const HomePage = () => {
 					words={words}
 					points={points}
 					updateUserPoints={updateUserPoints}
+					prepareNewSession={prepareNewSession}
 				/>
 			)}
 		</React.Fragment>
