@@ -45,7 +45,7 @@ const HomePage = () => {
 	const [ valueLanguage, setValueLanguage ] = React.useState('English');
 	const [ valueDifficulty, setValueDifficulty ] = React.useState('Easy');
 	const [ numberOfWords, setNumberOfWords ] = React.useState(5);
-	const [ points, setPoints ] = React.useState(0);
+	const [ points, setPoints ] = React.useState(null);
 	const [ alphabets, setAlphabets ] = React.useState([]);
 	const [ words, setWords ] = React.useState([]);
 	const [ newSession, setNewSession ] = React.useState(false);
@@ -55,85 +55,89 @@ const HomePage = () => {
 
 	React.useEffect(
 		() => {
-			if (!newSession) return;
-			console.log(valueLanguage, valueDifficulty, numberOfWords);
+			if (!newSession) {
+				setTimeout(() => {
+					setPoints(13);
+				}, 2000);
+			} else {
+				console.log(valueLanguage, valueDifficulty, numberOfWords);
 
-			// Set the appropriate alphabets according the language selected
-			let alphabets = 'abcdefghijklmnopqrstuvwxyz';
-			if (valueLanguage === 'Frensh') alphabets = 'abcdefghijklmnopqrstuvwxyzéèàçù';
-			else if (valueLanguage === 'Arabic') alphabets = 'يوهنملكقفغعظطضصشسزرذدخحجثتبأ';
-			// Array alphabets letters
-			const alphabetsArray = alphabets.toUpperCase().split('');
+				// Set the appropriate alphabets according the language selected
+				let alphabets = 'abcdefghijklmnopqrstuvwxyz';
+				if (valueLanguage === 'Frensh') alphabets = 'abcdefghijklmnopqrstuvwxyzéèàçù';
+				else if (valueLanguage === 'Arabic') alphabets = 'يوهنملكقفغعظطضصشسزرذدخحجثتبأ';
+				// Array alphabets letters
+				const alphabetsArray = alphabets.toUpperCase().split('');
 
-			// fetch('https://random-word-api.herokuapp.com/word?key=TE2AB90K&number=10')
-			// 	.then((response) => response.json())
-			// 	.then((data) => {
-			// 		setWords(data);
-			// 	})
-			// 	.catch((error) => {
-			// 		console.log('Error occure while trying to get response: ', error);
-			// 	});
+				// fetch('https://random-word-api.herokuapp.com/word?key=TE2AB90K&number=10')
+				// 	.then((response) => response.json())
+				// 	.then((data) => {
+				// 		setWords(data);
+				// 	})
+				// 	.catch((error) => {
+				// 		console.log('Error occure while trying to get response: ', error);
+				// 	});
 
-			// Load the appropriate words according to the language selected and number of the words wanted
-			let sessionWords = [
-				'neighborly',
-				'tender',
-				'tightfisted',
-				'bag',
-				'die',
-				'sing',
-				'pear',
-				'ignore',
-				'stale',
-				'reflect',
-				'sound',
-				'orthographic',
-				'distinguish',
-				'diaeresis',
-				'coming'
-			];
-			if (valueLanguage === 'Frensh') {
-				sessionWords = [
-					'ambiance',
-					'gruyère',
-					'dégât',
-					'aïeul',
-					'août',
-					'henné',
-					'secrète',
-					'bêtise',
-					'œstrogène',
-					'sympa',
-					'Toutefois',
-					'présente',
-					'français',
-					'écriture',
-					'Sommaire'
+				// Load the appropriate words according to the language selected and number of the words wanted
+				let sessionWords = [
+					'neighborly',
+					'tender',
+					'tightfisted',
+					'bag',
+					'die',
+					'sing',
+					'pear',
+					'ignore',
+					'stale',
+					'reflect',
+					'sound',
+					'orthographic',
+					'distinguish',
+					'diaeresis',
+					'coming'
 				];
-			} else if (valueLanguage === 'Arabic') {
-				sessionWords = [
-					'الأبجدية',
-					'اللغات',
-					'تعتمد',
-					'الكتابة',
-					'الهمزة',
-					'الشعبي',
-					'عمودي',
-					'دائري',
-					'الترتيب',
-					'أكبر',
-					'علامة',
-					'نصف',
-					'اليسرى',
-					'بلعومي',
-					'مختلف'
-				];
+				if (valueLanguage === 'Frensh') {
+					sessionWords = [
+						'ambiance',
+						'gruyère',
+						'dégât',
+						'aïeul',
+						'août',
+						'henné',
+						'secrète',
+						'bêtise',
+						'œstrogène',
+						'sympa',
+						'Toutefois',
+						'présente',
+						'français',
+						'écriture',
+						'Sommaire'
+					];
+				} else if (valueLanguage === 'Arabic') {
+					sessionWords = [
+						'الأبجدية',
+						'اللغات',
+						'تعتمد',
+						'الكتابة',
+						'الهمزة',
+						'الشعبي',
+						'عمودي',
+						'دائري',
+						'الترتيب',
+						'أكبر',
+						'علامة',
+						'نصف',
+						'اليسرى',
+						'بلعومي',
+						'مختلف'
+					];
+				}
+
+				setWords(sessionWords.slice(0, numberOfWords));
+				setAlphabets(alphabetsArray);
+				setIsReady(true);
 			}
-
-			setWords(sessionWords.slice(0, numberOfWords));
-			setAlphabets(alphabetsArray);
-			setPoints(13);
-			setIsReady(true);
 		},
 		[ newSession, valueLanguage, valueDifficulty, numberOfWords ]
 	);
@@ -170,6 +174,7 @@ const HomePage = () => {
 		<React.Fragment>
 			{newSession === false ? (
 				<React.Fragment>
+					{points && <Typography>Your total score: {points}</Typography>}
 					<Typography variant="h4" component="h1">
 						Customize your game session
 					</Typography>
