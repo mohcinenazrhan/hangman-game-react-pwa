@@ -310,69 +310,80 @@ function Game({ words, alphabets, points, updateUserPoints, prepareNewSession })
 							);
 						})}
 					</div>
+					{gameState === 'playing' && (
+						<div>
+							{alphabetsState.map((row, index) => {
+								return (
+									<Button
+										key={index}
+										variant="contained"
+										color="secondary"
+										className={classes.button}
+										disabled={row.disabled}
+										onClick={() => handleBtnClick(row.letter)}
+									>
+										{row.letter}
+									</Button>
+								);
+							})}
+						</div>
+					)}
+					<div>
+						{gameState !== 'playing' && (
+							<React.Fragment>
+								<Typography>
+									{gameState === 'success' ? (
+										`Great, you've found the word successfully, you win ${score} points, with ${nbrTries -
+											nbrTriesState}/${nbrTries} wrong attempts`
+									) : (
+										`Unfortunately, you lose, the word was: ${currentWord}, you had ${score} points, with ${nbrTries -
+											nbrTriesState} wrong attempts`
+									)}
+								</Typography>
+								{!isSessionEnd && (
+									<Button
+										variant="contained"
+										color="primary"
+										className={classes.button}
+										onClick={newGame}
+									>
+										NEXT WORD
+									</Button>
+								)}
+							</React.Fragment>
+						)}
+
+						{isSessionEnd && (
+							<React.Fragment>
+								<Typography>The session is end</Typography>
+								<Button
+									variant="contained"
+									color="primary"
+									className={classes.button}
+									onClick={sessionStates}
+								>
+									Show my session states
+								</Button>
+								<Button
+									variant="contained"
+									color="primary"
+									className={classes.button}
+									onClick={newSession}
+								>
+									Go for another session
+								</Button>
+							</React.Fragment>
+						)}
+					</div>
 				</React.Fragment>
 			)}
-			{showSessionStates ? (
+			{showSessionStates && (
 				<React.Fragment>
 					<Typography>My session states</Typography>
 					<Button variant="contained" color="primary" className={classes.button} onClick={newSession}>
 						Go for another session
 					</Button>
 				</React.Fragment>
-			) : gameState === 'playing' ? (
-				<div>
-					{alphabetsState.map((row, index) => {
-						return (
-							<Button
-								key={index}
-								variant="contained"
-								color="secondary"
-								className={classes.button}
-								disabled={row.disabled}
-								onClick={() => handleBtnClick(row.letter)}
-							>
-								{row.letter}
-							</Button>
-						);
-					})}
-				</div>
-			) : (
-				<div>
-					{gameState !== 'playing' && (
-						<Typography>
-							{gameState === 'success' ? (
-								`Great, you've found the word successfully, you win ${score} points, with ${nbrTries -
-									nbrTriesState}/${nbrTries} wrong attempts`
-							) : (
-								`Unfortunately, you lose, the word was: ${currentWord}, you had ${score} points, with ${nbrTries -
-									nbrTriesState} wrong attempts`
-							)}
-						</Typography>
-					)}
-
-					{!isSessionEnd && (
-						<Button variant="contained" color="primary" className={classes.button} onClick={newGame}>
-							NEXT WORD
-						</Button>
-					)}
-
-					{isSessionEnd && (
-						<React.Fragment>
-							<Typography>The session is end</Typography>
-							<Button
-								variant="contained"
-								color="primary"
-								className={classes.button}
-								onClick={sessionStates}
-							>
-								Show my session states
-							</Button>
-							<Button variant="contained" color="primary" className={classes.button} onClick={newSession}>
-								Go for another session
-							</Button>
-						</React.Fragment>
-					)}
-				</div>
 			)}
 		</React.Fragment>
 	);
