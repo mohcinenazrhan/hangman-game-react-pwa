@@ -248,7 +248,7 @@ const HomePage = () => {
 			) : (
 				<Game
 					alphabets={alphabets}
-					valueDifficulty={valueDifficulty}
+					difficulty={valueDifficulty}
 					words={words}
 					points={points}
 					updateUserPoints={updateUserPoints}

@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Game({ words, alphabets, points, updateUserPoints, prepareNewSession }) {
+function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareNewSession }) {
 	const classes = useStyles();
 	// rgb color counter for color gradients
 	// start by -1 to make it start at 0 since the counter step is by 1
@@ -119,10 +119,23 @@ function Game({ words, alphabets, points, updateUserPoints, prepareNewSession })
 					disabled: false
 				};
 			});
+
+			// Default values for easy level
+			let initScore = wordToDiscoverArray.length; // Initial score is the length of the word to discover
+			let initTriesRatio = 1; // Number to use to devide on to get nbrTriesInitialState
+			// Level of difficulty
+			if (difficulty === 'Medium') {
+				initScore = wordToDiscoverArray.length * 2;
+				initTriesRatio = 2;
+			} else if (difficulty === 'Hard') {
+				initScore = wordToDiscoverArray.length * 3;
+				initTriesRatio = 3;
+			}
+
 			// Number of tries allowed
 			// Dinstact the letters to count the number of tries allowed
 			const dinstactLetters = wordToDiscoverArray.filter((item, i, ar) => ar.indexOf(item) === i);
-			const nbrTriesInitialState = Math.floor(dinstactLetters.length / 2);
+			const nbrTriesInitialState = Math.floor(dinstactLetters.length / initTriesRatio);
 
 			setWordsState(newWordsState);
 			setCurrentWord(wordToDiscover);
@@ -130,8 +143,7 @@ function Game({ words, alphabets, points, updateUserPoints, prepareNewSession })
 			setAlphabetsState(alphabetsInitialState);
 			setNbrTriesState(nbrTriesInitialState);
 			setNbrTries(nbrTriesInitialState);
-			// Initial score is the length of the word to discover
-			setScore(wordToDiscoverArray.length);
+			setScore(initScore);
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[ gameNbr ]
