@@ -55,8 +55,9 @@ const HomePage = () => {
 
 	React.useEffect(
 		() => {
+			let pointsTimeout = null;
 			if (!newSession) {
-				setTimeout(() => {
+				pointsTimeout = setTimeout(() => {
 					setPoints(13);
 				}, 2000);
 			} else {
@@ -138,6 +139,10 @@ const HomePage = () => {
 				setAlphabets(alphabetsArray);
 				setIsReady(true);
 			}
+
+			return () => {
+				clearTimeout(pointsTimeout);
+			};
 		},
 		[ newSession, valueLanguage, valueDifficulty, numberOfWords ]
 	);
