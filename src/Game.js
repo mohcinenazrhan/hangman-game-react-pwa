@@ -262,6 +262,10 @@ function Game({ words, alphabets, points, updateUserPoints, prepareNewSession })
 		setShow('states');
 	}
 
+	function cancelSession() {
+		prepareNewSession();
+	}
+
 	return (
 		<React.Fragment>
 			<div>
@@ -352,7 +356,16 @@ function Game({ words, alphabets, points, updateUserPoints, prepareNewSession })
 								)}
 							</React.Fragment>
 						)}
-
+						{!isSessionEnd && (
+							<Button
+								variant="contained"
+								color="primary"
+								className={classes.button}
+								onClick={cancelSession}
+							>
+								Cancel
+							</Button>
+						)}
 						{isSessionEnd && (
 							<React.Fragment>
 								<Typography>The session is end</Typography>
