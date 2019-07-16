@@ -287,27 +287,31 @@ function Game({ words, alphabets, points, updateUserPoints, prepareNewSession })
 					</React.Fragment>
 				)}
 			</div>
-			<div
-				className={clsx(classes.drawImgProgress, showSessionStates && classes.hide)}
-				style={getProgressDraw()}
-			/>
-			<div className={clsx(classes.wordContainer, showSessionStates && classes.hide)}>
-				{wordState.map((row, index) => {
-					cnt += 1;
-					return (
-						<div
-							className={clsx(classes.wordLettres, row.state === 'show' && classes.notFoundedLetters)}
-							style={{
-								backgroundColor: `rgb(${224 - cnt}, ${224 - cnt}, ${224 - cnt})`,
-								width: `${100 / wordState.length}%`
-							}}
-							key={index}
-						>
-							{row.state === 'hidden' ? '_' : row.letter}
-						</div>
-					);
-				})}
-			</div>
+			{!showSessionStates && (
+				<React.Fragment>
+					<div className={classes.drawImgProgress} style={getProgressDraw()} />
+					<div className={classes.wordContainer}>
+						{wordState.map((row, index) => {
+							cnt += 1;
+							return (
+								<div
+									className={clsx(
+										classes.wordLettres,
+										row.state === 'show' && classes.notFoundedLetters
+									)}
+									style={{
+										backgroundColor: `rgb(${224 - cnt}, ${224 - cnt}, ${224 - cnt})`,
+										width: `${100 / wordState.length}%`
+									}}
+									key={index}
+								>
+									{row.state === 'hidden' ? '_' : row.letter}
+								</div>
+							);
+						})}
+					</div>
+				</React.Fragment>
+			)}
 			{showSessionStates ? (
 				<React.Fragment>
 					<Typography>My session states</Typography>
@@ -351,7 +355,7 @@ function Game({ words, alphabets, points, updateUserPoints, prepareNewSession })
 							NEXT WORD
 						</Button>
 					)}
-					
+
 					{isSessionEnd && (
 						<React.Fragment>
 							<Typography>The session is end</Typography>
