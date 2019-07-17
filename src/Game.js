@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import progressDraw from './progress-draw.png';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -416,3 +417,12 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 }
 
 export default Game;
+
+Game.propTypes = {
+	words: PropTypes.array.isRequired,
+	alphabets: PropTypes.array.isRequired,
+	points: PropTypes.number.isRequired,
+	difficulty: PropTypes.string.isRequired,
+	prepareNewSession: PropTypes.func.isRequired,
+	updateUserPoints: PropTypes.func.isRequired
+};
