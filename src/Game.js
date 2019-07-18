@@ -91,6 +91,8 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 	const [ isSessionEnd, setIsSessionEnd ] = useState(false);
 	// Show state
 	const [ show, setShow ] = useState('game');
+	// Session states
+	const [ states, setStates ] = useState([]);
 
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
@@ -197,6 +199,13 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			newWordState = showWrongLetters(newWordState);
 			newScore = 0;
 			updateScoreState(newScore);
+			const gameState = {
+				word: currentWord,
+				wordState: newWordState,
+				score: newScore,
+				nbrTries: nbrTries - newNbrTriesState
+			};
+			saveGame(gameState);
 			// if this current word is the last one
 			if (wordsState.length === 0) setIsSessionEnd(true);
 		} else {
@@ -206,6 +215,13 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 				console.log('Completed with success');
 				updateScoreState(newScore);
 				setGameState('success');
+				const gameState = {
+					word: currentWord,
+					wordState: newWordState,
+					score: newScore,
+					nbrTries: nbrTries - newNbrTriesState
+				};
+				saveGame(gameState);
 				// if this current word is the last one
 				if (wordsState.length === 0) setIsSessionEnd(true);
 			}
@@ -215,6 +231,10 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 		setNbrTriesState(newNbrTriesState);
 		setAlphabetsState(newAlphabetsState);
 		setWordState(newWordState);
+	}
+
+	function saveGame(gameState) {
+		setStates((currentState) => [ ...currentState, JSON.stringify(gameState) ]);
 	}
 
 	function updateScoreState(newScore) {
