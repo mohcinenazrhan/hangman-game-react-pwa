@@ -151,7 +151,8 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 		let correctLetter = false,
 			newNbrTriesState = nbrTriesState,
 			newScore = score,
-			isGameEnd = false;
+			isGameEnd = false,
+			gameState = 'playing';
 
 		// Show the letter founded
 		let newWordState = wordState.map((row) => {
@@ -182,7 +183,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 		if (newNbrTriesState < 0) {
 			isGameEnd = true;
 			console.log('Unfortunately, you failed');
-			setGameState('failed');
+			gameState = 'failed';
 			setDrawProgress(progressDrawFinalStep);
 			newWordState = showHiddenLetters(newWordState);
 			// reset to 0
@@ -194,7 +195,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			if (newWordState.length === lettersFoundedLen) {
 				isGameEnd = true;
 				console.log('Completed with success');
-				setGameState('success');
+				gameState = 'success';
 			}
 		}
 
@@ -202,13 +203,14 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			// if this current word is the last one
 			if (words.length === gameNbr) setIsSessionEnd(true);
 			updateScoreState(newScore);
-			const gameState = {
+			saveGame({
 				word: words[gameNbr - 1],
+				result: gameState,
 				wordState: newWordState,
 				score: newScore,
 				nbrTries: nbrTries - newNbrTriesState
-			};
-			saveGame(gameState);
+			});
+			setGameState(gameState);
 		}
 
 		disableHelpBtnFor(newWordState, newScore);
