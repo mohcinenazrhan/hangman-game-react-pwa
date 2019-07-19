@@ -194,7 +194,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			if (newWordState.length === lettersFoundedLen) {
 				isGameEnd = true;
 				console.log('Completed with success');
-				gameState = 'success';
+				gameState = 'succeed';
 			}
 		}
 
