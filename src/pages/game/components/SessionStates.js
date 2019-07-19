@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -97,3 +98,7 @@ const SessionStates = ({ states }) => {
 };
 
 export default SessionStates;
+
+SessionStates.propTypes = {
+	states: PropTypes.array.isRequired
+};
