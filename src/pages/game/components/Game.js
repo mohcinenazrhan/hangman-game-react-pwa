@@ -3,6 +3,7 @@ import { Button, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import progressDraw from '../../../assets/progress-draw.png';
 import PropTypes from 'prop-types';
+import SessionStates from './SessionStates';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -417,6 +418,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			{show === 'states' && (
 				<React.Fragment>
 					<Typography>My session states</Typography>
+					<SessionStates />
 					<Button variant="contained" color="primary" className={classes.button} onClick={newSession}>
 						Go for another session
 					</Button>
