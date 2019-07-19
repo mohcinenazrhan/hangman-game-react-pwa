@@ -149,7 +149,8 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 		// Helper variables
 		let correctLetter = false,
 			newNbrTriesState = nbrTriesState,
-			newScore = score;
+			newScore = score,
+			isGameEnd = false;
 
 		// Show the letter founded
 		let newWordState = wordState.map((row) => {
@@ -178,13 +179,27 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 
 		// Check if the user is failed, if the number of wrong tries allowed is end
 		if (newNbrTriesState < 0) {
-			// reset to 0
-			newNbrTriesState = 0;
+			isGameEnd = true;
 			console.log('Unfortunately, you failed');
 			setGameState('failed');
 			setDrawProgress(progressDrawFinalStep);
 			newWordState = showHiddenLetters(newWordState);
+			// reset to 0
+			newNbrTriesState = 0;
 			newScore = 0;
+		} else {
+			// Check if the user is successfully found the word
+			const lettersFoundedLen = newWordState.filter((row) => row.state === 'found').length;
+			if (newWordState.length === lettersFoundedLen) {
+				isGameEnd = true;
+				console.log('Completed with success');
+				setGameState('success');
+			}
+		}
+
+		if (isGameEnd) {
+			// if this current word is the last one
+			if (words.length === gameNbr) setIsSessionEnd(true);
 			updateScoreState(newScore);
 			const gameState = {
 				word: words[gameNbr - 1],
@@ -193,25 +208,6 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 				nbrTries: nbrTries - newNbrTriesState
 			};
 			saveGame(gameState);
-			// if this current word is the last one
-			if (words.length === gameNbr) setIsSessionEnd(true);
-		} else {
-			// Check if the user is successfully found the word
-			const lettersFoundedLen = newWordState.filter((row) => row.state === 'found').length;
-			if (newWordState.length === lettersFoundedLen) {
-				console.log('Completed with success');
-				updateScoreState(newScore);
-				setGameState('success');
-				const gameState = {
-					word: words[gameNbr - 1],
-					wordState: newWordState,
-					score: newScore,
-					nbrTries: nbrTries - newNbrTriesState
-				};
-				saveGame(gameState);
-				// if this current word is the last one
-				if (words.length === gameNbr) setIsSessionEnd(true);
-			}
 		}
 
 		disableHelpBtnFor(newWordState, newScore);
