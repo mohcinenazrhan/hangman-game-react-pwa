@@ -173,12 +173,12 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			// Progress the draw if not the game failed yet
 			if (drawProgressState + 1 < progressDrawFinalStep) setDrawProgress(drawProgressState + 1);
 			// Remove one point from the score
-			newScore = score - 1;
+			newScore = score > 1 ? score - 1 : score;
 		}
 
 		// Disable help btn if only one letter remains
 		const lettersHiddenLen = newWordState.filter((row) => row.state === 'hidden').length;
-		if (lettersHiddenLen === 1) {
+		if (lettersHiddenLen === 1 || newScore === 1) {
 			setHelpBtnState(true);
 		}
 
@@ -270,13 +270,15 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			return row;
 		});
 
-		// Disable help btn if only one letter remains
+		const newScore = score > 1 ? score - 1 : score;
+
+		// Disable help btn if only one letter remains or the score is 1
 		const lettersHiddenLen = newWordState.filter((row) => row.state === 'hidden').length;
-		if (lettersHiddenLen === 1) {
+		if (lettersHiddenLen === 1 || newScore === 1) {
 			setHelpBtnState(true);
 		}
 
-		setScore(score - 1);
+		setScore(newScore);
 		setWordState(newWordState);
 	}
 
