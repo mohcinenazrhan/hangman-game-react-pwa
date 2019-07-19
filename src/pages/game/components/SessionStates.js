@@ -38,39 +38,10 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const rows = [
-	{
-		word: 'neighborly',
-		result: 'failed',
-		wordState: [
-			{ letter: 'N', state: 'found' },
-			{ letter: 'E', state: 'show' },
-			{ letter: 'I', state: 'show' },
-			{ letter: 'G', state: 'show' },
-			{ letter: 'H', state: 'show' },
-			{ letter: 'B', state: 'show' },
-			{ letter: 'O', state: 'found' },
-			{ letter: 'R', state: 'found' },
-			{ letter: 'L', state: 'found' },
-			{ letter: 'Y', state: 'found' }
-		],
-		score: 0,
-		nbrTries: 10
-	},
-	{
-		word: 'bag',
-		result: 'succeed',
-		wordState: [
-			{ letter: 'B', state: 'found' },
-			{ letter: 'A', state: 'found' },
-			{ letter: 'G', state: 'found' }
-		],
-		score: 3,
-		nbrTries: 3
-	}
-];
-const SessionStates = () => {
+const SessionStates = ({ states }) => {
 	const classes = useStyles();
+	const statesRows = states.map((row) => JSON.parse(row));
+
 	return (
 		<div className={classes.root}>
 			<Paper className={classes.paper}>
@@ -84,7 +55,7 @@ const SessionStates = () => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{rows.map((row, index) => (
+						{statesRows.map((row, index) => (
 							<TableRow key={index}>
 								<TableCell
 									className={clsx(
