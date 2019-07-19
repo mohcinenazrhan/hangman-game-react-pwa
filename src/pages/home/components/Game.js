@@ -72,8 +72,6 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 	const [ nbrTries, setNbrTries ] = useState(0);
 	// Game current state
 	const [ gameState, setGameState ] = useState('playing');
-	// Current word state
-	const [ currentWord, setCurrentWord ] = useState('');
 	// Game number state
 	const [ gameNbr, setGameNbr ] = useState(1);
 	// Draw progress state
@@ -137,7 +135,6 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			const dinstactLetters = wordToDiscoverArray.filter((item, i, ar) => ar.indexOf(item) === i);
 			const nbrTriesInitialState = Math.floor(dinstactLetters.length / initTriesRatio);
 
-			setCurrentWord(wordToDiscover);
 			setWordState(wordInitialState);
 			setAlphabetsState(alphabetsInitialState);
 			setNbrTriesState(nbrTriesInitialState);
@@ -196,7 +193,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			newScore = 0;
 			updateScoreState(newScore);
 			const gameState = {
-				word: currentWord,
+				word: words[gameNbr - 1],
 				wordState: newWordState,
 				score: newScore,
 				nbrTries: nbrTries - newNbrTriesState
@@ -212,7 +209,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 				updateScoreState(newScore);
 				setGameState('success');
 				const gameState = {
-					word: currentWord,
+					word: words[gameNbr - 1],
 					wordState: newWordState,
 					score: newScore,
 					nbrTries: nbrTries - newNbrTriesState
@@ -370,8 +367,9 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 										`Great, you've found the word successfully, you win ${score} points, with ${nbrTries -
 											nbrTriesState}/${nbrTries} wrong attempts`
 									) : (
-										`Unfortunately, you lose, the word was: ${currentWord}, you had ${score} points, with ${nbrTries -
-											nbrTriesState} wrong attempts`
+										`Unfortunately, you lose, the word was: ${words[
+											gameNbr - 1
+										]}, you had ${score} points, with ${nbrTries - nbrTriesState} wrong attempts`
 									)}
 								</Typography>
 								{!isSessionEnd && (
