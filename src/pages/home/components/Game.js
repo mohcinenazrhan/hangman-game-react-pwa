@@ -176,12 +176,6 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			newScore = score > 1 ? score - 1 : score;
 		}
 
-		// Disable help btn if only one letter remains
-		const lettersHiddenLen = newWordState.filter((row) => row.state === 'hidden').length;
-		if (lettersHiddenLen === 1 || newScore === 1) {
-			setHelpBtnState(true);
-		}
-
 		// Check if the user is failed, if the number of wrong tries allowed is end
 		if (newNbrTriesState < 0) {
 			// reset to 0
@@ -220,6 +214,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			}
 		}
 
+		disableHelpBtnFor(newWordState, newScore);
 		setScore(newScore);
 		setNbrTriesState(newNbrTriesState);
 		setAlphabetsState(newAlphabetsState);
@@ -272,14 +267,17 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 
 		const newScore = score > 1 ? score - 1 : score;
 
-		// Disable help btn if only one letter remains or the score is 1
-		const lettersHiddenLen = newWordState.filter((row) => row.state === 'hidden').length;
-		if (lettersHiddenLen === 1 || newScore === 1) {
-			setHelpBtnState(true);
-		}
-
+		disableHelpBtnFor(newWordState, newScore);
 		setScore(newScore);
 		setWordState(newWordState);
+	}
+
+	function disableHelpBtnFor(WordState, Score) {
+		// Disable help btn if only one letter remains or the score is 1
+		const lettersHiddenLen = WordState.filter((row) => row.state === 'hidden').length;
+		if (lettersHiddenLen === 1 || Score === 1) {
+			setHelpBtnState(true);
+		}
 	}
 
 	function newSession() {
