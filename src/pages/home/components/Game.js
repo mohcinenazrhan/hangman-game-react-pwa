@@ -65,7 +65,6 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 	/**
 	 * useState(s)
 	 */
-	const [ wordsState, setWordsState ] = useState(words);
 	const [ wordState, setWordState ] = useState([]);
 	const [ alphabetsState, setAlphabetsState ] = useState([]);
 	const [ nbrTriesState, setNbrTriesState ] = useState(0);
@@ -104,12 +103,9 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 				return;
 			}
 
-			// The logic that has to run once a game
-			const wordToDiscover = wordsState[Math.floor(Math.random() * wordsState.length)];
-			// Remove random word from words array to avoid choose it again
-			const newWordsState = wordsState.filter((value) => value !== wordToDiscover);
-			console.log(wordsState, newWordsState);
+			/* The logic that has to run once a game */
 
+			const wordToDiscover = words[gameNbr - 1];
 			const wordToDiscoverArray = wordToDiscover.toUpperCase().split('');
 			const wordInitialState = wordToDiscoverArray.map((letter) => {
 				return {
@@ -141,7 +137,6 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			const dinstactLetters = wordToDiscoverArray.filter((item, i, ar) => ar.indexOf(item) === i);
 			const nbrTriesInitialState = Math.floor(dinstactLetters.length / initTriesRatio);
 
-			setWordsState(newWordsState);
 			setCurrentWord(wordToDiscover);
 			setWordState(wordInitialState);
 			setAlphabetsState(alphabetsInitialState);
@@ -208,7 +203,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			};
 			saveGame(gameState);
 			// if this current word is the last one
-			if (wordsState.length === 0) setIsSessionEnd(true);
+			if (words.length === gameNbr) setIsSessionEnd(true);
 		} else {
 			// Check if the user is successfully found the word
 			const lettersFoundedLen = newWordState.filter((row) => row.state === 'found').length;
@@ -224,7 +219,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 				};
 				saveGame(gameState);
 				// if this current word is the last one
-				if (wordsState.length === 0) setIsSessionEnd(true);
+				if (words.length === gameNbr) setIsSessionEnd(true);
 			}
 		}
 
