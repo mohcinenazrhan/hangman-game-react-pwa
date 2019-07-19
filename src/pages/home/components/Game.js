@@ -189,7 +189,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			console.log('Unfortunately, you failed');
 			setGameState('failed');
 			setDrawProgress(progressDrawFinalStep);
-			newWordState = showWrongLetters(newWordState);
+			newWordState = showHiddenLetters(newWordState);
 			newScore = 0;
 			updateScoreState(newScore);
 			const gameState = {
@@ -236,7 +236,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 		setSessionScore((sessionScore) => sessionScore + newScore);
 	}
 
-	function showWrongLetters(wordState) {
+	function showHiddenLetters(wordState) {
 		return wordState.map((row) => {
 			if (row.state === 'hidden') {
 				row.state = 'show';
