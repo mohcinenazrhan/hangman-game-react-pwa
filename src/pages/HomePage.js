@@ -195,8 +195,12 @@ const HomePage = () => {
 								className={classes.selectEmpty}
 							>
 								<MenuItem value="English">English</MenuItem>
-								<MenuItem value="Frensh">Frensh</MenuItem>
-								<MenuItem value="Arabic">Arabic</MenuItem>
+								<MenuItem value="Frensh" disabled>
+									Frensh
+								</MenuItem>
+								<MenuItem value="Arabic" disabled>
+									Arabic
+								</MenuItem>
 							</Select>
 							<FormHelperText>Select a language</FormHelperText>
 						</FormControl>
