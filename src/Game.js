@@ -92,6 +92,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 	// Show state
 	const [ show, setShow ] = useState('game');
 	// Session states
+	// eslint-disable-next-line no-unused-vars
 	const [ states, setStates ] = useState([]);
 
 	// Similar to componentDidMount and componentDidUpdate:
