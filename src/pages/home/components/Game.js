@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import progressDraw from './progress-draw.png';
+import progressDraw from '../../../assets/progress-draw.png';
 import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({

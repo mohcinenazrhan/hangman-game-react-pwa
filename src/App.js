@@ -10,7 +10,7 @@ import Tab from '@material-ui/core/Tab';
 import { Home, Info, Assessment, AccountCircle } from '@material-ui/icons';
 import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
 import './App.css';
-import HomePage from './pages/HomePage';
+import HomePage from './pages/home/HomePage';
 import AboutPage from './pages/AboutPage';
 import StatesPage from './pages/StatesPage';
 

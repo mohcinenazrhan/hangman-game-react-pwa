@@ -14,7 +14,7 @@ import {
 	Input
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Game from '../Game';
+import Game from './components/Game';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
