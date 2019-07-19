@@ -85,6 +85,25 @@ function App() {
 		}
 	}
 
+	function goToPage(page) {
+		setPage(page);
+		switch (page) {
+			case 'home':
+				setValue(0);
+				break;
+			case 'game':
+				setValue(1);
+				break;
+			case 'states':
+				setValue(2);
+				break;
+
+			default:
+				setValue(0);
+				break;
+		}
+	}
+
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
@@ -130,7 +149,7 @@ function App() {
 				<Container maxWidth="lg">
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
-						{page === 'home' && <HomePage />}
+						{page === 'home' && <HomePage goToPage={goToPage} />}
 						{page === 'game' && <GamePage />}
 						{page === 'states' && <StatesPage />}
 						{page === 'about' && <AboutPage />}

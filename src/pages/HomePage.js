@@ -21,8 +21,12 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const HomePage = () => {
+const HomePage = ({ goToPage }) => {
 	const classes = useStyles();
+
+	function handleOnClick() {
+		goToPage('game');
+	}
 
 	return (
 		<React.Fragment>
@@ -42,6 +46,9 @@ const HomePage = () => {
 					See more
 				</Link>
 			</Typography>
+			<Button variant="contained" color="primary" className={classes.button} onClick={handleOnClick}>
+				Start
+			</Button>
 		</React.Fragment>
 	);
 };
