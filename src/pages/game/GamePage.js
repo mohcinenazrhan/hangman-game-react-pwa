@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const HomePage = () => {
+const GamePage = () => {
 	const classes = useStyles();
 	const NumberOfWordsRange = {
 		min: '1',
@@ -261,4 +261,4 @@ const HomePage = () => {
 	);
 };
 
-export default HomePage;
+export default GamePage;

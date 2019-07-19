@@ -7,10 +7,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { Home, Info, Assessment, AccountCircle } from '@material-ui/icons';
+import { Home, Games, Assessment, AccountCircle } from '@material-ui/icons';
 import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
 import './App.css';
-import HomePage from './pages/home/HomePage';
+import GamePage from './pages/game/GamePage';
+import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import StatesPage from './pages/StatesPage';
 
@@ -72,10 +73,10 @@ function App() {
 				setPage('home');
 				break;
 			case 1:
-				setPage('states');
+				setPage('game');
 				break;
 			case 2:
-				setPage('about');
+				setPage('states');
 				break;
 
 			default:
@@ -130,6 +131,7 @@ function App() {
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
 						{page === 'home' && <HomePage />}
+						{page === 'game' && <GamePage />}
 						{page === 'states' && <StatesPage />}
 						{page === 'about' && <AboutPage />}
 					</main>
@@ -145,8 +147,8 @@ function App() {
 							textColor="secondary"
 						>
 							<Tab icon={<Home />} label="Home" />
+							<Tab icon={<Games />} label="Play" />
 							<Tab icon={<Assessment />} label="My States" />
-							<Tab icon={<Info />} label="About" />
 						</Tabs>
 					</Paper>
 				</footer>
