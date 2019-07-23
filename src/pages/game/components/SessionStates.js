@@ -83,7 +83,7 @@ const SessionStates = ({ states }) => {
 									})}
 								</TableCell>
 								<TableCell className={classes.tableCell} align="right">
-									{row.score}
+									{row.score > 1 ? `${row.score} Points` : `${row.score} Point`}
 								</TableCell>
 								<TableCell className={classes.tableCell} align="right">
 									{`${row.misses}/${row.wrongGuessAllowed}`}
