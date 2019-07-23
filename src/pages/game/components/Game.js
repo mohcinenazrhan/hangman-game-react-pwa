@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import { Button, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import progressDraw from '../../../assets/progress-draw.png';
@@ -54,6 +54,67 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
+function gameReducer(state, action) {
+	switch (action.type) {
+		case 'newGame': {
+			return {
+				...state,
+				gameState: 'playing',
+				nbrTriesState: 0,
+				alphabetsState: [],
+				wordState: [],
+				gameNbr: state.gameNbr + 1,
+				drawProgress: 0,
+				helpBtnState: false
+			};
+		}
+		case 'prepareGame': {
+			return {
+				...state,
+				...action.newState
+			};
+		}
+		case 'gameEnded': {
+			return {
+				...state,
+				...action.newState
+			};
+		}
+		case 'saveGame': {
+			return {
+				...state,
+				stats: [ ...state.stats, JSON.stringify(action.newStats) ]
+			};
+		}
+		case 'sessionEnded': {
+			return {
+				...state,
+				isSessionEnd: true
+			};
+		}
+		case 'guessResult': {
+			return {
+				...state,
+				...action.newState
+			};
+		}
+		case 'getHelp': {
+			return {
+				...state,
+				...action.newState
+			};
+		}
+		case 'disableHelp': {
+			return {
+				...state,
+				helpBtnState: true
+			};
+		}
+		default:
+			return state;
+	}
+}
+
 function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareNewSession }) {
 	const classes = useStyles();
 	// rgb color counter for color gradients
@@ -63,34 +124,67 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 	const progressDrawStartStep = 0;
 	const progressDrawFinalStep = 6;
 
+	const initialState = {
+		wordState: [],
+		alphabetsState: [],
+		nbrTriesState: 0,
+		nbrTries: 0,
+		gameState: 'playing',
+		gameNbr: 1,
+		drawProgressState: progressDrawStartStep,
+		score: 0,
+		totalScore: points,
+		sessionScore: 0,
+		isSessionEnd: false,
+		stats: [],
+		helpBtnState: false
+	};
+
+	const [ state, dispatch ] = useReducer(gameReducer, initialState);
+	const {
+		wordState,
+		alphabetsState,
+		nbrTriesState,
+		nbrTries,
+		gameState,
+		gameNbr,
+		drawProgressState,
+		score,
+		totalScore,
+		sessionScore,
+		isSessionEnd,
+		stats,
+		helpBtnState
+	} = state;
+
 	/**
 	 * useState(s)
 	 */
-	const [ wordState, setWordState ] = useState([]);
-	const [ alphabetsState, setAlphabetsState ] = useState([]);
-	const [ nbrTriesState, setNbrTriesState ] = useState(0);
-	// Store given number tries
-	const [ nbrTries, setNbrTries ] = useState(0);
-	// Game current state
-	const [ gameState, setGameState ] = useState('playing');
-	// Game number state
-	const [ gameNbr, setGameNbr ] = useState(1);
-	// Draw progress state
-	const [ drawProgressState, setDrawProgress ] = useState(progressDrawStartStep);
-	// Score state
-	const [ score, setScore ] = useState(0);
-	// Total score state
-	const [ totalScore, setTotalScore ] = useState(points);
-	// Session score state
-	const [ sessionScore, setSessionScore ] = useState(0);
+	// const [ wordState, setWordState ] = useState([]);
+	// const [ alphabetsState, setAlphabetsState ] = useState([]);
+	// const [ nbrTriesState, setNbrTriesState ] = useState(0);
+	// // Store given number tries
+	// const [ nbrTries, setNbrTries ] = useState(0);
+	// // Game current state
+	// const [ gameState, setGameState ] = useState('playing');
+	// // Game number state
+	// const [ gameNbr, setGameNbr ] = useState(1);
+	// // Draw progress state
+	// const [ drawProgressState, setDrawProgress ] = useState(progressDrawStartStep);
+	// // Score state
+	// const [ score, setScore ] = useState(0);
+	// // Total score state
+	// const [ totalScore, setTotalScore ] = useState(points);
+	// // Session score state
+	// const [ sessionScore, setSessionScore ] = useState(0);
 	// Help btn state
-	const [ helpBtnState, setHelpBtnState ] = useState(false);
-	// Session state
-	const [ isSessionEnd, setIsSessionEnd ] = useState(false);
+	// const [ helpBtnState, setHelpBtnState ] = useState(false);
+	// // Session state
+	// const [ isSessionEnd, setIsSessionEnd ] = useState(false);
 	// Show state
 	const [ show, setShow ] = useState('game');
-	// Session stats
-	const [ stats, setStats ] = useState([]);
+	// // Session stats
+	// const [ stats, setStats ] = useState([]);
 
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
@@ -135,11 +229,16 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			const dinstactLetters = wordToDiscoverArray.filter((item, i, ar) => ar.indexOf(item) === i);
 			const nbrTriesInitialState = Math.floor(dinstactLetters.length / initTriesRatio);
 
-			setWordState(wordInitialState);
-			setAlphabetsState(alphabetsInitialState);
-			setNbrTriesState(nbrTriesInitialState);
-			setNbrTries(nbrTriesInitialState);
-			setScore(initScore);
+			dispatch({
+				type: 'prepareGame',
+				newState: {
+					wordState: wordInitialState,
+					alphabetsState: alphabetsInitialState,
+					nbrTriesState: nbrTriesInitialState,
+					nbrTries: nbrTriesInitialState,
+					score: initScore
+				}
+			});
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[ gameNbr ]
@@ -149,6 +248,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 		// Helper variables
 		let correctLetter = false,
 			newNbrTriesState = nbrTriesState,
+			newDrawProgressState = drawProgressState,
 			newScore = score,
 			isGameEnd = false,
 			gameState = 'playing';
@@ -173,7 +273,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 		if (!correctLetter) {
 			newNbrTriesState = nbrTriesState - 1;
 			// Progress the draw if not the game failed yet
-			if (drawProgressState + 1 < progressDrawFinalStep) setDrawProgress(drawProgressState + 1);
+			if (drawProgressState + 1 < progressDrawFinalStep) newDrawProgressState = drawProgressState + 1;
 			// Remove one point from the score
 			newScore = score > 1 ? score - 1 : score;
 		}
@@ -183,7 +283,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			isGameEnd = true;
 			console.log('Unfortunately, you failed');
 			gameState = 'failed';
-			setDrawProgress(progressDrawFinalStep);
+			newDrawProgressState = progressDrawFinalStep;
 			newWordState = showHiddenLetters(newWordState);
 			// reset to 0
 			newNbrTriesState = 0;
@@ -198,37 +298,51 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 			}
 		}
 
+		disableHelpBtnFor(newWordState, newScore);
+
+		dispatch({
+			type: 'guessResult',
+			newState: {
+				score: newScore,
+				nbrTriesState: newNbrTriesState,
+				alphabetsState: newAlphabetsState,
+				wordState: newWordState,
+				drawProgressState: newDrawProgressState
+			}
+		});
+
 		if (isGameEnd) {
 			// if this current word is the last one
-			if (words.length === gameNbr) setIsSessionEnd(true);
-			updateScoreState(newScore);
-			saveGame({
-				word: words[gameNbr - 1],
-				result: gameState,
-				wordState: newWordState,
-				score: newScore,
-				wrongGuessAllowed: nbrTries,
-				misses: nbrTries - newNbrTriesState
+			if (words.length === gameNbr) dispatch({ type: 'sessionEnded' });
+
+			dispatch({
+				type: 'gameEnded',
+				newState: {
+					totalScore: newScore + totalScore,
+					sessionScore: sessionScore + newScore,
+					gameState: gameState
+				}
 			});
-			setGameState(gameState);
+
+			updateUserPoints(newScore + totalScore);
+
+			dispatch({
+				type: 'saveGame',
+				newStats: {
+					word: words[gameNbr - 1],
+					result: gameState,
+					wordState: newWordState,
+					score: newScore,
+					wrongGuessAllowed: nbrTries,
+					misses: nbrTries - newNbrTriesState
+				}
+			});
 		}
-
-		disableHelpBtnFor(newWordState, newScore);
-		setScore(newScore);
-		setNbrTriesState(newNbrTriesState);
-		setAlphabetsState(newAlphabetsState);
-		setWordState(newWordState);
 	}
 
-	function saveGame(gameState) {
-		setStats((currentState) => [ ...currentState, JSON.stringify(gameState) ]);
-	}
-
-	function updateScoreState(newScore) {
-		setTotalScore(newScore + totalScore);
-		updateUserPoints(newScore + totalScore);
-		setSessionScore((sessionScore) => sessionScore + newScore);
-	}
+	// function saveGame(gameState) {
+	// 	setStats((currentState) => [ ...currentState, JSON.stringify(gameState) ]);
+	// }
 
 	function showHiddenLetters(wordState) {
 		return wordState.map((row) => {
@@ -246,13 +360,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 	}
 
 	function newGame() {
-		setGameState('playing');
-		setNbrTriesState(0);
-		setAlphabetsState([]);
-		setWordState([]);
-		setGameNbr(gameNbr + 1);
-		setDrawProgress(progressDrawStartStep);
-		setHelpBtnState(false);
+		dispatch({ type: 'newGame' });
 	}
 
 	function handleHelpClick() {
@@ -267,15 +375,21 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 		const newScore = score > 1 ? score - 1 : score;
 
 		disableHelpBtnFor(newWordState, newScore);
-		setScore(newScore);
-		setWordState(newWordState);
+
+		dispatch({
+			type: 'getHelp',
+			newState: {
+				score: newScore,
+				wordState: newWordState
+			}
+		});
 	}
 
 	function disableHelpBtnFor(WordState, Score) {
 		// Disable help btn if only one letter remains or the score is 1
 		const lettersHiddenLen = WordState.filter((row) => row.state === 'hidden').length;
 		if (lettersHiddenLen === 1 || Score === 1) {
-			setHelpBtnState(true);
+			dispatch({ type: 'disableHelp' });
 		}
 	}
 
