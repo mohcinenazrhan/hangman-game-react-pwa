@@ -52,7 +52,7 @@ const SessionStates = ({ states }) => {
 							<TableCell>Word</TableCell>
 							<TableCell>State</TableCell>
 							<TableCell align="right">Score</TableCell>
-							<TableCell align="right">Tries</TableCell>
+							<TableCell align="right">Misses</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
@@ -86,7 +86,7 @@ const SessionStates = ({ states }) => {
 									{row.score}
 								</TableCell>
 								<TableCell className={classes.tableCell} align="right">
-									{row.nbrTries}
+									{`${row.misses}/${row.wrongGuessAllowed}`}
 								</TableCell>
 							</TableRow>
 						))}

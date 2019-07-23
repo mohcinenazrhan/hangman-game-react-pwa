@@ -207,7 +207,8 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 				result: gameState,
 				wordState: newWordState,
 				score: newScore,
-				nbrTries: nbrTries - newNbrTriesState
+				wrongGuessAllowed: nbrTries,
+				misses: nbrTries - newNbrTriesState
 			});
 			setGameState(gameState);
 		}
