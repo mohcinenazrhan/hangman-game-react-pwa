@@ -3,7 +3,7 @@ import { Button, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import progressDraw from '../../../assets/progress-draw.png';
 import PropTypes from 'prop-types';
-import SessionStates from './SessionStates';
+import SessionStats from './SessionStats';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -89,8 +89,8 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 	const [ isSessionEnd, setIsSessionEnd ] = useState(false);
 	// Show state
 	const [ show, setShow ] = useState('game');
-	// Session states
-	const [ states, setStates ] = useState([]);
+	// Session stats
+	const [ stats, setStats ] = useState([]);
 
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
@@ -221,7 +221,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 	}
 
 	function saveGame(gameState) {
-		setStates((currentState) => [ ...currentState, JSON.stringify(gameState) ]);
+		setStats((currentState) => [ ...currentState, JSON.stringify(gameState) ]);
 	}
 
 	function updateScoreState(newScore) {
@@ -283,8 +283,8 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 		prepareNewSession();
 	}
 
-	function sessionStates() {
-		setShow('states');
+	function sessionstats() {
+		setShow('stats');
 	}
 
 	function cancelSession() {
@@ -400,9 +400,9 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 									variant="contained"
 									color="primary"
 									className={classes.button}
-									onClick={sessionStates}
+									onClick={sessionstats}
 								>
-									Show my session states
+									Show my session stats
 								</Button>
 								<Button
 									variant="contained"
@@ -417,10 +417,10 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 					</div>
 				</React.Fragment>
 			)}
-			{show === 'states' && (
+			{show === 'stats' && (
 				<React.Fragment>
-					<Typography>My session states</Typography>
-					<SessionStates states={states} />
+					<Typography>My session stats</Typography>
+					<SessionStats stats={stats} />
 					<Button variant="contained" color="primary" className={classes.button} onClick={newSession}>
 						Go for another session
 					</Button>

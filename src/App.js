@@ -13,7 +13,7 @@ import './App.css';
 import GamePage from './pages/game/GamePage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
-import StatesPage from './pages/StatesPage';
+import StatsPage from './pages/StatsPage';
 
 const theme = createMuiTheme({
 	palette: {
@@ -76,7 +76,7 @@ function App() {
 				setPage('game');
 				break;
 			case 2:
-				setPage('states');
+				setPage('stats');
 				break;
 
 			default:
@@ -94,7 +94,7 @@ function App() {
 			case 'game':
 				setValue(1);
 				break;
-			case 'states':
+			case 'stats':
 				setValue(2);
 				break;
 
@@ -151,7 +151,7 @@ function App() {
 					<main className={classes.content}>
 						{page === 'home' && <HomePage goToPage={goToPage} />}
 						{page === 'game' && <GamePage />}
-						{page === 'states' && <StatesPage />}
+						{page === 'stats' && <StatsPage />}
 						{page === 'about' && <AboutPage />}
 					</main>
 					<div className={classes.toolbar} />
@@ -167,7 +167,7 @@ function App() {
 						>
 							<Tab icon={<Home />} label="Home" />
 							<Tab icon={<Games />} label="Play" />
-							<Tab icon={<Assessment />} label="My States" />
+							<Tab icon={<Assessment />} label="My stats" />
 						</Tabs>
 					</Paper>
 				</footer>

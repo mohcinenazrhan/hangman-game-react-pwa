@@ -39,9 +39,9 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const SessionStates = ({ states }) => {
+const SessionStats = ({ stats }) => {
 	const classes = useStyles();
-	const statesRows = states.map((row) => JSON.parse(row));
+	const statsRows = stats.map((row) => JSON.parse(row));
 
 	return (
 		<div className={classes.root}>
@@ -56,7 +56,7 @@ const SessionStates = ({ states }) => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{statesRows.map((row, index) => (
+						{statsRows.map((row, index) => (
 							<TableRow key={index}>
 								<TableCell
 									className={clsx(
@@ -97,8 +97,8 @@ const SessionStates = ({ states }) => {
 	);
 };
 
-export default SessionStates;
+export default SessionStats;
 
-SessionStates.propTypes = {
-	states: PropTypes.array.isRequired
+SessionStats.propTypes = {
+	stats: PropTypes.array.isRequired
 };
