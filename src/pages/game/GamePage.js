@@ -49,6 +49,7 @@ const GamePage = () => {
 	const [ alphabets, setAlphabets ] = React.useState([]);
 	const [ words, setWords ] = React.useState([]);
 	const [ newSession, setNewSession ] = React.useState(false);
+	const [ invalidNbrWordsInput, setInvalidNbrWordsInput ] = React.useState(false);
 
 	// State for the dependencies if ready
 	const [ isReady, setIsReady ] = React.useState(false);
@@ -154,11 +155,18 @@ const GamePage = () => {
 	}
 
 	function handleNumberOfWordsChange(event) {
+		/* Allow empty value pass to let the user remove default value and add its own,
+		since on mobile the number input doesn't fully support the arrows for increase and decrease */
+
 		if (
-			parseInt(event.target.value) >= parseInt(NumberOfWordsRange.min) &&
-			parseInt(event.target.value) <= parseInt(NumberOfWordsRange.max)
+			(parseInt(event.target.value) >= parseInt(NumberOfWordsRange.min) &&
+				parseInt(event.target.value) <= parseInt(NumberOfWordsRange.max)) ||
+			event.target.value === ''
 		)
-			setNumberOfWords(event.target.value);
+			if (event.target.value === '') setInvalidNbrWordsInput(true);
+			else setInvalidNbrWordsInput(false);
+
+		setNumberOfWords(event.target.value);
 	}
 
 	function updateUserPoints(newPoints) {
@@ -241,7 +249,12 @@ const GamePage = () => {
 							Choose between {NumberOfWordsRange.min} and {NumberOfWordsRange.max} words
 						</Typography>
 					</div>
-					<Button variant="contained" color="primary" onClick={startNewSession}>
+					<Button
+						variant="contained"
+						disabled={invalidNbrWordsInput}
+						color="primary"
+						onClick={startNewSession}
+					>
 						Start new session
 					</Button>
 				</React.Fragment>
