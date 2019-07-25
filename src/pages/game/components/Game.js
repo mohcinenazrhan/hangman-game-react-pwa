@@ -314,7 +314,13 @@ function Game({ id, words, alphabets, points, difficulty, updateUserPoints, prep
 
 		if (isGameEnd) {
 			// if this current word is the last one
-			if (words.length === gameNbr) dispatch({ type: 'sessionEnded' });
+			if (words.length === gameNbr) {
+				dispatch({ type: 'sessionEnded' });
+				updateSession({
+					score: sessionScore + newScore,
+					ended: true
+				});
+			}
 
 			dispatch({
 				type: 'gameEnded',
@@ -335,6 +341,25 @@ function Game({ id, words, alphabets, points, difficulty, updateUserPoints, prep
 				wrongGuessAllowed: nbrTries,
 				misses: nbrTries - newNbrTriesState
 			});
+		}
+	}
+
+	async function updateSession(newData) {
+		try {
+			const dbOpened = await new Dexie('sessionsDb').open();
+			if (dbOpened) {
+				const sessionsTable = dbOpened._allTables.sessions;
+				sessionsTable.get(id, (object) => {
+					const updatedObject = Object.assign({}, object, newData);
+					console.log(updatedObject)
+					sessionsTable.update(id, updatedObject).then(function(updated) {
+						if (updated) console.log('Updated');
+						else console.log('Nothing was updated');
+					});
+				});
+			}
+		} catch (error) {
+			console.log(error.message);
 		}
 	}
 
