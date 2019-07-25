@@ -171,6 +171,7 @@ const GamePage = () => {
 					});
 			}
 		},
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[ newSession, valueLanguage, valueDifficulty, numberOfWords ]
 	);
 
