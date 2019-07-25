@@ -1,6 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Paper, Table, TableRow, TableHead, TableCell, TableBody, Divider } from '@material-ui/core';
+import {
+	Typography,
+	Paper,
+	Table,
+	TableRow,
+	TableHead,
+	TableCell,
+	TableBody,
+	Divider,
+	Button
+} from '@material-ui/core';
 import clsx from 'clsx';
 import Dexie from 'dexie';
 
@@ -136,6 +146,12 @@ const StatesPage = () => {
 											</TableBody>
 										</Table>
 									</Paper>
+								)}
+								{!statsRow.ended && (
+									<Button variant="contained" color="primary">
+										continue
+									</Button>
+								)}
 								)}
 							</div>
 							<Divider />
