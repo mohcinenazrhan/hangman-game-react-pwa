@@ -72,7 +72,7 @@ const StatesPage = () => {
 								<Typography variant="h6" component="h2">
 									Session {statsRow.id}
 								</Typography>
-								<Typography>Started: {statsRow.date.toString()}</Typography>
+								<Typography>Started: {statsRow.date.toLocaleString()}</Typography>
 								<Typography>Score: {statsRow.id}</Typography>
 								<Typography>Difficulty: {statsRow.difficulty}</Typography>
 								<Typography>Language: {statsRow.language}</Typography>
