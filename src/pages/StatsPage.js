@@ -74,7 +74,7 @@ const StatesPage = () => {
 			{stats.length > 0 && (
 				<React.Fragment>
 					<Typography variant="h5" component="h1">
-						My sessions stats{' '}
+						My sessions stats
 					</Typography>
 					{stats.map((statsRow, index) => (
 						<React.Fragment key={index}>
@@ -88,7 +88,7 @@ const StatesPage = () => {
 								<Typography>Language: {statsRow.language}</Typography>
 								<Typography>{statsRow.ended ? 'Completed' : 'Uncompleted'}</Typography>
 								<Typography>
-									{statsRow.playedWords ? statsRow.playedWords.length : 0}/{statsRow.words.length}{' '}
+									{statsRow.playedWords ? statsRow.playedWords.length : 0}/{statsRow.words.length}
 									words played
 								</Typography>
 								{statsRow.playedWords &&
@@ -151,7 +151,6 @@ const StatesPage = () => {
 									<Button variant="contained" color="primary">
 										continue
 									</Button>
-								)}
 								)}
 							</div>
 							<Divider />
