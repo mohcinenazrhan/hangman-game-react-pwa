@@ -54,6 +54,8 @@ const GamePage = () => {
 
 	// State for the dependencies if ready
 	const [ isReady, setIsReady ] = React.useState(false);
+	// State for session ID
+	const [ sessionId, setSessionId ] = React.useState(0);
 
 	// Define the database
 	const db = new Dexie('sessionsDb');
@@ -145,9 +147,28 @@ const GamePage = () => {
 					];
 				}
 
-				setWords(sessionWords.slice(0, numberOfWords));
-				setAlphabets(alphabetsArray);
-				setIsReady(true);
+				const wordsList = sessionWords.slice(0, numberOfWords);
+
+				// Create session data for local db
+				db.sessions
+					.put({
+						date: new Date(),
+						ended: false,
+						words: wordsList,
+						language: valueLanguage,
+						difficulty: valueDifficulty,
+						playedWords: []
+					})
+					.then(function(id) {
+						setSessionId(id);
+						// Wait for the id to launch the game
+						setWords(wordsList);
+						setAlphabets(alphabetsArray);
+						setIsReady(true);
+					})
+					.catch(function(error) {
+						alert('error: ' + error);
+					});
 			}
 		},
 		[ newSession, valueLanguage, valueDifficulty, numberOfWords ]
@@ -275,6 +296,7 @@ const GamePage = () => {
 					points={points}
 					updateUserPoints={updateUserPoints}
 					prepareNewSession={prepareNewSession}
+					id={sessionId}
 				/>
 			)}
 		</React.Fragment>
