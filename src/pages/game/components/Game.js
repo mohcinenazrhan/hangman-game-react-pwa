@@ -252,7 +252,8 @@ function Game({ id, words, alphabets, points, difficulty, updateUserPoints, prep
 			newDrawProgressState = drawProgressState,
 			newScore = score,
 			isGameEnd = false,
-			gameState = 'playing';
+			gameState = 'playing',
+			localDbActions = [];
 
 		// Show the letter founded
 		let newWordState = wordState.map((row) => {
@@ -316,10 +317,11 @@ function Game({ id, words, alphabets, points, difficulty, updateUserPoints, prep
 			// if this current word is the last one
 			if (words.length === gameNbr) {
 				dispatch({ type: 'sessionEnded' });
-				updateSession({
-					score: sessionScore + newScore,
-					ended: true
-				});
+				localDbActions.push({
+					action: 'updateSessionData', data: {
+						score: sessionScore + newScore,
+						ended: true}}
+				);
 			}
 
 			dispatch({
@@ -332,56 +334,52 @@ function Game({ id, words, alphabets, points, difficulty, updateUserPoints, prep
 			});
 
 			updateUserPoints(newScore + totalScore);
-
-			saveGame({
+			const wordStats = {
 				word: words[gameNbr - 1],
 				result: gameState,
 				wordState: newWordState,
 				score: newScore,
 				wrongGuessAllowed: nbrTries,
 				misses: nbrTries - newNbrTriesState
+			}
+
+			dispatch({
+				type: 'saveGame',
+				newStats: wordStats
 			});
+
+			localDbActions.push({action: 'addWordData', data: wordStats});
+			updateLocalDb(localDbActions);
 		}
 	}
 
-	async function updateSession(newData) {
+	async function updateLocalDb(localDbActions) {
 		try {
+
 			const dbOpened = await new Dexie('sessionsDb').open();
 			if (dbOpened) {
 				const sessionsTable = dbOpened._allTables.sessions;
+
 				sessionsTable.get(id, (object) => {
-					const updatedObject = Object.assign({}, object, newData);
-					console.log(updatedObject)
-					sessionsTable.update(id, updatedObject).then(function(updated) {
+					let newObject = object;
+
+					for (let obj of localDbActions) {
+						if (obj.action === 'addWordData') {
+							newObject = Object.assign({}, newObject, { playedWords: [ ...object.playedWords, obj.data ] });
+						} else if (obj.action === 'updateSessionData') {
+							newObject = Object.assign({}, newObject, obj.data);
+						}
+					}
+
+					sessionsTable.update(id, newObject).then((updated) => {
 						if (updated) console.log('Updated');
 						else console.log('Nothing was updated');
+						dbOpened.close();
 					});
+
 				});
 			}
-		} catch (error) {
-			console.log(error.message);
-		}
-	}
-
-	async function saveGame(wordStats) {
-		dispatch({
-			type: 'saveGame',
-			newStats: wordStats
-		});
-
-		try {
-			const dbOpened = await new Dexie('sessionsDb').open();
-			if (dbOpened) {
-				const sessionsTable = dbOpened._allTables.sessions;
-				sessionsTable.get(id, (object) => {
-					const newPlayedWords = [ ...object.playedWords, wordStats ];
-					const updatedObject = Object.assign(object, { playedWords: newPlayedWords });
-					sessionsTable.update(id, updatedObject).then(function(updated) {
-						if (updated) console.log('Updated');
-						else console.log('Nothing was updated');
-					});
-				});
-			}
+			
 		} catch (error) {
 			console.log(error.message);
 		}
