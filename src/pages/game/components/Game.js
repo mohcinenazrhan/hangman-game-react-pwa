@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import progressDraw from '../../../assets/progress-draw.png';
 import PropTypes from 'prop-types';
 import SessionStats from './SessionStats';
+import Dexie from 'dexie';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -115,7 +116,7 @@ function gameReducer(state, action) {
 	}
 }
 
-function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareNewSession }) {
+function Game({ id, words, alphabets, points, difficulty, updateUserPoints, prepareNewSession }) {
 	const classes = useStyles();
 	// rgb color counter for color gradients
 	// start by -1 to make it start at 0 since the counter step is by 1
@@ -326,23 +327,40 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 
 			updateUserPoints(newScore + totalScore);
 
-			dispatch({
-				type: 'saveGame',
-				newStats: {
-					word: words[gameNbr - 1],
-					result: gameState,
-					wordState: newWordState,
-					score: newScore,
-					wrongGuessAllowed: nbrTries,
-					misses: nbrTries - newNbrTriesState
-				}
+			saveGame({
+				word: words[gameNbr - 1],
+				result: gameState,
+				wordState: newWordState,
+				score: newScore,
+				wrongGuessAllowed: nbrTries,
+				misses: nbrTries - newNbrTriesState
 			});
 		}
 	}
 
-	// function saveGame(gameState) {
-	// 	setStats((currentState) => [ ...currentState, JSON.stringify(gameState) ]);
-	// }
+	async function saveGame(wordStats) {
+		dispatch({
+			type: 'saveGame',
+			newStats: wordStats
+		});
+
+		try {
+			const dbOpened = await new Dexie('sessionsDb').open();
+			if (dbOpened) {
+				const sessionsTable = dbOpened._allTables.sessions;
+				sessionsTable.get(id, (object) => {
+					const newPlayedWords = [ ...object.playedWords, wordStats ];
+					const updatedObject = Object.assign(object, { playedWords: newPlayedWords });
+					sessionsTable.update(id, updatedObject).then(function(updated) {
+						if (updated) console.log('Updated');
+						else console.log('Nothing was updated');
+					});
+				});
+			}
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
 
 	function showHiddenLetters(wordState) {
 		return wordState.map((row) => {
@@ -547,6 +565,7 @@ function Game({ words, alphabets, points, difficulty, updateUserPoints, prepareN
 export default Game;
 
 Game.propTypes = {
+	id: PropTypes.number.isRequired,
 	words: PropTypes.array.isRequired,
 	alphabets: PropTypes.array.isRequired,
 	points: PropTypes.number.isRequired,
