@@ -73,7 +73,7 @@ const StatesPage = () => {
 									Session {statsRow.id}
 								</Typography>
 								<Typography>Started: {statsRow.date.toLocaleString()}</Typography>
-								<Typography>Score: {statsRow.id}</Typography>
+								<Typography>Score: {statsRow.score}</Typography>
 								<Typography>Difficulty: {statsRow.difficulty}</Typography>
 								<Typography>Language: {statsRow.language}</Typography>
 								<Typography>{statsRow.ended ? 'Completed' : 'Uncompleted'}</Typography>
