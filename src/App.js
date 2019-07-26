@@ -14,6 +14,7 @@ import GamePage from './pages/game/GamePage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import StatsPage from './pages/StatsPage';
+import ResumePage from './pages/game/ResumePage';
 
 const theme = createMuiTheme({
 	palette: {
@@ -94,6 +95,7 @@ function App() {
 				setValue(0);
 				break;
 			case 'game':
+			case 'resume':
 				setValue(1);
 				break;
 			case 'stats':
@@ -108,7 +110,7 @@ function App() {
 
 	function resumeSession(id) {
 		setResumeSessionId(id);
-		goToPage('game');
+		goToPage('resume');
 	}
 
 	return (
@@ -157,7 +159,8 @@ function App() {
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
 						{page === 'home' && <HomePage goToPage={goToPage} />}
-						{page === 'game' && <GamePage resumeSessionId={resumeSessionId} />}
+						{page === 'game' && <GamePage />}
+						{page === 'resume' && <ResumePage resumeSessionId={resumeSessionId} />}
 						{page === 'stats' && <StatsPage resumeSession={resumeSession} />}
 						{page === 'about' && <AboutPage />}
 					</main>

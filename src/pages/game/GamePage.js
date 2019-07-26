@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const GamePage = ({ resumeSessionId }) => {
+const GamePage = () => {
 	const classes = useStyles();
 	const NumberOfWordsRange = {
 		min: '1',
@@ -49,13 +49,13 @@ const GamePage = ({ resumeSessionId }) => {
 	const [ points, setPoints ] = React.useState(null);
 	const [ alphabets, setAlphabets ] = React.useState([]);
 	const [ words, setWords ] = React.useState([]);
-	const [ newSession, setNewSession ] = React.useState(resumeSessionId !== null);
+	const [ newSession, setNewSession ] = React.useState(false);
 	const [ invalidNbrWordsInput, setInvalidNbrWordsInput ] = React.useState(false);
 
 	// State for the dependencies if ready
 	const [ isReady, setIsReady ] = React.useState(false);
 	// State for session ID
-	const [ sessionId, setSessionId ] = React.useState(resumeSessionId);
+	const [ sessionId, setSessionId ] = React.useState(null);
 
 	// Define the database
 	const db = new Dexie('sessionsDb');
@@ -74,15 +74,6 @@ const GamePage = ({ resumeSessionId }) => {
 
 	React.useEffect(
 		() => {
-			if (resumeSessionId !== null) {
-				db.sessions.get(resumeSessionId, (object) => {
-					setWords(object.words);
-					setAlphabets(getAlphabetsForLang(object.language));
-					setIsReady(true);
-				});
-				return;
-			}
-
 			if (!newSession) {
 				const pointsTimeout = setTimeout(() => {
 					setPoints(13);
