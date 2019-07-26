@@ -146,35 +146,26 @@ const GamePage = () => {
 				const wordsList = sessionWords.slice(0, numberOfWords);
 
 				// Create session data for local db
-				async function createSessionLocalDb() {
-					try {
-						const dbOpened = await db.open();
-						if (dbOpened) {
-							await dbOpened.sessions
-								.add({
-									date: new Date(),
-									ended: false,
-									words: wordsList,
-									language: valueLanguage,
-									difficulty: valueDifficulty,
-									playedWords: []
-								})
-								.then(function(id) {
-									setSessionId(id);
-									// Wait for the id to launch the game
-									setWords(wordsList);
-									setAlphabets(getAlphabetsForLang(valueLanguage));
-									setIsReady(true);
-								})
-								.catch(function(error) {
-									alert('error: ' + error);
-								});
-						}
-					} catch (error) {
-						console.log(error.message);
-					}
-				}
-				createSessionLocalDb();
+				db
+					.table('sessions')
+					.add({
+						date: new Date(),
+						ended: false,
+						words: wordsList,
+						language: valueLanguage,
+						difficulty: valueDifficulty,
+						playedWords: []
+					})
+					.then(function(id) {
+						setSessionId(id);
+						// Wait for the id to launch the game
+						setWords(wordsList);
+						setAlphabets(getAlphabetsForLang(valueLanguage));
+						setIsReady(true);
+					})
+					.catch(function(error) {
+						console.log('error: ' + error);
+					});
 			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps

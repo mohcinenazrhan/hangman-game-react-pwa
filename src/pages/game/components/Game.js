@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import progressDraw from '../../../assets/progress-draw.png';
 import PropTypes from 'prop-types';
 import SessionStats from './SessionStats';
-import Dexie from 'dexie';
+import db from '../../../LocalDb';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -353,12 +353,9 @@ function Game({ id, words, alphabets, points, difficulty, updateUserPoints, prep
 		}
 	}
 
-	async function updateLocalDb(localDbActions) {
+	function updateLocalDb(localDbActions) {
 		try {
-
-			const dbOpened = await new Dexie('sessionsDb').open();
-			if (dbOpened) {
-				const sessionsTable = dbOpened._allTables.sessions;
+				const sessionsTable = db.table('sessions');
 
 				sessionsTable.get(id, (object) => {
 					let newObject = object;
@@ -374,12 +371,9 @@ function Game({ id, words, alphabets, points, difficulty, updateUserPoints, prep
 					sessionsTable.update(id, newObject).then((updated) => {
 						if (updated) console.log('Updated');
 						else console.log('Nothing was updated');
-						dbOpened.close();
 					});
 
 				});
-			}
-			
 		} catch (error) {
 			console.log(error.message);
 		}

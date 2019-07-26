@@ -12,7 +12,7 @@ import {
 	Button
 } from '@material-ui/core';
 import clsx from 'clsx';
-import Dexie from 'dexie';
+import db from '../LocalDb';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -55,18 +55,9 @@ const StatesPage = ({ resumeSession }) => {
 	const [ stats, setStats ] = useState([]);
 
 	useEffect(() => {
-		async function fetchData() {
-			try {
-				const dbOpened = await new Dexie('sessionsDb').open();
-				if (dbOpened) {
-					dbOpened._allTables.sessions.orderBy('date').reverse().limit(5).toArray((rows) => setStats(rows));
-					return dbOpened.close();
-				}
-			} catch (error) {
-				console.log(error.message);
-			}
-		}
-		fetchData();
+		db.table('sessions').orderBy('date').reverse().limit(5).toArray((rows) => setStats(rows)).catch((error) => {
+			console.log('error: ' + error);
+		});
 	}, []);
 
 	function handleResumeSession(id) {

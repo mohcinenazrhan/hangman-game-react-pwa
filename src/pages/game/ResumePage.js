@@ -1,6 +1,6 @@
 import React from 'react';
 import Game from './components/Game';
-import Dexie from 'dexie';
+import db from '../../LocalDb';
 
 const ResumePage = ({ resumeSessionId }) => {
 	const [ valueDifficulty, setValueDifficulty ] = React.useState('Easy');
@@ -24,23 +24,17 @@ const ResumePage = ({ resumeSessionId }) => {
 	React.useEffect(
 		() => {
 			if (resumeSessionId !== null) {
-				async function fetchData() {
-					try {
-						const dbOpened = await new Dexie('sessionsDb').open();
-						if (dbOpened) {
-							dbOpened._allTables.sessions.get(resumeSessionId, (object) => {
-								setWords(object.words);
-								setAlphabets(getAlphabetsForLang(object.language));
-								setValueDifficulty(object.difficulty);
-								setIsReady(true);
-							});
-							return dbOpened.close();
-						}
-					} catch (error) {
-						console.log(error.message);
-					}
-				}
-				fetchData();
+				db
+					.table('sessions')
+					.get(resumeSessionId, (object) => {
+						setWords(object.words);
+						setAlphabets(getAlphabetsForLang(object.language));
+						setValueDifficulty(object.difficulty);
+						setIsReady(true);
+					})
+					.catch(function(error) {
+						console.log('error: ' + error);
+					});
 			}
 
 			if (!newSession) {
