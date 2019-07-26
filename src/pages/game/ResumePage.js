@@ -1,6 +1,7 @@
 import React from 'react';
 import Game from './components/Game';
 import db from '../../LocalDb';
+import PropTypes from 'prop-types';
 
 const ResumePage = ({ resumeSessionId }) => {
 	const [ valueDifficulty, setValueDifficulty ] = React.useState('Easy');
@@ -78,3 +79,7 @@ const ResumePage = ({ resumeSessionId }) => {
 };
 
 export default ResumePage;
+
+ResumePage.propTypes = {
+	resumeSessionId: PropTypes.number.isRequired
+};
