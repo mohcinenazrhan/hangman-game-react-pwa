@@ -57,6 +57,8 @@ function App() {
 
 	// State for the current page
 	const [ page, setPage ] = React.useState('home');
+	// State for resumeSessionId
+	const [ resumeSessionId, setResumeSessionId ] = React.useState(null);
 
 	function handleMenu(event) {
 		setAnchorEl(event.currentTarget);
@@ -102,6 +104,11 @@ function App() {
 				setValue(0);
 				break;
 		}
+	}
+
+	function resumeSession(id) {
+		setResumeSessionId(id);
+		goToPage('game');
 	}
 
 	return (
@@ -150,8 +157,8 @@ function App() {
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
 						{page === 'home' && <HomePage goToPage={goToPage} />}
-						{page === 'game' && <GamePage />}
-						{page === 'stats' && <StatsPage />}
+						{page === 'game' && <GamePage resumeSessionId={resumeSessionId} />}
+						{page === 'stats' && <StatsPage resumeSession={resumeSession} />}
 						{page === 'about' && <AboutPage />}
 					</main>
 					<div className={classes.toolbar} />

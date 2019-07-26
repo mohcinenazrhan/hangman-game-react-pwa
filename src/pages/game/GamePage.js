@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const GamePage = () => {
+const GamePage = ({ resumeSessionId }) => {
 	const classes = useStyles();
 	const NumberOfWordsRange = {
 		min: '1',
@@ -49,13 +49,13 @@ const GamePage = () => {
 	const [ points, setPoints ] = React.useState(null);
 	const [ alphabets, setAlphabets ] = React.useState([]);
 	const [ words, setWords ] = React.useState([]);
-	const [ newSession, setNewSession ] = React.useState(false);
+	const [ newSession, setNewSession ] = React.useState(resumeSessionId !== null);
 	const [ invalidNbrWordsInput, setInvalidNbrWordsInput ] = React.useState(false);
 
 	// State for the dependencies if ready
 	const [ isReady, setIsReady ] = React.useState(false);
 	// State for session ID
-	const [ sessionId, setSessionId ] = React.useState(0);
+	const [ sessionId, setSessionId ] = React.useState(resumeSessionId);
 
 	// Define the database
 	const db = new Dexie('sessionsDb');
@@ -65,6 +65,22 @@ const GamePage = () => {
 
 	React.useEffect(
 		() => {
+			if (resumeSessionId !== null) {
+				db.sessions.get(resumeSessionId, (object) => {
+					// Set the appropriate alphabets according the language selected
+					let alphabets = 'abcdefghijklmnopqrstuvwxyz';
+					if (object.language === 'Frensh') alphabets = 'abcdefghijklmnopqrstuvwxyzéèàçù';
+					else if (object.language === 'Arabic') alphabets = 'يوهنملكقفغعظطضصشسزرذدخحجثتبأ';
+					// Array alphabets letters
+					const alphabetsArray = alphabets.toUpperCase().split('');
+
+					setWords(object.words);
+					setAlphabets(alphabetsArray);
+					setIsReady(true);
+				});
+				return;
+			}
+
 			if (!newSession) {
 				const pointsTimeout = setTimeout(() => {
 					setPoints(13);

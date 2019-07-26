@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const StatesPage = () => {
+const StatesPage = ({ resumeSession }) => {
 	const classes = useStyles();
 	const [ stats, setStats ] = useState([]);
 
@@ -68,6 +68,10 @@ const StatesPage = () => {
 		}
 		fetchData();
 	}, []);
+
+	function handleResumeSession(id) {
+		resumeSession(id);
+	}
 
 	return (
 		<div className={classes.root}>
@@ -148,7 +152,13 @@ const StatesPage = () => {
 									</Paper>
 								)}
 								{!statsRow.ended && (
-									<Button variant="contained" color="primary">
+									<Button
+										variant="contained"
+										color="primary"
+										onClick={() => {
+											handleResumeSession(statsRow.id);
+										}}
+									>
 										continue
 									</Button>
 								)}
