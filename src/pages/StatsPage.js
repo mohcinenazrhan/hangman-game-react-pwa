@@ -46,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
 		marginTop: theme.spacing(3),
 		marginBottom: theme.spacing(3),
 		paddingTop: theme.spacing(3),
-		paddingBottom: theme.spacing(3)
+		paddingBottom: theme.spacing(3),
+		textAlign: 'left'
 	}
 }));
 
