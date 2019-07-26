@@ -63,19 +63,21 @@ const GamePage = ({ resumeSessionId }) => {
 		sessions: '++id,date,ended,score'
 	});
 
+	function getAlphabetsForLang(language) {
+		// Set the appropriate alphabets according the language selected
+		let alphabets = 'abcdefghijklmnopqrstuvwxyz';
+		if (language === 'Frensh') alphabets = 'abcdefghijklmnopqrstuvwxyzéèàçù';
+		else if (language === 'Arabic') alphabets = 'يوهنملكقفغعظطضصشسزرذدخحجثتبأ';
+		// Array alphabets letters
+		return alphabets.toUpperCase().split('');
+	}
+
 	React.useEffect(
 		() => {
 			if (resumeSessionId !== null) {
 				db.sessions.get(resumeSessionId, (object) => {
-					// Set the appropriate alphabets according the language selected
-					let alphabets = 'abcdefghijklmnopqrstuvwxyz';
-					if (object.language === 'Frensh') alphabets = 'abcdefghijklmnopqrstuvwxyzéèàçù';
-					else if (object.language === 'Arabic') alphabets = 'يوهنملكقفغعظطضصشسزرذدخحجثتبأ';
-					// Array alphabets letters
-					const alphabetsArray = alphabets.toUpperCase().split('');
-
 					setWords(object.words);
-					setAlphabets(alphabetsArray);
+					setAlphabets(getAlphabetsForLang(object.language));
 					setIsReady(true);
 				});
 				return;
@@ -90,13 +92,6 @@ const GamePage = ({ resumeSessionId }) => {
 				};
 			} else {
 				console.log(valueLanguage, valueDifficulty, numberOfWords);
-
-				// Set the appropriate alphabets according the language selected
-				let alphabets = 'abcdefghijklmnopqrstuvwxyz';
-				if (valueLanguage === 'Frensh') alphabets = 'abcdefghijklmnopqrstuvwxyzéèàçù';
-				else if (valueLanguage === 'Arabic') alphabets = 'يوهنملكقفغعظطضصشسزرذدخحجثتبأ';
-				// Array alphabets letters
-				const alphabetsArray = alphabets.toUpperCase().split('');
 
 				// fetch('https://random-word-api.herokuapp.com/word?key=TE2AB90K&number=10')
 				// 	.then((response) => response.json())
@@ -179,7 +174,7 @@ const GamePage = ({ resumeSessionId }) => {
 						setSessionId(id);
 						// Wait for the id to launch the game
 						setWords(wordsList);
-						setAlphabets(alphabetsArray);
+						setAlphabets(getAlphabetsForLang(valueLanguage));
 						setIsReady(true);
 					})
 					.catch(function(error) {
