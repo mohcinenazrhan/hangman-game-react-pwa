@@ -12,12 +12,6 @@ const ResumePage = ({ resumeSessionId }) => {
 	// State for the dependencies if ready
 	const [ isReady, setIsReady ] = React.useState(false);
 
-	// Define the database
-	const db = new Dexie('sessionsDb');
-	db.version(1).stores({
-		sessions: '++id,date,ended,score'
-	});
-
 	function getAlphabetsForLang(language) {
 		// Set the appropriate alphabets according the language selected
 		let alphabets = 'abcdefghijklmnopqrstuvwxyz';
@@ -30,13 +24,23 @@ const ResumePage = ({ resumeSessionId }) => {
 	React.useEffect(
 		() => {
 			if (resumeSessionId !== null) {
-				db.sessions.get(resumeSessionId, (object) => {
-					setWords(object.words);
-					setAlphabets(getAlphabetsForLang(object.language));
-					setValueDifficulty(object.difficulty);
-					setIsReady(true);
-				});
-				return;
+				async function fetchData() {
+					try {
+						const dbOpened = await new Dexie('sessionsDb').open();
+						if (dbOpened) {
+							dbOpened._allTables.sessions.get(resumeSessionId, (object) => {
+								setWords(object.words);
+								setAlphabets(getAlphabetsForLang(object.language));
+								setValueDifficulty(object.difficulty);
+								setIsReady(true);
+							});
+							return dbOpened.close();
+						}
+					} catch (error) {
+						console.log(error.message);
+					}
+				}
+				fetchData();
 			}
 
 			if (!newSession) {

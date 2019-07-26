@@ -15,7 +15,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Game from './components/Game';
-import Dexie from 'dexie';
+import db from '../../LocalDb';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -56,12 +56,6 @@ const GamePage = () => {
 	const [ isReady, setIsReady ] = React.useState(false);
 	// State for session ID
 	const [ sessionId, setSessionId ] = React.useState(null);
-
-	// Define the database
-	const db = new Dexie('sessionsDb');
-	db.version(1).stores({
-		sessions: '++id,date,ended,score'
-	});
 
 	function getAlphabetsForLang(language) {
 		// Set the appropriate alphabets according the language selected
@@ -152,25 +146,35 @@ const GamePage = () => {
 				const wordsList = sessionWords.slice(0, numberOfWords);
 
 				// Create session data for local db
-				db.sessions
-					.put({
-						date: new Date(),
-						ended: false,
-						words: wordsList,
-						language: valueLanguage,
-						difficulty: valueDifficulty,
-						playedWords: []
-					})
-					.then(function(id) {
-						setSessionId(id);
-						// Wait for the id to launch the game
-						setWords(wordsList);
-						setAlphabets(getAlphabetsForLang(valueLanguage));
-						setIsReady(true);
-					})
-					.catch(function(error) {
-						alert('error: ' + error);
-					});
+				async function createSessionLocalDb() {
+					try {
+						const dbOpened = await db.open();
+						if (dbOpened) {
+							await dbOpened.sessions
+								.add({
+									date: new Date(),
+									ended: false,
+									words: wordsList,
+									language: valueLanguage,
+									difficulty: valueDifficulty,
+									playedWords: []
+								})
+								.then(function(id) {
+									setSessionId(id);
+									// Wait for the id to launch the game
+									setWords(wordsList);
+									setAlphabets(getAlphabetsForLang(valueLanguage));
+									setIsReady(true);
+								})
+								.catch(function(error) {
+									alert('error: ' + error);
+								});
+						}
+					} catch (error) {
+						console.log(error.message);
+					}
+				}
+				createSessionLocalDb();
 			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
