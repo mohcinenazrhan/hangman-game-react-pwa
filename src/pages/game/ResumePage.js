@@ -2,6 +2,7 @@ import React from 'react';
 import Game from './components/Game';
 import db from '../../LocalDb';
 import PropTypes from 'prop-types';
+import { helpers } from './helpers';
 
 const ResumePage = ({ updatePoints, resumeSessionId, goToPage }) => {
 	const [ valueDifficulty, setValueDifficulty ] = React.useState('Easy');
@@ -11,15 +12,6 @@ const ResumePage = ({ updatePoints, resumeSessionId, goToPage }) => {
 	// State for the dependencies if ready
 	const [ isReady, setIsReady ] = React.useState(false);
 
-	function getAlphabetsForLang(language) {
-		// Set the appropriate alphabets according the language selected
-		let alphabets = 'abcdefghijklmnopqrstuvwxyz';
-		if (language === 'Frensh') alphabets = 'abcdefghijklmnopqrstuvwxyzéèàçù';
-		else if (language === 'Arabic') alphabets = 'يوهنملكقفغعظطضصشسزرذدخحجثتبأ';
-		// Array alphabets letters
-		return alphabets.toUpperCase().split('');
-	}
-
 	React.useEffect(
 		() => {
 			if (resumeSessionId !== null) {
@@ -27,7 +19,7 @@ const ResumePage = ({ updatePoints, resumeSessionId, goToPage }) => {
 					.table('sessions')
 					.get(resumeSessionId, (object) => {
 						setWords(object.words);
-						setAlphabets(getAlphabetsForLang(object.language));
+						setAlphabets(helpers.getAlphabetsForLang(object.language));
 						setValueDifficulty(object.difficulty);
 						setIsReady(true);
 					})

@@ -16,6 +16,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import Game from './components/Game';
 import db from '../../LocalDb';
+import { helpers } from './helpers';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -55,15 +56,6 @@ const GamePage = ({ updatePoints }) => {
 	const [ isReady, setIsReady ] = React.useState(false);
 	// State for session ID
 	const [ sessionId, setSessionId ] = React.useState(null);
-
-	function getAlphabetsForLang(language) {
-		// Set the appropriate alphabets according the language selected
-		let alphabets = 'abcdefghijklmnopqrstuvwxyz';
-		if (language === 'Frensh') alphabets = 'abcdefghijklmnopqrstuvwxyzéèàçù';
-		else if (language === 'Arabic') alphabets = 'يوهنملكقفغعظطضصشسزرذدخحجثتبأ';
-		// Array alphabets letters
-		return alphabets.toUpperCase().split('');
-	}
 
 	React.useEffect(
 		() => {
@@ -152,7 +144,7 @@ const GamePage = ({ updatePoints }) => {
 						setSessionId(id);
 						// Wait for the id to launch the game
 						setWords(wordsList);
-						setAlphabets(getAlphabetsForLang(valueLanguage));
+						setAlphabets(helpers.getAlphabetsForLang(valueLanguage));
 						setIsReady(true);
 					})
 					.catch(function(error) {
