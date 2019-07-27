@@ -116,7 +116,7 @@ function gameReducer(state, action) {
 	}
 }
 
-function Game({ id, words, alphabets, points, difficulty, updateUserPoints, prepareNewSession }) {
+function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSession }) {
 	const classes = useStyles();
 	// rgb color counter for color gradients
 	// start by -1 to make it start at 0 since the counter step is by 1
@@ -134,7 +134,6 @@ function Game({ id, words, alphabets, points, difficulty, updateUserPoints, prep
 		gameNbr: 1,
 		drawProgressState: progressDrawStartStep,
 		score: 0,
-		totalScore: points,
 		sessionScore: 0,
 		isSessionEnd: false,
 		stats: [],
@@ -314,26 +313,29 @@ function Game({ id, words, alphabets, points, difficulty, updateUserPoints, prep
 		});
 
 		if (isGameEnd) {
+			const updatedSessionScore = sessionScore + newScore;
+
 			// if this current word is the last one
 			if (words.length === gameNbr) {
 				dispatch({ type: 'sessionEnded' });
+				updateUserPoints(updatedSessionScore);
 				localDbActions.push({
-					action: 'updateSessionData', data: {
-						score: sessionScore + newScore,
-						ended: true}}
-				);
+					action: 'updateSessionData',
+					data: {
+						score: updatedSessionScore,
+						ended: true
+					}
+				});
 			}
 
 			dispatch({
 				type: 'gameEnded',
 				newState: {
-					totalScore: newScore + totalScore,
-					sessionScore: sessionScore + newScore,
+					sessionScore: updatedSessionScore,
 					gameState: gameState
 				}
 			});
 
-			updateUserPoints(newScore + totalScore);
 			const wordStats = {
 				word: words[gameNbr - 1],
 				result: gameState,
@@ -341,39 +343,38 @@ function Game({ id, words, alphabets, points, difficulty, updateUserPoints, prep
 				score: newScore,
 				wrongGuessAllowed: nbrTries,
 				misses: nbrTries - newNbrTriesState
-			}
+			};
 
 			dispatch({
 				type: 'saveGame',
 				newStats: wordStats
 			});
 
-			localDbActions.push({action: 'addWordData', data: wordStats});
+			localDbActions.push({ action: 'addWordData', data: wordStats });
 			updateLocalDb(localDbActions);
 		}
 	}
 
 	function updateLocalDb(localDbActions) {
 		try {
-				const sessionsTable = db.table('sessions');
+			const sessionsTable = db.table('sessions');
 
-				sessionsTable.get(id, (object) => {
-					let newObject = object;
+			sessionsTable.get(id, (object) => {
+				let newObject = object;
 
-					for (let obj of localDbActions) {
-						if (obj.action === 'addWordData') {
-							newObject = Object.assign({}, newObject, { playedWords: [ ...object.playedWords, obj.data ] });
-						} else if (obj.action === 'updateSessionData') {
-							newObject = Object.assign({}, newObject, obj.data);
-						}
+				for (let obj of localDbActions) {
+					if (obj.action === 'addWordData') {
+						newObject = Object.assign({}, newObject, { playedWords: [ ...object.playedWords, obj.data ] });
+					} else if (obj.action === 'updateSessionData') {
+						newObject = Object.assign({}, newObject, obj.data);
 					}
+				}
 
-					sessionsTable.update(id, newObject).then((updated) => {
-						if (updated) console.log('Updated');
-						else console.log('Nothing was updated');
-					});
-
+				sessionsTable.update(id, newObject).then((updated) => {
+					if (updated) console.log('Updated');
+					else console.log('Nothing was updated');
 				});
+			});
 		} catch (error) {
 			console.log(error.message);
 		}
@@ -585,7 +586,6 @@ Game.propTypes = {
 	id: PropTypes.number.isRequired,
 	words: PropTypes.array.isRequired,
 	alphabets: PropTypes.array.isRequired,
-	points: PropTypes.number.isRequired,
 	difficulty: PropTypes.string.isRequired,
 	prepareNewSession: PropTypes.func.isRequired,
 	updateUserPoints: PropTypes.func.isRequired

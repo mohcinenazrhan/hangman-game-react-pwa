@@ -60,6 +60,18 @@ function App() {
 	const [ page, setPage ] = React.useState('home');
 	// State for resumeSessionId
 	const [ resumeSessionId, setResumeSessionId ] = React.useState(null);
+	// State for current user score points
+	const [ points, setPoints ] = React.useState(0);
+
+	React.useEffect(() => {
+		setPoints(parseInt(localStorage.getItem('userPoints')));
+	}, []);
+
+	function updatePoints(pointsToAdd) {
+		const newPoints = points + pointsToAdd;
+		setPoints(newPoints)
+		localStorage.setItem('userPoints', newPoints)
+	}
 
 	function handleMenu(event) {
 		setAnchorEl(event.currentTarget);
@@ -122,6 +134,7 @@ function App() {
 						<Typography variant="h6" noWrap>
 							Hangman Game
 						</Typography>
+						<Typography>{points} points</Typography>
 						{auth && (
 							<div>
 								<IconButton
@@ -159,8 +172,8 @@ function App() {
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
 						{page === 'home' && <HomePage goToPage={goToPage} />}
-						{page === 'game' && <GamePage />}
-						{page === 'resume' && <ResumePage resumeSessionId={resumeSessionId} goToPage={goToPage} />}
+						{page === 'game' && <GamePage updatePoints={updatePoints} />}
+						{page === 'resume' && <ResumePage updatePoints={updatePoints} resumeSessionId={resumeSessionId} goToPage={goToPage} />}
 						{page === 'stats' && <StatsPage resumeSession={resumeSession} />}
 						{page === 'about' && <AboutPage />}
 					</main>

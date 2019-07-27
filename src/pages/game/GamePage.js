@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const GamePage = () => {
+const GamePage = ({ updatePoints }) => {
 	const classes = useStyles();
 	const NumberOfWordsRange = {
 		min: '1',
@@ -46,7 +46,6 @@ const GamePage = () => {
 	const [ valueLanguage, setValueLanguage ] = React.useState('English');
 	const [ valueDifficulty, setValueDifficulty ] = React.useState('Easy');
 	const [ numberOfWords, setNumberOfWords ] = React.useState(5);
-	const [ points, setPoints ] = React.useState(null);
 	const [ alphabets, setAlphabets ] = React.useState([]);
 	const [ words, setWords ] = React.useState([]);
 	const [ newSession, setNewSession ] = React.useState(false);
@@ -68,14 +67,7 @@ const GamePage = () => {
 
 	React.useEffect(
 		() => {
-			if (!newSession) {
-				const pointsTimeout = setTimeout(() => {
-					setPoints(13);
-				}, 2000);
-				return () => {
-					clearTimeout(pointsTimeout);
-				};
-			} else {
+			if (newSession) {
 				console.log(valueLanguage, valueDifficulty, numberOfWords);
 
 				// fetch('https://random-word-api.herokuapp.com/word?key=TE2AB90K&number=10')
@@ -196,7 +188,7 @@ const GamePage = () => {
 	}
 
 	function updateUserPoints(newPoints) {
-		setPoints(newPoints);
+		updatePoints(newPoints);
 	}
 
 	function startNewSession() {
@@ -211,7 +203,6 @@ const GamePage = () => {
 		<React.Fragment>
 			{newSession === false ? (
 				<React.Fragment>
-					{points && <Typography>Your total score: {points}</Typography>}
 					<Typography variant="h4" component="h1">
 						Customize your game session
 					</Typography>
@@ -291,7 +282,6 @@ const GamePage = () => {
 					alphabets={alphabets}
 					difficulty={valueDifficulty}
 					words={words}
-					points={points}
 					updateUserPoints={updateUserPoints}
 					prepareNewSession={prepareNewSession}
 					id={sessionId}

@@ -3,12 +3,10 @@ import Game from './components/Game';
 import db from '../../LocalDb';
 import PropTypes from 'prop-types';
 
-const ResumePage = ({ resumeSessionId, goToPage }) => {
+const ResumePage = ({ updatePoints, resumeSessionId, goToPage }) => {
 	const [ valueDifficulty, setValueDifficulty ] = React.useState('Easy');
-	const [ points, setPoints ] = React.useState(null);
 	const [ alphabets, setAlphabets ] = React.useState([]);
 	const [ words, setWords ] = React.useState([]);
-	const [ newSession ] = React.useState(resumeSessionId !== null);
 
 	// State for the dependencies if ready
 	const [ isReady, setIsReady ] = React.useState(false);
@@ -37,22 +35,13 @@ const ResumePage = ({ resumeSessionId, goToPage }) => {
 						console.log('error: ' + error);
 					});
 			}
-
-			if (!newSession) {
-				const pointsTimeout = setTimeout(() => {
-					setPoints(13);
-				}, 2000);
-				return () => {
-					clearTimeout(pointsTimeout);
-				};
-			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[ newSession, resumeSessionId ]
+		[ resumeSessionId ]
 	);
 
 	function updateUserPoints(newPoints) {
-		setPoints(newPoints);
+		updatePoints(newPoints);
 	}
 
 	function prepareNewSession() {
@@ -68,7 +57,6 @@ const ResumePage = ({ resumeSessionId, goToPage }) => {
 					alphabets={alphabets}
 					difficulty={valueDifficulty}
 					words={words}
-					points={points}
 					updateUserPoints={updateUserPoints}
 					prepareNewSession={prepareNewSession}
 					id={resumeSessionId}
@@ -82,5 +70,6 @@ export default ResumePage;
 
 ResumePage.propTypes = {
 	resumeSessionId: PropTypes.number.isRequired,
-	goToPage: PropTypes.func.isRequired
+	goToPage: PropTypes.func.isRequired,
+	updatePoints: PropTypes.func.isRequired
 };
