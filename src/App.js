@@ -160,7 +160,7 @@ function App() {
 					<main className={classes.content}>
 						{page === 'home' && <HomePage goToPage={goToPage} />}
 						{page === 'game' && <GamePage />}
-						{page === 'resume' && <ResumePage resumeSessionId={resumeSessionId} />}
+						{page === 'resume' && <ResumePage resumeSessionId={resumeSessionId} goToPage={goToPage} />}
 						{page === 'stats' && <StatsPage resumeSession={resumeSession} />}
 						{page === 'about' && <AboutPage />}
 					</main>

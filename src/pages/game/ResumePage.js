@@ -3,12 +3,12 @@ import Game from './components/Game';
 import db from '../../LocalDb';
 import PropTypes from 'prop-types';
 
-const ResumePage = ({ resumeSessionId }) => {
+const ResumePage = ({ resumeSessionId, goToPage }) => {
 	const [ valueDifficulty, setValueDifficulty ] = React.useState('Easy');
 	const [ points, setPoints ] = React.useState(null);
 	const [ alphabets, setAlphabets ] = React.useState([]);
 	const [ words, setWords ] = React.useState([]);
-	const [ newSession, setNewSession ] = React.useState(resumeSessionId !== null);
+	const [ newSession ] = React.useState(resumeSessionId !== null);
 
 	// State for the dependencies if ready
 	const [ isReady, setIsReady ] = React.useState(false);
@@ -56,7 +56,7 @@ const ResumePage = ({ resumeSessionId }) => {
 	}
 
 	function prepareNewSession() {
-		setNewSession(false);
+		goToPage('game');
 	}
 
 	return (
@@ -81,5 +81,6 @@ const ResumePage = ({ resumeSessionId }) => {
 export default ResumePage;
 
 ResumePage.propTypes = {
-	resumeSessionId: PropTypes.number.isRequired
+	resumeSessionId: PropTypes.number.isRequired,
+	goToPage: PropTypes.func.isRequired
 };
