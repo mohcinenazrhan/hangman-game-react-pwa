@@ -15,8 +15,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Game from './components/Game';
-import db from '../../LocalDb';
-import { helpers } from './helpers';
+import { usePrepGameState } from './usePrepGameState';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -44,117 +43,22 @@ const GamePage = ({ updatePoints }) => {
 		max: '15'
 	};
 
-	const [ valueLanguage, setValueLanguage ] = React.useState('English');
-	const [ valueDifficulty, setValueDifficulty ] = React.useState('Easy');
-	const [ numberOfWords, setNumberOfWords ] = React.useState(5);
-	const [ alphabets, setAlphabets ] = React.useState([]);
-	const [ words, setWords ] = React.useState([]);
-	const [ newSession, setNewSession ] = React.useState(false);
 	const [ invalidNbrWordsInput, setInvalidNbrWordsInput ] = React.useState(false);
 
-	// State for the dependencies if ready
-	const [ isReady, setIsReady ] = React.useState(false);
-	// State for session ID
-	const [ sessionId, setSessionId ] = React.useState(null);
-
-	React.useEffect(
-		() => {
-			if (newSession) {
-				console.log(valueLanguage, valueDifficulty, numberOfWords);
-
-				// fetch('https://random-word-api.herokuapp.com/word?key=TE2AB90K&number=10')
-				// 	.then((response) => response.json())
-				// 	.then((data) => {
-				// 		setWords(data);
-				// 	})
-				// 	.catch((error) => {
-				// 		console.log('Error occure while trying to get response: ', error);
-				// 	});
-
-				// Load the appropriate words according to the language selected and number of the words wanted
-				let sessionWords = [
-					'neighborly',
-					'tender',
-					'tightfisted',
-					'bag',
-					'die',
-					'sing',
-					'pear',
-					'ignore',
-					'stale',
-					'reflect',
-					'sound',
-					'orthographic',
-					'distinguish',
-					'diaeresis',
-					'coming'
-				];
-				if (valueLanguage === 'Frensh') {
-					sessionWords = [
-						'ambiance',
-						'gruyère',
-						'dégât',
-						'aïeul',
-						'août',
-						'henné',
-						'secrète',
-						'bêtise',
-						'œstrogène',
-						'sympa',
-						'Toutefois',
-						'présente',
-						'français',
-						'écriture',
-						'Sommaire'
-					];
-				} else if (valueLanguage === 'Arabic') {
-					sessionWords = [
-						'الأبجدية',
-						'اللغات',
-						'تعتمد',
-						'الكتابة',
-						'الهمزة',
-						'الشعبي',
-						'عمودي',
-						'دائري',
-						'الترتيب',
-						'أكبر',
-						'علامة',
-						'نصف',
-						'اليسرى',
-						'بلعومي',
-						'مختلف'
-					];
-				}
-
-				const wordsList = sessionWords.slice(0, numberOfWords);
-
-				// Create session data for local db
-				db
-					.table('sessions')
-					.add({
-						date: new Date(),
-						ended: false,
-						words: wordsList,
-						language: valueLanguage,
-						difficulty: valueDifficulty,
-						playedWords: []
-					})
-					.then(function(id) {
-						setSessionId(id);
-						// Wait for the id to launch the game
-						setWords(wordsList);
-						setAlphabets(helpers.getAlphabetsForLang(valueLanguage));
-						setIsReady(true);
-					})
-					.catch(function(error) {
-						console.log('error: ' + error);
-					});
-			}
-		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[ newSession, valueLanguage, valueDifficulty, numberOfWords ]
-	);
+	const {
+		newSession,
+		sessionId,
+		numberOfWords,
+		valueLanguage,
+		valueDifficulty,
+		alphabets,
+		words,
+		isReady,
+		setValueLanguage,
+		setValueDifficulty,
+		setNumberOfWords,
+		setNewSession
+	} = usePrepGameState('newSession');
 
 	function handleLanguageChange(event) {
 		setValueLanguage(event.target.value);
