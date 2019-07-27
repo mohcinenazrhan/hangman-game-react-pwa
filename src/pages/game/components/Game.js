@@ -156,34 +156,8 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 		helpBtnState
 	} = state;
 
-	/**
-	 * useState(s)
-	 */
-	// const [ wordState, setWordState ] = useState([]);
-	// const [ alphabetsState, setAlphabetsState ] = useState([]);
-	// const [ nbrTriesState, setNbrTriesState ] = useState(0);
-	// // Store given number tries
-	// const [ nbrTries, setNbrTries ] = useState(0);
-	// // Game current state
-	// const [ gameState, setGameState ] = useState('playing');
-	// // Game number state
-	// const [ gameNbr, setGameNbr ] = useState(1);
-	// // Draw progress state
-	// const [ drawProgressState, setDrawProgress ] = useState(progressDrawStartStep);
-	// // Score state
-	// const [ score, setScore ] = useState(0);
-	// // Total score state
-	// const [ totalScore, setTotalScore ] = useState(points);
-	// // Session score state
-	// const [ sessionScore, setSessionScore ] = useState(0);
-	// Help btn state
-	// const [ helpBtnState, setHelpBtnState ] = useState(false);
-	// // Session state
-	// const [ isSessionEnd, setIsSessionEnd ] = useState(false);
 	// Show state
 	const [ show, setShow ] = useState('game');
-	// // Session stats
-	// const [ stats, setStats ] = useState([]);
 
 	// Similar to componentDidMount and componentDidUpdate:
 	useEffect(
