@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
 
 const SessionStats = ({ stats }) => {
 	const classes = useStyles();
-	const statsRows = stats.map((row) => JSON.parse(row));
 
 	return (
 		<div className={classes.root}>
@@ -56,7 +55,7 @@ const SessionStats = ({ stats }) => {
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{statsRows.map((row, index) => (
+						{stats.map((row, index) => (
 							<TableRow key={index}>
 								<TableCell
 									className={clsx(

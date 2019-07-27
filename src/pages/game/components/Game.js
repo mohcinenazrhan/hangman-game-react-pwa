@@ -84,7 +84,7 @@ function gameReducer(state, action) {
 		case 'saveGame': {
 			return {
 				...state,
-				stats: [ ...state.stats, JSON.stringify(action.newStats) ]
+				stats: [ ...state.stats, action.newStats ]
 			};
 		}
 		case 'sessionEnded': {
