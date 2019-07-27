@@ -365,7 +365,7 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 				for (let obj of localDbActions) {
 					if (obj.action === 'addWordData') {
 						newObject = Object.assign({}, newObject, { playedWords: [ ...object.playedWords, obj.data ] });
-					} else if (obj.action === 'updateSessionData') {
+					} else if (obj.action === 'updateSessionScore') {
 						newObject = Object.assign({}, newObject, obj.data);
 					} else if (obj.action === 'sessionEnded') {
 						newObject = Object.assign({}, newObject, { ended: true });
