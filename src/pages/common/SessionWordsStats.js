@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const SessionStats = ({ stats }) => {
+const SessionWordsStats = ({ stats }) => {
 	const classes = useStyles();
 
 	return (
@@ -96,8 +96,8 @@ const SessionStats = ({ stats }) => {
 	);
 };
 
-export default SessionStats;
+export default SessionWordsStats;
 
-SessionStats.propTypes = {
+SessionWordsStats.propTypes = {
 	stats: PropTypes.array.isRequired
 };

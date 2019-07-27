@@ -1,18 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-	Typography,
-	Paper,
-	Table,
-	TableRow,
-	TableHead,
-	TableCell,
-	TableBody,
-	Divider,
-	Button
-} from '@material-ui/core';
-import clsx from 'clsx';
+import { Typography, Divider, Button } from '@material-ui/core';
 import db from '../LocalDb';
+import SessionWordsStats from './common/SessionWordsStats';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -88,61 +78,7 @@ const StatesPage = ({ resumeSession }) => {
 									words played
 								</Typography>
 								{statsRow.playedWords &&
-								statsRow.playedWords.length > 0 && (
-									<Paper className={classes.paper}>
-										<Table className={classes.table} size="small">
-											<TableHead>
-												<TableRow>
-													<TableCell>Word</TableCell>
-													<TableCell>State</TableCell>
-													<TableCell align="right">Score</TableCell>
-													<TableCell align="right">Misses</TableCell>
-												</TableRow>
-											</TableHead>
-											<TableBody>
-												{statsRow.playedWords.map((row, index) => (
-													<TableRow key={index}>
-														<TableCell
-															className={clsx(
-																classes.tableCell,
-																row.result === 'succeed' && classes.succeed,
-																row.result === 'failed' && classes.failed
-															)}
-														>
-															{row.word}
-														</TableCell>
-														<TableCell className={classes.tableCell}>
-															{row.wordState.map((item, i) => {
-																return (
-																	<span
-																		key={i}
-																		className={clsx(
-																			item.state === 'found' &&
-																				classes.letterFound,
-																			item.state === 'show' && classes.letterShow
-																		)}
-																	>
-																		{item.letter}
-																	</span>
-																);
-															})}
-														</TableCell>
-														<TableCell className={classes.tableCell} align="right">
-															{row.score > 1 ? (
-																`${row.score} Points`
-															) : (
-																`${row.score} Point`
-															)}
-														</TableCell>
-														<TableCell className={classes.tableCell} align="right">
-															{`${row.misses}/${row.wrongGuessAllowed}`}
-														</TableCell>
-													</TableRow>
-												))}
-											</TableBody>
-										</Table>
-									</Paper>
-								)}
+								statsRow.playedWords.length > 0 && <SessionWordsStats stats={statsRow.playedWords} />}
 								{!statsRow.ended && (
 									<Button
 										variant="contained"
