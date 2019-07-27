@@ -116,7 +116,7 @@ function gameReducer(state, action) {
 	}
 }
 
-function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSession }) {
+function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSession, resumeData = null }) {
 	const classes = useStyles();
 	// rgb color counter for color gradients
 	// start by -1 to make it start at 0 since the counter step is by 1
@@ -131,12 +131,12 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 		nbrTriesState: 0,
 		nbrTries: 0,
 		gameState: 'playing',
-		gameNbr: 1,
+		gameNbr: resumeData !== null ? resumeData.playedWords.length + 1 : 1,
 		drawProgressState: progressDrawStartStep,
 		score: 0,
-		sessionScore: 0,
+		sessionScore: resumeData !== null ? resumeData.score : 0,
 		isSessionEnd: false,
-		stats: [],
+		stats: resumeData !== null ? resumeData.playedWords : [],
 		helpBtnState: false
 	};
 

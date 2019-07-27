@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import { usePrepGameState } from './usePrepGameState';
 
 const ResumePage = ({ updatePoints, resumeSessionId, goToPage }) => {
-	const { valueDifficulty, alphabets, words, isReady } = usePrepGameState('resumeSession', resumeSessionId);
+	const { valueDifficulty, alphabets, words, isReady, resumeData } = usePrepGameState(
+		'resumeSession',
+		resumeSessionId
+	);
 
 	function updateUserPoints(newPoints) {
 		updatePoints(newPoints);
@@ -26,6 +29,7 @@ const ResumePage = ({ updatePoints, resumeSessionId, goToPage }) => {
 					updateUserPoints={updateUserPoints}
 					prepareNewSession={prepareNewSession}
 					id={resumeSessionId}
+					resumeData={resumeData}
 				/>
 			)}
 		</React.Fragment>

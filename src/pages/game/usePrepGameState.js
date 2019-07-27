@@ -14,6 +14,8 @@ export const usePrepGameState = (type, resumeSessionId = null) => {
 	const [ sessionId, setSessionId ] = useState(null);
 	// State for the dependencies if ready
 	const [ isReady, setIsReady ] = useState(false);
+	// State for data to resume the session
+	const [ resumeData, setResumeData ] = useState(null);
 
 	useEffect(
 		() => {
@@ -24,6 +26,7 @@ export const usePrepGameState = (type, resumeSessionId = null) => {
 						setWords(object.words);
 						setAlphabets(helpers.getAlphabetsForLang(object.language));
 						setValueDifficulty(object.difficulty);
+						setResumeData(object);
 						setIsReady(true);
 					})
 					.catch((error) => {
@@ -134,6 +137,7 @@ export const usePrepGameState = (type, resumeSessionId = null) => {
 		alphabets,
 		words,
 		isReady,
+		resumeData,
 		setValueLanguage,
 		setValueDifficulty,
 		setNumberOfWords,
