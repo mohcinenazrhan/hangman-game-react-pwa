@@ -321,7 +321,6 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 				localDbActions.push({
 					action: 'updateSessionData',
 					data: {
-						score: updatedSessionScore,
 						ended: true
 					}
 				});
@@ -332,6 +331,13 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 				newState: {
 					sessionScore: updatedSessionScore,
 					gameState: gameState
+				}
+			});
+
+			localDbActions.push({
+				action: 'updateSessionScore',
+				data: {
+					score: updatedSessionScore
 				}
 			});
 
@@ -365,6 +371,8 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 					if (obj.action === 'addWordData') {
 						newObject = Object.assign({}, newObject, { playedWords: [ ...object.playedWords, obj.data ] });
 					} else if (obj.action === 'updateSessionData') {
+						newObject = Object.assign({}, newObject, obj.data);
+					} else if (obj.action === 'updateSessionScore') {
 						newObject = Object.assign({}, newObject, obj.data);
 					}
 				}
