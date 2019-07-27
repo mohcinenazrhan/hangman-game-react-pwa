@@ -150,7 +150,6 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 		gameNbr,
 		drawProgressState,
 		score,
-		totalScore,
 		sessionScore,
 		isSessionEnd,
 		stats,
@@ -444,7 +443,6 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 	return (
 		<React.Fragment>
 			<div>
-				<Typography>Your total score: {totalScore}</Typography>
 				<Typography>Session difficulty: {difficulty}</Typography>
 				<Typography>Your session score: {sessionScore}</Typography>
 				<Typography>
