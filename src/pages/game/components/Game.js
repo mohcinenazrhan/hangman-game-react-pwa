@@ -318,12 +318,7 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 			if (words.length === gameNbr) {
 				dispatch({ type: 'sessionEnded' });
 				updateUserPoints(updatedSessionScore);
-				localDbActions.push({
-					action: 'updateSessionData',
-					data: {
-						ended: true
-					}
-				});
+				localDbActions.push({ action: 'sessionEnded' });
 			}
 
 			dispatch({
@@ -372,8 +367,8 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 						newObject = Object.assign({}, newObject, { playedWords: [ ...object.playedWords, obj.data ] });
 					} else if (obj.action === 'updateSessionData') {
 						newObject = Object.assign({}, newObject, obj.data);
-					} else if (obj.action === 'updateSessionScore') {
-						newObject = Object.assign({}, newObject, obj.data);
+					} else if (obj.action === 'sessionEnded') {
+						newObject = Object.assign({}, newObject, { ended: true });
 					}
 				}
 
