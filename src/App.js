@@ -64,13 +64,15 @@ function App() {
 	const [ points, setPoints ] = React.useState(0);
 
 	React.useEffect(() => {
-		setPoints(parseInt(localStorage.getItem('userPoints')));
+		const userPoints = localStorage.getItem('userPoints');
+		if (userPoints !== null) setPoints(parseInt(localStorage.getItem('userPoints')));
+		else localStorage.setItem('userPoints', 0);
 	}, []);
 
 	function updatePoints(pointsToAdd) {
 		const newPoints = points + pointsToAdd;
-		setPoints(newPoints)
-		localStorage.setItem('userPoints', newPoints)
+		setPoints(newPoints);
+		localStorage.setItem('userPoints', newPoints);
 	}
 
 	function handleMenu(event) {
@@ -173,7 +175,13 @@ function App() {
 					<main className={classes.content}>
 						{page === 'home' && <HomePage goToPage={goToPage} />}
 						{page === 'game' && <GamePage updatePoints={updatePoints} />}
-						{page === 'resume' && <ResumePage updatePoints={updatePoints} resumeSessionId={resumeSessionId} goToPage={goToPage} />}
+						{page === 'resume' && (
+							<ResumePage
+								updatePoints={updatePoints}
+								resumeSessionId={resumeSessionId}
+								goToPage={goToPage}
+							/>
+						)}
 						{page === 'stats' && <StatsPage resumeSession={resumeSession} />}
 						{page === 'about' && <AboutPage />}
 					</main>
