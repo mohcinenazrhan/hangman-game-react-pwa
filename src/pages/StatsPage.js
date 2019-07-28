@@ -90,8 +90,8 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 							<Typography>Language: {statsRow.language}</Typography>
 							<Typography>{statsRow.ended ? 'Completed' : 'Uncompleted'}</Typography>
 							<Typography>
-								{statsRow.playedWords ? statsRow.playedWords.length : 0}/{statsRow.words.length}
-								words played
+								{statsRow.playedWords ? statsRow.playedWords.length : 0}/{statsRow.words.length} words
+								played
 							</Typography>
 							{statsRow.playedWords &&
 							statsRow.playedWords.length > 0 && <SessionWordsStats stats={statsRow.playedWords} />}
