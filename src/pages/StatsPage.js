@@ -47,11 +47,21 @@ const useStyles = makeStyles((theme) => ({
 const StatesPage = ({ resumeSession, goToPage }) => {
 	const classes = useStyles();
 	const [ stats, setStats ] = useState([]);
+	const [ isReady, setIsReady ] = useState(false);
 
 	useEffect(() => {
-		db.table('sessions').orderBy('date').reverse().limit(5).toArray((rows) => setStats(rows)).catch((error) => {
-			console.log('error: ' + error);
-		});
+		db
+			.table('sessions')
+			.orderBy('date')
+			.reverse()
+			.limit(5)
+			.toArray((rows) => {
+				setStats(rows);
+				setIsReady(true);
+			})
+			.catch((error) => {
+				console.log('error: ' + error);
+			});
 	}, []);
 
 	function handleResumeSession(id) {
@@ -67,7 +77,7 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 			<Typography variant="h5" component="h1" className={classes.pageTitle}>
 				My sessions stats
 			</Typography>
-			{stats.length > 0 ? (
+			{isReady ? stats.length > 0 ? (
 				stats.map((statsRow, index) => (
 					<React.Fragment key={index}>
 						<div className={classes.statsContainer}>
@@ -108,6 +118,8 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 						first session
 					</Button>
 				</React.Fragment>
+			) : (
+				'Loading...'
 			)}
 		</div>
 	);
