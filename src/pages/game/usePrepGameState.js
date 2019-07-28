@@ -108,6 +108,7 @@ export const usePrepGameState = (type, resumeSessionId = null) => {
 					.add({
 						date: new Date(),
 						ended: false,
+						score: 0,
 						words: wordsList,
 						language: valueLanguage,
 						difficulty: valueDifficulty,
