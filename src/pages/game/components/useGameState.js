@@ -15,7 +15,7 @@ function gameReducer(state, action) {
 				wordState: [],
 				gameNbr: state.gameNbr + 1,
 				drawProgress: 0,
-				helpBtnState: false
+				disabledHelpBtnState: false
 			};
 		}
 		case 'prepareGame': {
