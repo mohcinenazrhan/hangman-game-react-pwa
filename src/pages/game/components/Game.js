@@ -7,6 +7,7 @@ import SessionWordsStats from '../../common/SessionWordsStats';
 import db from '../../../LocalDb';
 import { useGameState } from './useGameState';
 import { helpers } from './../helpers';
+import Keyboard from './Keyboard';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -85,7 +86,7 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 	// Show state
 	const [ show, setShow ] = useState('game');
 
-	function handleBtnClick(letter) {
+	function handleKeyboardLetterClick(letter) {
 		// Helper variables
 		let isGameEnd = false,
 			localDbActions = [];
@@ -287,20 +288,11 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 					</div>
 					{gameState === 'playing' && (
 						<div>
-							{alphabetsState.map((row, index) => {
-								return (
-									<Button
-										key={index}
-										variant="contained"
-										color="secondary"
-										className={classes.button}
-										disabled={row.disabled}
-										onClick={() => handleBtnClick(row.letter)}
-									>
-										{row.letter}
-									</Button>
-								);
-							})}
+							<Keyboard
+								alphabets={alphabetsState}
+								btnStyle={classes.button}
+								keyboardLetterClick={handleKeyboardLetterClick}
+							/>
 						</div>
 					)}
 					<div>
