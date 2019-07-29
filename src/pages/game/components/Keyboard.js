@@ -3,6 +3,8 @@ import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
 const Keyboard = ({ alphabets, btnStyle, keyboardLetterClick }) => {
+	console.log(btnStyle);
+
 	return (
 		<React.Fragment>
 			{alphabets.map((row, index) => {
@@ -27,6 +29,6 @@ export default Keyboard;
 
 Keyboard.propTypes = {
 	alphabets: PropTypes.array.isRequired,
-	btnStyle: PropTypes.object.isRequired,
+	btnStyle: PropTypes.string.isRequired,
 	keyboardLetterClick: PropTypes.func.isRequired
 };
