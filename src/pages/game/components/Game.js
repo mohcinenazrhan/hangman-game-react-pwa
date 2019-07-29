@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Button, makeStyles, Typography } from '@material-ui/core';
-import clsx from 'clsx';
 import progressDraw from '../../../assets/progress-draw.png';
 import PropTypes from 'prop-types';
 import SessionWordsStats from '../../common/SessionWordsStats';
@@ -8,6 +7,7 @@ import db from '../../../LocalDb';
 import { useGameState } from './useGameState';
 import { helpers } from './../helpers';
 import Keyboard from './Keyboard';
+import Board from './Board';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -60,9 +60,6 @@ const useStyles = makeStyles((theme) => ({
 
 function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSession, resumeData = null }) {
 	const classes = useStyles();
-	// rgb color counter for color gradients
-	// start by -1 to make it start at 0 since the counter step is by 1
-	let cnt = -1;
 
 	const {
 		wordState,
@@ -267,24 +264,10 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 				<React.Fragment>
 					<div className={classes.drawImgProgress} style={getProgressDraw()} />
 					<div className={classes.wordContainer}>
-						{wordState.map((row, index) => {
-							cnt += 1;
-							return (
-								<div
-									className={clsx(
-										classes.wordLettres,
-										row.state === 'show' && classes.notFoundedLetters
-									)}
-									style={{
-										backgroundColor: `rgb(${224 - cnt}, ${224 - cnt}, ${224 - cnt})`,
-										width: `${100 / wordState.length}%`
-									}}
-									key={index}
-								>
-									{row.state === 'hidden' ? '_' : row.letter}
-								</div>
-							);
-						})}
+						<Board
+							wordState={wordState}
+							classes={{ wordLettres: classes.wordLettres, notFoundedLetters: classes.notFoundedLetters }}
+						/>
 					</div>
 					{gameState === 'playing' && (
 						<div>
