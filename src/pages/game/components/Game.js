@@ -77,7 +77,8 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 		disabledHelpBtnState,
 		progressDrawFinalStep,
 		setGameState,
-		setNewGame
+		setNewGame,
+		getHelp
 	} = useGameState(id, words, alphabets, difficulty, resumeData);
 
 	// Show state
@@ -194,14 +195,7 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 	}
 
 	function handleHelpClick() {
-		const newState = {};
-		// Show random letter from the hidden ones
-		newState.wordState = helpers.getHelpWordState(wordState);
-		newState.gainedPointsState = gainedPointsState - 1;
-		// Disable the helper btn if isHelpeEnded is true
-		if (helpers.isHelpeEnded(newState.wordState, newState.gainedPointsState)) newState.disabledHelpBtnState = true;
-
-		setGameState(newState);
+		getHelp();
 	}
 
 	function newSession() {

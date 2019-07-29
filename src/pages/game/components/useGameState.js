@@ -30,6 +30,21 @@ function gameReducer(state, action) {
 				...action.newState
 			};
 		}
+		case 'GET_HELP': {
+			// Show random letter from the hidden ones
+			const newWordState = helpers.getHelpWordState(state.wordState);
+			const newGainedPointsState = state.gainedPointsState - 1;
+			// Disable the helper btn if isHelpeEnded is true
+			const newDisabledHelpBtnState = helpers.isHelpeEnded(newWordState, newGainedPointsState);
+			return {
+				...state,
+				...{
+					wordState: newWordState,
+					gainedPointsState: newGainedPointsState,
+					disabledHelpBtnState: newDisabledHelpBtnState
+				}
+			};
+		}
 		default:
 			return state;
 	}
@@ -116,7 +131,14 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData) => {
 		});
 	};
 
+	const getHelp = () => {
+		dispatch({
+			type: 'GET_HELP'
+		});
+	};
+
 	return {
+		getHelp,
 		setNewGame,
 		setGameState,
 		wordState,
