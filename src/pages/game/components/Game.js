@@ -85,8 +85,7 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 
 	function handleKeyboardLetterClick(letter) {
 		// Helper variables
-		let isGameEnd = false,
-			localDbActions = [];
+		let isGameEnd = false;
 
 		const newState = {
 			wordState,
@@ -154,46 +153,28 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 			newState.sessionScore = updatedSessionScore;
 			newState.stats = [ ...stats, wordStats ];
 
-			localDbActions.push({
-				action: 'updateSessionScore',
-				data: {
-					score: updatedSessionScore
-				}
-			});
-
-			localDbActions.push({ action: 'addWordData', data: wordStats });
-
 			if (helpers.isSessionEnded(words, gameNbr)) {
 				newState.isSessionEnd = true;
 				updateUserPoints(updatedSessionScore);
-				localDbActions.push({ action: 'sessionEnded' });
 			}
 
-			updateLocalDb(localDbActions);
+			updateLocalDb(id, {
+				score: updatedSessionScore,
+				playedWords: newState.stats,
+				ended: newState.isSessionEnd
+			});
 		}
 
 		setGameState(newState);
 	}
 
-	function updateLocalDb(localDbActions) {
+	function updateLocalDb(id, updatedData) {
 		try {
 			const sessionsTable = db.table('sessions');
-
 			sessionsTable.get(id, (object) => {
-				let newObject = object;
-
-				for (let obj of localDbActions) {
-					if (obj.action === 'addWordData') {
-						newObject = Object.assign({}, newObject, { playedWords: [ ...object.playedWords, obj.data ] });
-					} else if (obj.action === 'updateSessionScore') {
-						newObject = Object.assign({}, newObject, obj.data);
-					} else if (obj.action === 'sessionEnded') {
-						newObject = Object.assign({}, newObject, { ended: true });
-					}
-				}
-
+				const newObject = Object.assign({}, object, updatedData);
 				sessionsTable.update(id, newObject).then((updated) => {
-					if (updated) console.log('Updated');
+					if (updated) console.log('Local Db updated, session Num', id);
 					else console.log('Nothing was updated');
 				});
 			});
