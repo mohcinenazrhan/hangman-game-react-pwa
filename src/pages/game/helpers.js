@@ -74,7 +74,7 @@ export const helpers = {
 		});
 	},
 	getHelpWordState: (wordState) => {
-		const hiddenLetters = helpers.getWordStateHidden();
+		const hiddenLetters = helpers.getWordStateHidden(wordState);
 		const randLetter = hiddenLetters[Math.floor(Math.random() * hiddenLetters.length)];
 
 		return helpers.getUpdatedWordState(wordState, randLetter.letter);

@@ -215,33 +215,14 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 	}
 
 	function handleHelpClick() {
-		const hiddenLetters = wordState.filter((row) => row.state === 'hidden');
-		const randLetter = hiddenLetters[Math.floor(Math.random() * hiddenLetters.length)];
+		const newState = {};
+		// Show random letter from the hidden ones
+		newState.wordState = helpers.getHelpWordState(wordState);
+		newState.gainedPointsState = gainedPointsState - 1;
+		// Disable the helper btn if isHelpeEnded is true
+		if (helpers.isHelpeEnded(newState.wordState, newState.gainedPointsState)) newState.disabledHelpBtnState = true;
 
-		const newWordState = wordState.map((row) => {
-			if (row === randLetter) row.state = 'found';
-			return row;
-		});
-
-		const newScore = gainedPointsState > 1 ? gainedPointsState - 1 : gainedPointsState;
-
-		disableHelpBtnFor(newWordState, newScore);
-
-		// dispatch({
-		// 	type: 'getHelp',
-		// 	newState: {
-		// 		score: newScore,
-		// 		wordState: newWordState
-		// 	}
-		// });
-	}
-
-	function disableHelpBtnFor(WordState, Score) {
-		// Disable help btn if only one letter remains or the score is 1
-		const lettersHiddenLen = WordState.filter((row) => row.state === 'hidden').length;
-		if (lettersHiddenLen === 1 || Score === 1) {
-			// dispatch({ type: 'disableHelp' });
-		}
+		setGameState(newState);
 	}
 
 	function newSession() {
