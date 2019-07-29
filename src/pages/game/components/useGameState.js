@@ -19,9 +19,23 @@ function gameReducer(state, action) {
 			};
 		}
 		case 'PREPARE_GAME': {
+			const { words, alphabets, difficulty } = action.params;
+			const wordToDiscover = words[state.gameNbr - 1];
+			const wordToDiscoverArray = wordToDiscover.toUpperCase().split('');
+			const wordInitialState = helpers.getWordInitialState(wordToDiscoverArray);
+			const alphabetsInitialState = helpers.getAlphabetsInitialState(alphabets);
+			const pointsToGainInitialState = helpers.getPointsToGain(wordToDiscoverArray, difficulty);
+			const nbrWrongGuessAllowedInitialState = helpers.getNbrWrongGuessAllowed(wordToDiscoverArray, difficulty);
 			return {
 				...state,
-				...action.newState
+				...{
+					wordState: wordInitialState,
+					alphabetsState: alphabetsInitialState,
+					nbrWrongGuessAllowed: nbrWrongGuessAllowedInitialState,
+					nbrWrongGuessState: nbrWrongGuessAllowedInitialState,
+					pointsToGain: pointsToGainInitialState,
+					gainedPointsState: pointsToGainInitialState
+				}
 			};
 		}
 		case 'UPDATE_GAME': {
@@ -98,23 +112,9 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData) => {
 			}
 
 			/* The logic that has to run once a game */
-			const wordToDiscover = words[gameNbr - 1];
-			const wordToDiscoverArray = wordToDiscover.toUpperCase().split('');
-			const wordInitialState = helpers.getWordInitialState(wordToDiscoverArray);
-			const alphabetsInitialState = helpers.getAlphabetsInitialState(alphabets);
-			const pointsToGainInitialState = helpers.getPointsToGain(wordToDiscoverArray, difficulty);
-			const nbrWrongGuessAllowedInitialState = helpers.getNbrWrongGuessAllowed(wordToDiscoverArray, difficulty);
-
 			dispatch({
 				type: 'PREPARE_GAME',
-				newState: {
-					wordState: wordInitialState,
-					alphabetsState: alphabetsInitialState,
-					nbrWrongGuessAllowed: nbrWrongGuessAllowedInitialState,
-					nbrWrongGuessState: nbrWrongGuessAllowedInitialState,
-					pointsToGain: pointsToGainInitialState,
-					gainedPointsState: pointsToGainInitialState
-				}
+				params: { words, alphabets, difficulty }
 			});
 		},
 		[ alphabets, difficulty, gameNbr, isSessionEnd, words ]
