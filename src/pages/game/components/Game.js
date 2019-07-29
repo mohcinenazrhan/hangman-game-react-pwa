@@ -259,7 +259,7 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 							Get Help = -1 point
 						</Button>
 						<Typography>{`${pointsToGain} points to win`}</Typography>
-						<Typography>{`You have ${nbrWrongGuessState} attempts (wrong)`}</Typography>
+						<Typography>{`${nbrWrongGuessState} guesses left`}</Typography>
 					</React.Fragment>
 				)}
 			</div>
