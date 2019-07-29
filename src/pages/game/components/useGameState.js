@@ -3,7 +3,7 @@ import { helpers } from './../helpers';
 
 function gameReducer(state, action) {
 	switch (action.type) {
-		case 'newGame': {
+		case 'NEW_GAME': {
 			return {
 				...state,
 				gameState: 'playing',
@@ -18,52 +18,16 @@ function gameReducer(state, action) {
 				disabledHelpBtnState: false
 			};
 		}
-		case 'prepareGame': {
+		case 'PREPARE_GAME': {
 			return {
 				...state,
 				...action.newState
 			};
 		}
-		case 'updateGameState': {
+		case 'UPDATE_GAME': {
 			return {
 				...state,
 				...action.newState
-			};
-		}
-		case 'gameEnded': {
-			return {
-				...state,
-				...action.newState
-			};
-		}
-		case 'saveGame': {
-			return {
-				...state,
-				stats: [ ...state.stats, action.newStats ]
-			};
-		}
-		case 'sessionEnded': {
-			return {
-				...state,
-				isSessionEnd: true
-			};
-		}
-		case 'guessResult': {
-			return {
-				...state,
-				...action.newState
-			};
-		}
-		case 'getHelp': {
-			return {
-				...state,
-				...action.newState
-			};
-		}
-		case 'disableHelp': {
-			return {
-				...state,
-				helpBtnState: true
 			};
 		}
 		default:
@@ -127,7 +91,7 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData) => {
 			const nbrWrongGuessAllowedInitialState = helpers.getNbrWrongGuessAllowed(wordToDiscoverArray, difficulty);
 
 			dispatch({
-				type: 'prepareGame',
+				type: 'PREPARE_GAME',
 				newState: {
 					wordState: wordInitialState,
 					alphabetsState: alphabetsInitialState,
@@ -142,12 +106,12 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData) => {
 	);
 
 	const setNewGame = () => {
-		dispatch({ type: 'newGame' });
+		dispatch({ type: 'NEW_GAME' });
 	};
 
 	const setGameState = (newState) => {
 		dispatch({
-			type: 'updateGameState',
+			type: 'UPDATE_GAME',
 			newState
 		});
 	};
