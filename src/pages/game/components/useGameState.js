@@ -18,7 +18,7 @@ function gameReducer(state, action) {
 				disabledHelpBtnState: false
 			};
 		}
-		case 'PREPARE_GAME': {
+		case 'PREPARE_NEW_GAME': {
 			const { words, alphabets, difficulty } = action.params;
 			const wordToDiscover = words[state.gameNbr - 1];
 			const wordToDiscoverArray = wordToDiscover.toUpperCase().split('');
@@ -113,7 +113,7 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData) => {
 
 			/* The logic that has to run once a game */
 			dispatch({
-				type: 'PREPARE_GAME',
+				type: 'PREPARE_NEW_GAME',
 				params: { words, alphabets, difficulty }
 			});
 		},
