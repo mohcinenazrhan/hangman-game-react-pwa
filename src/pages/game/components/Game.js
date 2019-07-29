@@ -1,10 +1,12 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState } from 'react';
 import { Button, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import progressDraw from '../../../assets/progress-draw.png';
 import PropTypes from 'prop-types';
 import SessionWordsStats from '../../common/SessionWordsStats';
 import db from '../../../LocalDb';
+import { useGameState } from './useGameState';
+import { helpers } from './../helpers';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -55,253 +57,104 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function gameReducer(state, action) {
-	switch (action.type) {
-		case 'newGame': {
-			return {
-				...state,
-				gameState: 'playing',
-				nbrTriesState: 0,
-				alphabetsState: [],
-				wordState: [],
-				gameNbr: state.gameNbr + 1,
-				drawProgress: 0,
-				helpBtnState: false
-			};
-		}
-		case 'prepareGame': {
-			return {
-				...state,
-				...action.newState
-			};
-		}
-		case 'gameEnded': {
-			return {
-				...state,
-				...action.newState
-			};
-		}
-		case 'saveGame': {
-			return {
-				...state,
-				stats: [ ...state.stats, action.newStats ]
-			};
-		}
-		case 'sessionEnded': {
-			return {
-				...state,
-				isSessionEnd: true
-			};
-		}
-		case 'guessResult': {
-			return {
-				...state,
-				...action.newState
-			};
-		}
-		case 'getHelp': {
-			return {
-				...state,
-				...action.newState
-			};
-		}
-		case 'disableHelp': {
-			return {
-				...state,
-				helpBtnState: true
-			};
-		}
-		default:
-			return state;
-	}
-}
-
 function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSession, resumeData = null }) {
 	const classes = useStyles();
 	// rgb color counter for color gradients
 	// start by -1 to make it start at 0 since the counter step is by 1
 	let cnt = -1;
-	// Draw progress game
-	const progressDrawStartStep = 0;
-	const progressDrawFinalStep = 6;
 
-	const initialState = {
-		wordState: [],
-		alphabetsState: [],
-		nbrTriesState: 0,
-		nbrTries: 0,
-		gameState: 'playing',
-		gameNbr: resumeData !== null ? resumeData.playedWords.length + 1 : 1,
-		drawProgressState: progressDrawStartStep,
-		score: 0,
-		sessionScore: resumeData !== null ? resumeData.score : 0,
-		isSessionEnd: false,
-		stats: resumeData !== null ? resumeData.playedWords : [],
-		helpBtnState: false
-	};
-
-	const [ state, dispatch ] = useReducer(gameReducer, initialState);
 	const {
 		wordState,
 		alphabetsState,
-		nbrTriesState,
-		nbrTries,
+		nbrWrongGuessAllowed,
+		nbrWrongGuessState,
 		gameState,
 		gameNbr,
 		drawProgressState,
-		score,
+		pointsToGain,
+		gainedPointsState,
 		sessionScore,
 		isSessionEnd,
 		stats,
-		helpBtnState
-	} = state;
+		disabledHelpBtnState,
+		progressDrawFinalStep,
+		setGameState,
+		setNewGame
+	} = useGameState(id, words, alphabets, difficulty, resumeData);
 
 	// Show state
 	const [ show, setShow ] = useState('game');
 
-	// Similar to componentDidMount and componentDidUpdate:
-	useEffect(
-		() => {
-			// Check if all the wolds are used
-			if (isSessionEnd) {
-				console.log('The words end');
-				return;
-			}
-
-			/* The logic that has to run once a game */
-
-			const wordToDiscover = words[gameNbr - 1];
-			const wordToDiscoverArray = wordToDiscover.toUpperCase().split('');
-			const wordInitialState = wordToDiscoverArray.map((letter) => {
-				return {
-					letter: letter,
-					state: 'hidden'
-				};
-			});
-			const alphabetsInitialState = alphabets.map((letter) => {
-				return {
-					letter: letter,
-					disabled: false
-				};
-			});
-
-			// Default values for easy level
-			let initScore = wordToDiscoverArray.length; // Initial score is the length of the word to discover
-			let initTriesRatio = 1; // Number to use to devide on to get nbrTriesInitialState
-			// Level of difficulty
-			if (difficulty === 'Medium') {
-				initScore = wordToDiscoverArray.length * 2;
-				initTriesRatio = 2;
-			} else if (difficulty === 'Hard') {
-				initScore = wordToDiscoverArray.length * 3;
-				initTriesRatio = 3;
-			}
-
-			// Number of tries allowed
-			// Dinstact the letters to count the number of tries allowed
-			const dinstactLetters = wordToDiscoverArray.filter((item, i, ar) => ar.indexOf(item) === i);
-			const nbrTriesInitialState = Math.floor(dinstactLetters.length / initTriesRatio);
-
-			dispatch({
-				type: 'prepareGame',
-				newState: {
-					wordState: wordInitialState,
-					alphabetsState: alphabetsInitialState,
-					nbrTriesState: nbrTriesInitialState,
-					nbrTries: nbrTriesInitialState,
-					score: initScore
-				}
-			});
-		},
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[ gameNbr ]
-	);
-
 	function handleBtnClick(letter) {
 		// Helper variables
-		let correctLetter = false,
-			newNbrTriesState = nbrTriesState,
-			newDrawProgressState = drawProgressState,
-			newScore = score,
-			isGameEnd = false,
-			gameState = 'playing',
+		let isGameEnd = false,
 			localDbActions = [];
 
-		// Show the letter founded
-		let newWordState = wordState.map((row) => {
-			if (letter === row.letter) {
-				row.state = 'found';
-				correctLetter = true;
+		const newState = {
+			wordState,
+			alphabetsState,
+			nbrWrongGuessAllowed,
+			nbrWrongGuessState,
+			gameState,
+			gameNbr,
+			drawProgressState,
+			pointsToGain,
+			gainedPointsState,
+			sessionScore,
+			isSessionEnd,
+			stats,
+			disabledHelpBtnState
+		};
+
+		if (helpers.isCorrectGuess(words[gameNbr - 1], letter)) {
+			// Show the letter founded
+			newState.wordState = helpers.getUpdatedWordState(wordState, letter);
+
+			if (helpers.isGameWon(newState.wordState)) {
+				isGameEnd = true;
+				newState.gameState = 'succeed';
+				console.log('Completed with successfully');
 			}
-			return row;
-		});
+		} else {
+			// Remove one point from the score and wrong guess allowed and progress the hangman draw
+			newState.nbrWrongGuessState = nbrWrongGuessState - 1;
+			const newGainedPointsState = gainedPointsState > 1 ? gainedPointsState - 1 : gainedPointsState;
+			newState.gainedPointsState = newGainedPointsState;
+			const newDrawProgressState =
+				drawProgressState + 1 < progressDrawFinalStep ? drawProgressState + 1 : drawProgressState;
+			newState.drawProgressState = newDrawProgressState;
+
+			if (helpers.isGameLosed(newState.nbrWrongGuessState)) {
+				isGameEnd = true;
+				newState.gameState = 'failed';
+				newState.drawProgressState = progressDrawFinalStep;
+				newState.wordState = helpers.getShowedHiddenLettersWordState(wordState);
+				newState.nbrWrongGuessState = 0;
+				newState.gainedPointsState = 0;
+				console.log('Unfortunately, you failed');
+			}
+		}
 
 		// Disable the clicked button
-		const newAlphabetsState = alphabetsState.map((row) => {
-			if (letter === row.letter) {
-				row.disabled = true;
-			}
-			return row;
-		});
-
-		if (!correctLetter) {
-			newNbrTriesState = nbrTriesState - 1;
-			// Progress the draw if not the game failed yet
-			if (drawProgressState + 1 < progressDrawFinalStep) newDrawProgressState = drawProgressState + 1;
-			// Remove one point from the score
-			newScore = score > 1 ? score - 1 : score;
-		}
-
-		// Check if the user is failed, if the number of wrong tries allowed is end
-		if (newNbrTriesState < 0) {
-			isGameEnd = true;
-			console.log('Unfortunately, you failed');
-			gameState = 'failed';
-			newDrawProgressState = progressDrawFinalStep;
-			newWordState = showHiddenLetters(newWordState);
-			// reset to 0
-			newNbrTriesState = 0;
-			newScore = 0;
-		} else {
-			// Check if the user is successfully found the word
-			const lettersFoundedLen = newWordState.filter((row) => row.state === 'found').length;
-			if (newWordState.length === lettersFoundedLen) {
-				isGameEnd = true;
-				console.log('Completed with success');
-				gameState = 'succeed';
-			}
-		}
-
-		disableHelpBtnFor(newWordState, newScore);
-
-		dispatch({
-			type: 'guessResult',
-			newState: {
-				score: newScore,
-				nbrTriesState: newNbrTriesState,
-				alphabetsState: newAlphabetsState,
-				wordState: newWordState,
-				drawProgressState: newDrawProgressState
-			}
-		});
+		const newAlphabetsState = helpers.getUpdatedAlphabetsState(alphabetsState, letter);
+		newState.alphabetsState = newAlphabetsState;
+		// Disable the helper btn if isHelpeEnded is true
+		if (helpers.isHelpeEnded(newState.wordState, newState.gainedPointsState)) newState.disabledHelpBtnState = true;
 
 		if (isGameEnd) {
-			const updatedSessionScore = sessionScore + newScore;
+			const updatedSessionScore = sessionScore + newState.gainedPointsState;
+			const wordStats = {
+				word: words[gameNbr - 1],
+				result: newState.gameState,
+				wordState: newState.wordState,
+				score: newState.gainedPointsState,
+				pointsToGain: pointsToGain,
+				wrongGuessAllowed: nbrWrongGuessAllowed,
+				misses: nbrWrongGuessAllowed - newState.nbrWrongGuessState
+			};
 
-			// if this current word is the last one
-			if (words.length === gameNbr) {
-				dispatch({ type: 'sessionEnded' });
-				updateUserPoints(updatedSessionScore);
-				localDbActions.push({ action: 'sessionEnded' });
-			}
-
-			dispatch({
-				type: 'gameEnded',
-				newState: {
-					sessionScore: updatedSessionScore,
-					gameState: gameState
-				}
-			});
+			newState.sessionScore = updatedSessionScore;
+			newState.stats = [ ...stats, wordStats ];
 
 			localDbActions.push({
 				action: 'updateSessionScore',
@@ -310,23 +163,18 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 				}
 			});
 
-			const wordStats = {
-				word: words[gameNbr - 1],
-				result: gameState,
-				wordState: newWordState,
-				score: newScore,
-				wrongGuessAllowed: nbrTries,
-				misses: nbrTries - newNbrTriesState
-			};
-
-			dispatch({
-				type: 'saveGame',
-				newStats: wordStats
-			});
-
 			localDbActions.push({ action: 'addWordData', data: wordStats });
+
+			if (helpers.isSessionEnded(words, gameNbr)) {
+				newState.isSessionEnd = true;
+				updateUserPoints(updatedSessionScore);
+				localDbActions.push({ action: 'sessionEnded' });
+			}
+
 			updateLocalDb(localDbActions);
 		}
+
+		setGameState(newState);
 	}
 
 	function updateLocalDb(localDbActions) {
@@ -356,15 +204,6 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 		}
 	}
 
-	function showHiddenLetters(wordState) {
-		return wordState.map((row) => {
-			if (row.state === 'hidden') {
-				row.state = 'show';
-			}
-			return row;
-		});
-	}
-
 	function getProgressDraw() {
 		return {
 			backgroundPosition: `${drawProgressState * -200}px`
@@ -372,7 +211,7 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 	}
 
 	function newGame() {
-		dispatch({ type: 'newGame' });
+		setNewGame();
 	}
 
 	function handleHelpClick() {
@@ -384,24 +223,24 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 			return row;
 		});
 
-		const newScore = score > 1 ? score - 1 : score;
+		const newScore = gainedPointsState > 1 ? gainedPointsState - 1 : gainedPointsState;
 
 		disableHelpBtnFor(newWordState, newScore);
 
-		dispatch({
-			type: 'getHelp',
-			newState: {
-				score: newScore,
-				wordState: newWordState
-			}
-		});
+		// dispatch({
+		// 	type: 'getHelp',
+		// 	newState: {
+		// 		score: newScore,
+		// 		wordState: newWordState
+		// 	}
+		// });
 	}
 
 	function disableHelpBtnFor(WordState, Score) {
 		// Disable help btn if only one letter remains or the score is 1
 		const lettersHiddenLen = WordState.filter((row) => row.state === 'hidden').length;
 		if (lettersHiddenLen === 1 || Score === 1) {
-			dispatch({ type: 'disableHelp' });
+			// dispatch({ type: 'disableHelp' });
 		}
 	}
 
@@ -431,14 +270,14 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 					<React.Fragment>
 						<Button
 							variant="contained"
-							disabled={helpBtnState}
+							disabled={disabledHelpBtnState}
 							className={classes.button}
 							onClick={handleHelpClick}
 						>
 							Get Help = -1 point
 						</Button>
-						<Typography>{`${score} points to win`}</Typography>
-						<Typography>{`You have ${nbrTriesState} attempts (wrong)`}</Typography>
+						<Typography>{`${pointsToGain} points to win`}</Typography>
+						<Typography>{`You have ${nbrWrongGuessState} attempts (wrong)`}</Typography>
 					</React.Fragment>
 				)}
 			</div>
@@ -487,13 +326,14 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 						{gameState !== 'playing' && (
 							<React.Fragment>
 								<Typography>
-									{gameState === 'success' ? (
-										`Great, you've found the word successfully, you win ${score} points, with ${nbrTries -
-											nbrTriesState}/${nbrTries} wrong attempts`
+									{gameState === 'succeed' ? (
+										`Great, you've found the word successfully, you win ${gainedPointsState} points, with ${nbrWrongGuessAllowed -
+											nbrWrongGuessState}/${nbrWrongGuessAllowed} wrong attempts`
 									) : (
 										`Unfortunately, you lose, the word was: ${words[
 											gameNbr - 1
-										]}, you had ${score} points, with ${nbrTries - nbrTriesState} wrong attempts`
+										]}, you had ${gainedPointsState} points, with ${nbrWrongGuessAllowed -
+											nbrWrongGuessState} wrong attempts`
 									)}
 								</Typography>
 								{!isSessionEnd && (
