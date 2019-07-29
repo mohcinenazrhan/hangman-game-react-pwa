@@ -76,8 +76,14 @@ export const helpers = {
 	getHelpWordState: (wordState) => {
 		const hiddenLetters = helpers.getWordStateHidden(wordState);
 		const randLetter = hiddenLetters[Math.floor(Math.random() * hiddenLetters.length)];
-
-		return helpers.getUpdatedWordState(wordState, randLetter.letter);
+		let first = true;
+		return wordState.map((row) => {
+			if (row.letter === randLetter.letter && first) {
+				row.state = 'found';
+				first = false;
+			}
+			return row;
+		});
 	},
 	getWordStateHidden: (wordState) => {
 		return wordState.filter((row) => row.state === 'hidden');
