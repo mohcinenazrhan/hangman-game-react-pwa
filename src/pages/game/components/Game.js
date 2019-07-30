@@ -81,7 +81,7 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 		getHelp
 	} = useGameState(id, words, alphabets, difficulty, resumeData);
 
-	// Show state
+	// State to show either the game or its stats
 	const [ show, setShow ] = useState('game');
 
 	function handleKeyboardLetterClick(letter) {
