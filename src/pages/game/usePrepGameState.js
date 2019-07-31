@@ -20,9 +20,8 @@ export const usePrepGameState = (type, resumeSessionId = null) => {
 	useEffect(
 		() => {
 			if (type === 'resumeSession' && resumeSessionId !== null) {
-				LocalDb.getDb()
-					.table('sessions')
-					.get(resumeSessionId, (object) => {
+				LocalDb.getSession(resumeSessionId)
+					.then((object) => {
 						setWords(object.words);
 						setAlphabets(helpers.getAlphabetsForLang(object.language));
 						setValueDifficulty(object.difficulty);

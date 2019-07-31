@@ -37,6 +37,15 @@ const LocalDb = {
 		} catch (error) {
 			console.log(error.message);
 		}
+	},
+	getSession: (id) => {
+		try {
+			return LocalDb.getDb().table('sessions').get(id, (object) => {
+				return Promise.resolve(object);
+			});
+		} catch (error) {
+			console.log(error.message);
+		}
 	}
 };
 
