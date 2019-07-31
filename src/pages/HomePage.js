@@ -17,6 +17,14 @@ const useStyles = makeStyles((theme) => ({
 	paperActionContainer: {
 		alignSelf: 'center'
 	},
+	progressContainer: {
+		display: 'flex',
+		flexWrap: 'nowrap',
+		justifyContent: 'space-around',
+		alignItems: 'center',
+		width: '100%',
+		marginTop: 10
+	},
 	link: {
 		margin: theme.spacing(1)
 	},
@@ -39,9 +47,8 @@ const BorderLinearProgress = withStyles({
 	root: {
 		height: 5,
 		backgroundColor: lighten('#4CAF50', 0.5),
-		width: '100%',
-		borderRadius: 5,
-		marginTop: 10
+		width: '90%',
+		borderRadius: 5
 	},
 	bar: {
 		borderRadius: 5,
@@ -102,12 +109,16 @@ const HomePage = ({ goToPage, resumeSession }) => {
 									Continue
 								</Button>
 							</div>
-							<BorderLinearProgress
-								className={classes.margin}
-								variant="determinate"
-								color="secondary"
-								value={session.playedWords.length * 100 / session.words.length}
-							/>
+							<div className={classes.progressContainer}>
+								<BorderLinearProgress
+									variant="determinate"
+									color="secondary"
+									value={session.playedWords.length * 100 / session.words.length}
+								/>
+								<Typography>
+									{`${Math.floor(session.playedWords.length * 100 / session.words.length)}%`}
+								</Typography>
+							</div>
 						</Paper>
 					))}
 				</section>
