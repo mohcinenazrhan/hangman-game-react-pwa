@@ -22,8 +22,7 @@ const useStyles = makeStyles((theme) => ({
 		flexWrap: 'nowrap',
 		justifyContent: 'space-around',
 		alignItems: 'center',
-		width: '100%',
-		marginTop: 10
+		width: '100%'
 	},
 	link: {
 		margin: theme.spacing(1)
