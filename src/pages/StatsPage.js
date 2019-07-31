@@ -84,14 +84,14 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 							<Typography>Score: {statsRow.score}</Typography>
 							<Typography>Difficulty: {statsRow.difficulty}</Typography>
 							<Typography>Language: {statsRow.language}</Typography>
-							<Typography>{statsRow.ended ? 'Completed' : 'Uncompleted'}</Typography>
+							<Typography>{statsRow.state}</Typography>
 							<Typography>
 								{statsRow.playedWords ? statsRow.playedWords.length : 0}/{statsRow.words.length} words
 								played
 							</Typography>
 							{statsRow.playedWords &&
 							statsRow.playedWords.length > 0 && <SessionWordsStats stats={statsRow.playedWords} />}
-							{!statsRow.ended && (
+							{statsRow.state === 'Uncompleted' && (
 								<Button
 									variant="contained"
 									color="primary"

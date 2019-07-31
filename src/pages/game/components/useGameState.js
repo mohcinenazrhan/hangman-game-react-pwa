@@ -202,7 +202,7 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData, updat
 			LocalDb.updateLocalDb(id, {
 				score: updatedSessionScore,
 				playedWords: newState.stats,
-				ended: newState.isSessionEnd
+				state: newState.isSessionEnd ? 'Completed' : 'Uncompleted'
 			});
 		}
 

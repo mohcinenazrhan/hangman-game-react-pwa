@@ -4,7 +4,7 @@ const LocalDb = {
 	getDb: () => {
 		const newDb = new Dexie('sessionsDb');
 		newDb.version(1).stores({
-			sessions: '++id,date,ended,score'
+			sessions: '++id,date,state'
 		});
 		return newDb;
 	},
@@ -27,7 +27,7 @@ const LocalDb = {
 		try {
 			return LocalDb.getDb().table('sessions').add({
 				date: new Date(),
-				ended: false,
+				state: 'Uncompleted',
 				score: 0,
 				words: wordsList,
 				language: language,
