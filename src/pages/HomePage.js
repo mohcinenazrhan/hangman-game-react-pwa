@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Paper } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Typography, Button, Paper, LinearProgress } from '@material-ui/core';
+import { makeStyles, withStyles, lighten } from '@material-ui/core/styles';
 import LocalDb from '../LocalDb';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +34,20 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(5)
 	}
 }));
+
+const BorderLinearProgress = withStyles({
+	root: {
+		height: 5,
+		backgroundColor: lighten('#4CAF50', 0.5),
+		width: '100%',
+		borderRadius: 5,
+		marginTop: 10
+	},
+	bar: {
+		borderRadius: 5,
+		backgroundColor: '#4CAF50'
+	}
+})(LinearProgress);
 
 const HomePage = ({ goToPage, resumeSession }) => {
 	const classes = useStyles();
@@ -88,6 +102,12 @@ const HomePage = ({ goToPage, resumeSession }) => {
 									Continue
 								</Button>
 							</div>
+							<BorderLinearProgress
+								className={classes.margin}
+								variant="determinate"
+								color="secondary"
+								value={session.playedWords.length * 100 / session.words.length}
+							/>
 						</Paper>
 					))}
 				</section>
