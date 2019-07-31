@@ -87,6 +87,15 @@ const HomePage = ({ goToPage, resumeSession }) => {
 			<Typography variant="h4" component="h1">
 				Play and improve your English
 			</Typography>
+			<section className={classes.marginTopBottom}>
+				<Typography variant="h5" component="h2">
+					My statistics
+				</Typography>
+				<Paper>
+					<Typography component="p">{`10 Sessions completed`}</Typography>
+					<Typography component="p">{`123 Words guessed successfully`}</Typography>
+				</Paper>
+			</section>
 			{uncompletedSessions.length > 0 && (
 				<section className={classes.marginTopBottom}>
 					<Typography variant="h5" component="h2">
