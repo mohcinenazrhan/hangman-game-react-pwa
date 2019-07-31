@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from 'react';
 import { helpers } from './../helpers';
-import db from '../../../LocalDb';
+import LocalDb from '../../../LocalDb';
 
 function gameReducer(state, action) {
 	switch (action.type) {
@@ -199,7 +199,7 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData, updat
 				updateUserPoints(updatedSessionScore);
 			}
 
-			updateLocalDb(id, {
+			LocalDb.updateLocalDb(id, {
 				score: updatedSessionScore,
 				playedWords: newState.stats,
 				ended: newState.isSessionEnd
@@ -208,21 +208,6 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData, updat
 
 		setGameState(newState);
 	};
-
-	function updateLocalDb(id, updatedData) {
-		try {
-			const sessionsTable = db.table('sessions');
-			sessionsTable.get(id, (object) => {
-				const newObject = Object.assign({}, object, updatedData);
-				sessionsTable.update(id, newObject).then((updated) => {
-					if (updated) console.log('Local Db updated, session Num', id);
-					else console.log('Nothing was updated');
-				});
-			});
-		} catch (error) {
-			console.log(error.message);
-		}
-	}
 
 	return {
 		wordState,

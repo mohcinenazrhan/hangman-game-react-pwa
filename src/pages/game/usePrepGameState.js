@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { helpers } from './helpers';
-import db from '../../LocalDb';
+import LocalDb from '../../LocalDb';
 
 // Custom hook prepare the game for new session or resume session
 export const usePrepGameState = (type, resumeSessionId = null) => {
@@ -20,7 +20,7 @@ export const usePrepGameState = (type, resumeSessionId = null) => {
 	useEffect(
 		() => {
 			if (type === 'resumeSession' && resumeSessionId !== null) {
-				db
+				LocalDb.getDb()
 					.table('sessions')
 					.get(resumeSessionId, (object) => {
 						setWords(object.words);
@@ -103,7 +103,7 @@ export const usePrepGameState = (type, resumeSessionId = null) => {
 				const wordsList = sessionWords.slice(0, numberOfWords);
 
 				// Create session data for local db
-				db
+				LocalDb.getDb()
 					.table('sessions')
 					.add({
 						date: new Date(),
