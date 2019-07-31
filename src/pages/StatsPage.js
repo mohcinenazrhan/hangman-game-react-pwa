@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Typography, Divider, Button } from '@material-ui/core';
-import db from '../LocalDb';
+import LocalDb from '../LocalDb';
 import SessionWordsStats from './common/SessionWordsStats';
 
 const useStyles = makeStyles((theme) => ({
@@ -50,7 +50,7 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 	const [ isReady, setIsReady ] = useState(false);
 
 	useEffect(() => {
-		db
+		LocalDb.getDb()
 			.table('sessions')
 			.orderBy('date')
 			.reverse()
