@@ -3,9 +3,7 @@ import { Button, makeStyles, Typography } from '@material-ui/core';
 import progressDraw from '../../../assets/progress-draw.png';
 import PropTypes from 'prop-types';
 import SessionWordsStats from '../../common/SessionWordsStats';
-import db from '../../../LocalDb';
 import { useGameState } from './useGameState';
-import { helpers } from './../helpers';
 import Keyboard from './Keyboard';
 import Board from './Board';
 
@@ -69,119 +67,21 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 		gameState,
 		gameNbr,
 		drawProgressState,
-		pointsToGain,
 		gainedPointsState,
 		sessionScore,
 		isSessionEnd,
 		stats,
 		disabledHelpBtnState,
-		progressDrawFinalStep,
-		setGameState,
 		setNewGame,
-		getHelp
-	} = useGameState(id, words, alphabets, difficulty, resumeData);
+		getHelp,
+		setGuess
+	} = useGameState(id, words, alphabets, difficulty, resumeData, updateUserPoints);
 
 	// State to show either the game or its stats
 	const [ show, setShow ] = useState('game');
 
 	function handleKeyboardLetterClick(letter) {
-		// Helper variables
-		let isGameEnd = false;
-
-		const newState = {
-			wordState,
-			alphabetsState,
-			nbrWrongGuessAllowed,
-			nbrWrongGuessState,
-			gameState,
-			gameNbr,
-			drawProgressState,
-			pointsToGain,
-			gainedPointsState,
-			sessionScore,
-			isSessionEnd,
-			stats,
-			disabledHelpBtnState
-		};
-
-		if (helpers.isCorrectGuess(words[gameNbr - 1], letter)) {
-			// Show the letter founded
-			newState.wordState = helpers.getUpdatedWordState(wordState, letter);
-
-			if (helpers.isGameWon(newState.wordState)) {
-				isGameEnd = true;
-				newState.gameState = 'succeed';
-				console.log('Completed with successfully');
-			}
-		} else {
-			// Remove one point from the score and wrong guess allowed and progress the hangman draw
-			newState.nbrWrongGuessState = nbrWrongGuessState - 1;
-			const newGainedPointsState = gainedPointsState > 1 ? gainedPointsState - 1 : gainedPointsState;
-			newState.gainedPointsState = newGainedPointsState;
-			const newDrawProgressState =
-				drawProgressState + 1 < progressDrawFinalStep ? drawProgressState + 1 : drawProgressState;
-			newState.drawProgressState = newDrawProgressState;
-
-			if (helpers.isGameLosed(newState.nbrWrongGuessState)) {
-				isGameEnd = true;
-				newState.gameState = 'failed';
-				newState.drawProgressState = progressDrawFinalStep;
-				newState.wordState = helpers.getShowedHiddenLettersWordState(wordState);
-				newState.nbrWrongGuessState = 0;
-				newState.gainedPointsState = 0;
-				console.log('Unfortunately, you failed');
-			}
-		}
-
-		// Disable the clicked button
-		const newAlphabetsState = helpers.getUpdatedAlphabetsState(alphabetsState, letter);
-		newState.alphabetsState = newAlphabetsState;
-		// Disable the helper btn if isHelpeEnded is true
-		if (helpers.isHelpeEnded(newState.wordState, newState.gainedPointsState)) newState.disabledHelpBtnState = true;
-
-		if (isGameEnd) {
-			const updatedSessionScore = sessionScore + newState.gainedPointsState;
-			const wordStats = {
-				word: words[gameNbr - 1],
-				result: newState.gameState,
-				wordState: newState.wordState,
-				score: newState.gainedPointsState,
-				pointsToGain: pointsToGain,
-				wrongGuessAllowed: nbrWrongGuessAllowed,
-				misses: nbrWrongGuessAllowed - newState.nbrWrongGuessState
-			};
-
-			newState.sessionScore = updatedSessionScore;
-			newState.stats = [ ...stats, wordStats ];
-
-			if (helpers.isSessionEnded(words, gameNbr)) {
-				newState.isSessionEnd = true;
-				updateUserPoints(updatedSessionScore);
-			}
-
-			updateLocalDb(id, {
-				score: updatedSessionScore,
-				playedWords: newState.stats,
-				ended: newState.isSessionEnd
-			});
-		}
-
-		setGameState(newState);
-	}
-
-	function updateLocalDb(id, updatedData) {
-		try {
-			const sessionsTable = db.table('sessions');
-			sessionsTable.get(id, (object) => {
-				const newObject = Object.assign({}, object, updatedData);
-				sessionsTable.update(id, newObject).then((updated) => {
-					if (updated) console.log('Local Db updated, session Num', id);
-					else console.log('Nothing was updated');
-				});
-			});
-		} catch (error) {
-			console.log(error.message);
-		}
+		setGuess(letter);
 	}
 
 	function getProgressDraw() {

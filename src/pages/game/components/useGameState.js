@@ -1,5 +1,6 @@
 import { useEffect, useReducer } from 'react';
 import { helpers } from './../helpers';
+import db from '../../../LocalDb';
 
 function gameReducer(state, action) {
 	switch (action.type) {
@@ -65,7 +66,7 @@ function gameReducer(state, action) {
 }
 
 // Custom hook handle the game
-export const useGameState = (id, words, alphabets, difficulty, resumeData) => {
+export const useGameState = (id, words, alphabets, difficulty, resumeData, updateUserPoints) => {
 	// Draw progress game
 	const progressDrawStartStep = 0;
 	const progressDrawFinalStep = 6;
@@ -137,10 +138,93 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData) => {
 		});
 	};
 
+	const setGuess = (letter) => {
+		// Helper variables
+		let isGameEnd = false;
+
+		const newState = { ...state };
+
+		if (helpers.isCorrectGuess(words[gameNbr - 1], letter)) {
+			// Show the letter founded
+			newState.wordState = helpers.getUpdatedWordState(wordState, letter);
+
+			if (helpers.isGameWon(newState.wordState)) {
+				isGameEnd = true;
+				newState.gameState = 'succeed';
+				console.log('Completed with successfully');
+			}
+		} else {
+			// Remove one point from the score and wrong guess allowed and progress the hangman draw
+			newState.nbrWrongGuessState = nbrWrongGuessState - 1;
+			const newGainedPointsState = gainedPointsState > 1 ? gainedPointsState - 1 : gainedPointsState;
+			newState.gainedPointsState = newGainedPointsState;
+			const newDrawProgressState =
+				drawProgressState + 1 < progressDrawFinalStep ? drawProgressState + 1 : drawProgressState;
+			newState.drawProgressState = newDrawProgressState;
+
+			if (helpers.isGameLosed(newState.nbrWrongGuessState)) {
+				isGameEnd = true;
+				newState.gameState = 'failed';
+				newState.drawProgressState = progressDrawFinalStep;
+				newState.wordState = helpers.getShowedHiddenLettersWordState(wordState);
+				newState.nbrWrongGuessState = 0;
+				newState.gainedPointsState = 0;
+				console.log('Unfortunately, you failed');
+			}
+		}
+
+		// Disable the clicked button
+		const newAlphabetsState = helpers.getUpdatedAlphabetsState(alphabetsState, letter);
+		newState.alphabetsState = newAlphabetsState;
+		// Disable the helper btn if isHelpeEnded is true
+		if (helpers.isHelpeEnded(newState.wordState, newState.gainedPointsState)) newState.disabledHelpBtnState = true;
+
+		if (isGameEnd) {
+			const updatedSessionScore = sessionScore + newState.gainedPointsState;
+			const wordStats = {
+				word: words[gameNbr - 1],
+				result: newState.gameState,
+				wordState: newState.wordState,
+				score: newState.gainedPointsState,
+				pointsToGain: pointsToGain,
+				wrongGuessAllowed: nbrWrongGuessAllowed,
+				misses: nbrWrongGuessAllowed - newState.nbrWrongGuessState
+			};
+
+			newState.sessionScore = updatedSessionScore;
+			newState.stats = [ ...stats, wordStats ];
+
+			if (helpers.isSessionEnded(words, gameNbr)) {
+				newState.isSessionEnd = true;
+				updateUserPoints(updatedSessionScore);
+			}
+
+			updateLocalDb(id, {
+				score: updatedSessionScore,
+				playedWords: newState.stats,
+				ended: newState.isSessionEnd
+			});
+		}
+
+		setGameState(newState);
+	};
+
+	function updateLocalDb(id, updatedData) {
+		try {
+			const sessionsTable = db.table('sessions');
+			sessionsTable.get(id, (object) => {
+				const newObject = Object.assign({}, object, updatedData);
+				sessionsTable.update(id, newObject).then((updated) => {
+					if (updated) console.log('Local Db updated, session Num', id);
+					else console.log('Nothing was updated');
+				});
+			});
+		} catch (error) {
+			console.log(error.message);
+		}
+	}
+
 	return {
-		getHelp,
-		setNewGame,
-		setGameState,
 		wordState,
 		alphabetsState,
 		nbrWrongGuessAllowed,
@@ -148,12 +232,13 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData) => {
 		gameState,
 		gameNbr,
 		drawProgressState,
-		pointsToGain,
 		gainedPointsState,
 		sessionScore,
 		isSessionEnd,
 		stats,
 		disabledHelpBtnState,
-		progressDrawFinalStep
+		setNewGame,
+		getHelp,
+		setGuess
 	};
 };
