@@ -78,6 +78,11 @@ const HomePage = ({ goToPage, resumeSession }) => {
 		resumeSession(id);
 	}
 
+	function getWordsLeftInfo(words, playedWords) {
+		const nbrWordsLeft = words.length - playedWords.length;
+		return `${nbrWordsLeft} ${nbrWordsLeft > 1 ? 'Words' : 'Word'} left to guess`;
+	}
+
 	return (
 		<React.Fragment>
 			<Typography variant="h4" component="h1">
@@ -95,7 +100,7 @@ const HomePage = ({ goToPage, resumeSession }) => {
 									Session {session.id}
 								</Typography>
 								<Typography component="p">
-									{session.words.length - session.playedWords.length} Words left to guess
+									{getWordsLeftInfo(session.words, session.playedWords)}
 								</Typography>
 							</div>
 							<div className={classes.paperActionContainer}>
