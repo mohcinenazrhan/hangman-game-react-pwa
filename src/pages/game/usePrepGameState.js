@@ -103,17 +103,7 @@ export const usePrepGameState = (type, resumeSessionId = null) => {
 				const wordsList = sessionWords.slice(0, numberOfWords);
 
 				// Create session data for local db
-				LocalDb.getDb()
-					.table('sessions')
-					.add({
-						date: new Date(),
-						ended: false,
-						score: 0,
-						words: wordsList,
-						language: valueLanguage,
-						difficulty: valueDifficulty,
-						playedWords: []
-					})
+				LocalDb.createNewSession(wordsList, valueLanguage, valueDifficulty)
 					.then(function(id) {
 						setSessionId(id);
 						// Wait for the id to launch the game

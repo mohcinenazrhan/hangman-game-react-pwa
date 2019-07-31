@@ -22,6 +22,21 @@ const LocalDb = {
 		} catch (error) {
 			console.log(error.message);
 		}
+	},
+	createNewSession: (wordsList, language, difficulty) => {
+		try {
+			return LocalDb.getDb().table('sessions').add({
+				date: new Date(),
+				ended: false,
+				score: 0,
+				words: wordsList,
+				language: language,
+				difficulty: difficulty,
+				playedWords: []
+			});
+		} catch (error) {
+			console.log(error.message);
+		}
 	}
 };
 
