@@ -100,9 +100,8 @@ const HomePage = ({ goToPage, resumeSession }) => {
 									Session {session.id}
 								</Typography>
 								<Typography component="p">{`${session.language}, ${session.difficulty}`}</Typography>
-								<Typography component="p">{`${session.score} Points`}</Typography>
 								<Typography component="p">{`${session.playedWords.length}/${session.words
-									.length} Completed`}</Typography>
+									.length} Completed, ${session.score} Points`}</Typography>
 								<Typography component="p">
 									{getWordsLeftInfo(session.words, session.playedWords)}
 								</Typography>
