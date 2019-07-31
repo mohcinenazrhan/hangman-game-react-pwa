@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typography, Button, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import LocalDb from '../LocalDb';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -36,6 +37,17 @@ const useStyles = makeStyles((theme) => ({
 
 const HomePage = ({ goToPage }) => {
 	const classes = useStyles();
+	const [ uncompletedSessions, setUncompletedSessions ] = useState([]);
+
+	useEffect(() => {
+		LocalDb.getLastUncompletedSessions(5)
+			.then((rows) => {
+				setUncompletedSessions(rows);
+			})
+			.catch((error) => {
+				console.log('error: ' + error);
+			});
+	}, []);
 
 	function handleNewSessionClick() {
 		goToPage('game');
@@ -48,50 +60,30 @@ const HomePage = ({ goToPage }) => {
 			<Typography variant="h4" component="h1">
 				Play and improve your English
 			</Typography>
-			<section className={classes.marginTopBottom}>
-				<Typography variant="h5" component="h2">
-					Pick up where you left off
-				</Typography>
-				<Paper className={classes.paper}>
-					<div className={classes.paperInfoContainer}>
-						<Typography variant="h6" component="h3">
-							Session 3
-						</Typography>
-						<Typography component="p">5 Words left to discover</Typography>
-					</div>
-					<div className={classes.paperActionContainer}>
-						<Button variant="contained" color="primary" onClick={handleContinueClick}>
-							Continue
-						</Button>
-					</div>
-				</Paper>
-				<Paper className={classes.paper}>
-					<div className={classes.paperInfoContainer}>
-						<Typography variant="h6" component="h3">
-							Session 2
-						</Typography>
-						<Typography component="p">2 Words left to discover</Typography>
-					</div>
-					<div className={classes.paperActionContainer}>
-						<Button variant="contained" color="primary" onClick={handleContinueClick}>
-							Continue
-						</Button>
-					</div>
-				</Paper>
-				<Paper className={classes.paper}>
-					<div className={classes.paperInfoContainer}>
-						<Typography variant="h6" component="h3">
-							Session 1
-						</Typography>
-						<Typography component="p">3 Words left to discover</Typography>
-					</div>
-					<div className={classes.paperActionContainer}>
-						<Button variant="contained" color="primary" onClick={handleContinueClick}>
-							Continue
-						</Button>
-					</div>
-				</Paper>
-			</section>
+			{uncompletedSessions.length > 0 && (
+				<section className={classes.marginTopBottom}>
+					<Typography variant="h5" component="h2">
+						Pick up where you left off
+					</Typography>
+					{uncompletedSessions.map((session, index) => (
+						<Paper key={index} className={classes.paper}>
+							<div className={classes.paperInfoContainer}>
+								<Typography variant="h6" component="h3">
+									Session {session.id}
+								</Typography>
+								<Typography component="p">
+									{session.words.length - session.playedWords.length} Words left to guess
+								</Typography>
+							</div>
+							<div className={classes.paperActionContainer}>
+								<Button variant="contained" color="primary" onClick={handleContinueClick}>
+									Continue
+								</Button>
+							</div>
+						</Paper>
+					))}
+				</section>
+			)}
 			<Button variant="contained" color="primary" className={classes.button} onClick={handleNewSessionClick}>
 				New Session
 			</Button>

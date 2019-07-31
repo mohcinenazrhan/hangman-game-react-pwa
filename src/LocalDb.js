@@ -55,6 +55,21 @@ const LocalDb = {
 		} catch (error) {
 			console.log(error.message);
 		}
+	},
+	getLastUncompletedSessions: (nbr) => {
+		try {
+			return LocalDb.getDb()
+				.table('sessions')
+				.where('state')
+				.equals('Uncompleted')
+				.reverse()
+				.limit(nbr)
+				.toArray((rows) => {
+					return Promise.resolve(rows);
+				});
+		} catch (error) {
+			console.log(error.message);
+		}
 	}
 };
 
