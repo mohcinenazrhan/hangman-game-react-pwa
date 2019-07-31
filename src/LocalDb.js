@@ -70,6 +70,15 @@ const LocalDb = {
 		} catch (error) {
 			console.log(error.message);
 		}
+	},
+	getNbrSessionsCompleted: () => {
+		try {
+			return LocalDb.getDb().table('sessions').where('state').equals('Completed').count((value) => {
+				return Promise.resolve(value);
+			});
+		} catch (error) {
+			console.log(error.message);
+		}
 	}
 };
 

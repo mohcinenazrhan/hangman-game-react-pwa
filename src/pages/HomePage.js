@@ -57,12 +57,21 @@ const BorderLinearProgress = withStyles({
 
 const HomePage = ({ goToPage, resumeSession }) => {
 	const classes = useStyles();
-	const [ uncompletedSessions, setUncompletedSessions ] = useState([]);
+	const [uncompletedSessions, setUncompletedSessions] = useState([]);
+	const [nbrCompletedSessions, setNbrCompletedSessions ] = useState([]);
 
 	useEffect(() => {
 		LocalDb.getLastUncompletedSessions(5)
 			.then((rows) => {
 				setUncompletedSessions(rows);
+			})
+			.catch((error) => {
+				console.log('error: ' + error);
+			});
+
+		LocalDb.getNbrSessionsCompleted()
+			.then((nbr) => {
+				setNbrCompletedSessions(nbr);
 			})
 			.catch((error) => {
 				console.log('error: ' + error);
@@ -92,7 +101,7 @@ const HomePage = ({ goToPage, resumeSession }) => {
 					My statistics
 				</Typography>
 				<Paper>
-					<Typography component="p">{`10 Sessions completed`}</Typography>
+					<Typography component="p">{`${nbrCompletedSessions} Sessions completed`}</Typography>
 					<Typography component="p">{`123 Words guessed successfully`}</Typography>
 				</Paper>
 			</section>
