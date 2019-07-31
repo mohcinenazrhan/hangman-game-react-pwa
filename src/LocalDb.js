@@ -46,6 +46,15 @@ const LocalDb = {
 		} catch (error) {
 			console.log(error.message);
 		}
+	},
+	getLastSessions: (nbr) => {
+		try {
+			return LocalDb.getDb().table('sessions').orderBy('date').reverse().limit(nbr).toArray((rows) => {
+				return Promise.resolve(rows);
+			});
+		} catch (error) {
+			console.log(error.message);
+		}
 	}
 };
 

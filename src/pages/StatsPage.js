@@ -50,12 +50,8 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 	const [ isReady, setIsReady ] = useState(false);
 
 	useEffect(() => {
-		LocalDb.getDb()
-			.table('sessions')
-			.orderBy('date')
-			.reverse()
-			.limit(5)
-			.toArray((rows) => {
+		LocalDb.getLastSessions(5)
+			.then((rows) => {
 				setStats(rows);
 				setIsReady(true);
 			})
