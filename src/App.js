@@ -183,7 +183,7 @@ function App() {
 							/>
 						)}
 						{page === 'stats' && <StatsPage resumeSession={resumeSession} goToPage={goToPage} />}
-						{page === 'about' && <AboutPage />}
+						{page === 'about' && <AboutPage goToPage={goToPage} />}
 					</main>
 					<div className={classes.toolbar} />
 				</Container>
