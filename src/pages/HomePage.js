@@ -99,6 +99,7 @@ const HomePage = ({ goToPage, resumeSession }) => {
 								<Typography variant="h6" component="h3">
 									Session {session.id}
 								</Typography>
+								<Typography component="p">{`${session.score} Points`}</Typography>
 								<Typography component="p">{`${session.playedWords.length}/${session.words
 									.length} Completed`}</Typography>
 								<Typography component="p">
