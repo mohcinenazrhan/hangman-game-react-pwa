@@ -173,7 +173,7 @@ function App() {
 				<Container maxWidth="lg">
 					<div className={classes.toolbar} />
 					<main className={classes.content}>
-						{page === 'home' && <HomePage goToPage={goToPage} />}
+						{page === 'home' && <HomePage goToPage={goToPage} resumeSession={resumeSession} />}
 						{page === 'game' && <GamePage updatePoints={updatePoints} />}
 						{page === 'resume' && (
 							<ResumePage

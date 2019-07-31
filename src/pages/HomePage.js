@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const HomePage = ({ goToPage }) => {
+const HomePage = ({ goToPage, resumeSession }) => {
 	const classes = useStyles();
 	const [ uncompletedSessions, setUncompletedSessions ] = useState([]);
 
@@ -53,7 +53,9 @@ const HomePage = ({ goToPage }) => {
 		goToPage('game');
 	}
 
-	function handleContinueClick() {}
+	function handleContinueClick(id) {
+		resumeSession(id);
+	}
 
 	return (
 		<React.Fragment>
@@ -76,7 +78,13 @@ const HomePage = ({ goToPage }) => {
 								</Typography>
 							</div>
 							<div className={classes.paperActionContainer}>
-								<Button variant="contained" color="primary" onClick={handleContinueClick}>
+								<Button
+									variant="contained"
+									color="primary"
+									onClick={() => {
+										handleContinueClick(session.id);
+									}}
+								>
 									Continue
 								</Button>
 							</div>
