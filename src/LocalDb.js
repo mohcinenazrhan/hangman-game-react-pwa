@@ -79,6 +79,19 @@ const LocalDb = {
 		} catch (error) {
 			console.log(error.message);
 		}
+	},
+	getNbrWordGuessedSuccessfully: () => {
+		try {
+			return LocalDb.getDb().table('sessions').toArray((sessions) => {
+				let counter = 0;
+				for (const session of sessions) {
+					counter = counter + session.playedWords.filter((word) => word.result === 'succeed').length;
+				}
+				return Promise.resolve(counter);
+			});
+		} catch (error) {
+			console.log(error.message);
+		}
 	}
 };
 

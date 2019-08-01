@@ -57,8 +57,9 @@ const BorderLinearProgress = withStyles({
 
 const HomePage = ({ goToPage, resumeSession }) => {
 	const classes = useStyles();
-	const [uncompletedSessions, setUncompletedSessions] = useState([]);
-	const [nbrCompletedSessions, setNbrCompletedSessions ] = useState([]);
+	const [ uncompletedSessions, setUncompletedSessions ] = useState([]);
+	const [ nbrCompletedSessions, setNbrCompletedSessions ] = useState([]);
+	const [ nbrWordGuessedSuccessfully, setNbrWordGuessedSuccessfully ] = useState([]);
 
 	useEffect(() => {
 		LocalDb.getLastUncompletedSessions(5)
@@ -72,6 +73,14 @@ const HomePage = ({ goToPage, resumeSession }) => {
 		LocalDb.getNbrSessionsCompleted()
 			.then((nbr) => {
 				setNbrCompletedSessions(nbr);
+			})
+			.catch((error) => {
+				console.log('error: ' + error);
+			});
+
+		LocalDb.getNbrWordGuessedSuccessfully()
+			.then((nbr) => {
+				setNbrWordGuessedSuccessfully(nbr);
 			})
 			.catch((error) => {
 				console.log('error: ' + error);
@@ -102,7 +111,7 @@ const HomePage = ({ goToPage, resumeSession }) => {
 				</Typography>
 				<Paper>
 					<Typography component="p">{`${nbrCompletedSessions} Sessions completed`}</Typography>
-					<Typography component="p">{`123 Words guessed successfully`}</Typography>
+					<Typography component="p">{`${nbrWordGuessedSuccessfully} Words guessed successfully`}</Typography>
 				</Paper>
 			</section>
 			{uncompletedSessions.length > 0 && (
