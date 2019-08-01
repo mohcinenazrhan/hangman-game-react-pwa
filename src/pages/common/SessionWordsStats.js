@@ -82,7 +82,7 @@ const SessionWordsStats = ({ stats }) => {
 									})}
 								</TableCell>
 								<TableCell className={classes.tableCell} align="right">
-									{row.score > 1 ? `${row.score} Points` : `${row.score} Point`}
+									{`${row.score} ${row.score > 1 ? 'Points' : 'Point'}`}
 								</TableCell>
 								<TableCell className={classes.tableCell} align="right">
 									{`${row.misses}/${row.wrongGuessAllowed}`}
