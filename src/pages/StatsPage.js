@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Typography, Divider, Button } from '@material-ui/core';
+import { Typography, Divider, Button, Paper } from '@material-ui/core';
 import LocalDb from '../LocalDb';
 import SessionWordsStats from './common/SessionWordsStats';
 
@@ -38,8 +38,7 @@ const useStyles = makeStyles((theme) => ({
 	statsContainer: {
 		marginTop: theme.spacing(3),
 		marginBottom: theme.spacing(3),
-		paddingTop: theme.spacing(3),
-		paddingBottom: theme.spacing(3),
+		padding: theme.spacing(3, 1),
 		textAlign: 'left'
 	}
 }));
@@ -76,7 +75,7 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 			{isReady ? stats.length > 0 ? (
 				stats.map((statsRow, index) => (
 					<React.Fragment key={index}>
-						<div className={classes.statsContainer}>
+						<Paper className={classes.statsContainer}>
 							<Typography variant="h6" component="h2">
 								Session {statsRow.id}
 							</Typography>
@@ -102,7 +101,7 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 									continue
 								</Button>
 							)}
-						</div>
+						</Paper>
 						<Divider />
 					</React.Fragment>
 				))
