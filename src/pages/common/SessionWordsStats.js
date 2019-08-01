@@ -50,7 +50,7 @@ const SessionWordsStats = ({ stats }) => {
 						<TableRow>
 							<TableCell>Word</TableCell>
 							<TableCell>State</TableCell>
-							<TableCell align="right">Score</TableCell>
+							<TableCell align="right">Points</TableCell>
 							<TableCell align="right">Misses</TableCell>
 						</TableRow>
 					</TableHead>
@@ -82,7 +82,7 @@ const SessionWordsStats = ({ stats }) => {
 									})}
 								</TableCell>
 								<TableCell className={classes.tableCell} align="right">
-									{`${row.score}/${row.pointsToGain} ${row.score > 1 ? 'Points' : 'Point'}`}
+									{`${row.score}/${row.pointsToGain}`}
 								</TableCell>
 								<TableCell className={classes.tableCell} align="right">
 									{`${row.misses}/${row.wrongGuessAllowed}`}
