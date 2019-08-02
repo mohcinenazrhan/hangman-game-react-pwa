@@ -12,10 +12,8 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(5)
 	},
 	paper: {
-		marginTop: theme.spacing(3),
 		width: '100%',
-		overflowX: 'auto',
-		marginBottom: theme.spacing(2)
+		overflowX: 'auto'
 	},
 	tableCell: {
 		padding: '5px'
@@ -36,8 +34,7 @@ const useStyles = makeStyles((theme) => ({
 		borderLeft: '6px solid #e74c3c'
 	},
 	statsContainer: {
-		marginTop: theme.spacing(3),
-		marginBottom: theme.spacing(3),
+		margin: theme.spacing(2, 0),
 		padding: theme.spacing(0.5, 1),
 		textAlign: 'left'
 	},
