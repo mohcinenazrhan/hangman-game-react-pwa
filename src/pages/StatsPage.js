@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 	statsContainer: {
 		marginTop: theme.spacing(3),
 		marginBottom: theme.spacing(3),
-		padding: theme.spacing(3, 1),
+		padding: theme.spacing(0.5, 1),
 		textAlign: 'left'
 	}
 }));
