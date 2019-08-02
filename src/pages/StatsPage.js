@@ -40,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(3),
 		padding: theme.spacing(0.5, 1),
 		textAlign: 'left'
+	},
+	statsHeader: {
+		display: 'flex',
+		justifyContent: 'space-between'
 	}
 }));
 
@@ -76,10 +80,14 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 				stats.map((statsRow, index) => (
 					<React.Fragment key={index}>
 						<Paper className={classes.statsContainer}>
-							<Typography variant="h6" component="h2">
-								Session {statsRow.id}
-							</Typography>
-							<Typography>Started: {statsRow.date.toLocaleString()}</Typography>
+							<div className={classes.statsHeader}>
+								<Typography variant="h6" component="h2">
+									{`Session ${statsRow.id}`}
+								</Typography>
+								<Typography variant="overline" display="block" gutterBottom>
+									{statsRow.date.toLocaleString()}
+								</Typography>
+							</div>
 							<Typography>Score: {statsRow.score}</Typography>
 							<Typography>Difficulty: {statsRow.difficulty}</Typography>
 							<Typography>Language: {statsRow.language}</Typography>
