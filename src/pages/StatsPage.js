@@ -102,7 +102,7 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 								</Button>
 							)}
 						</Paper>
-						<Divider />
+						{index < stats.length - 1 && <Divider />}
 					</React.Fragment>
 				))
 			) : (
