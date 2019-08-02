@@ -88,9 +88,8 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 									{statsRow.date.toLocaleString()}
 								</Typography>
 							</div>
+							<Typography>{`${statsRow.language}, ${statsRow.difficulty}`}</Typography>
 							<Typography>Score: {statsRow.score}</Typography>
-							<Typography>Difficulty: {statsRow.difficulty}</Typography>
-							<Typography>Language: {statsRow.language}</Typography>
 							<Typography>{statsRow.state}</Typography>
 							<Typography>
 								{statsRow.playedWords ? statsRow.playedWords.length : 0}/{statsRow.words.length} words
