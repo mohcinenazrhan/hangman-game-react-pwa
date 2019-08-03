@@ -132,6 +132,7 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 								<Button
 									variant="contained"
 									color="primary"
+									size="small"
 									className={classes.continueBtn}
 									onClick={() => {
 										handleResumeSession(statsRow.id);
