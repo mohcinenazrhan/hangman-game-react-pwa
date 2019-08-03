@@ -1,6 +1,8 @@
 import React from 'react';
 import { makeStyles, withStyles, lighten } from '@material-ui/core/styles';
-import { Typography, Button, Paper, LinearProgress } from '@material-ui/core';
+import { Typography, Button, Paper, LinearProgress, IconButton, Collapse } from '@material-ui/core';
+import clsx from 'clsx';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SessionWordsStats from '../../common/SessionWordsStats';
 
 const useStyles = makeStyles((theme) => ({
@@ -50,6 +52,16 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'flex-end',
 		margin: theme.spacing(1, 0)
+	},
+	expand: {
+		transform: 'rotate(0deg)',
+		marginLeft: 'auto',
+		transition: theme.transitions.create('transform', {
+			duration: theme.transitions.duration.shortest
+		})
+	},
+	expandOpen: {
+		transform: 'rotate(180deg)'
 	}
 }));
 
@@ -68,6 +80,11 @@ const BorderLinearProgress = withStyles({
 
 const SessionStats = ({ stats, index, handleResumeSession }) => {
 	const classes = useStyles();
+	const [ expanded, setExpanded ] = React.useState(false);
+
+	function handleExpandClick() {
+		setExpanded(!expanded);
+	}
 
 	return (
 		<Paper className={classes.statsContainer}>
@@ -98,9 +115,24 @@ const SessionStats = ({ stats, index, handleResumeSession }) => {
 					value={stats.playedWords.length * 100 / stats.words.length}
 				/>
 			</div>
-			{stats.playedWords && stats.playedWords.length > 0 && <SessionWordsStats stats={stats.playedWords} />}
+			{stats.playedWords &&
+			stats.playedWords.length > 0 && (
+				<Collapse in={expanded} timeout="auto" unmountOnExit>
+					<SessionWordsStats stats={stats.playedWords} />
+				</Collapse>
+			)}
 			{stats.state === 'Uncompleted' && (
 				<div className={classes.actionContainer}>
+					<IconButton
+						className={clsx(classes.expand, {
+							[classes.expandOpen]: expanded
+						})}
+						onClick={handleExpandClick}
+						aria-expanded={expanded}
+						aria-label="show words stats"
+					>
+						<ExpandMoreIcon />
+					</IconButton>
 					<Button
 						variant="contained"
 						color="primary"
