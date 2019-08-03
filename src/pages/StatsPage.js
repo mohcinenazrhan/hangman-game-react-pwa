@@ -108,15 +108,15 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 									{statsRow.date.toLocaleString()}
 								</Typography>
 							</div>
-							<Typography>{`${statsRow.language}, ${statsRow.difficulty}`}</Typography>
-							<Typography>{`${statsRow.state}, ${statsRow.score} Points`}</Typography>
+							<Typography variant="body2">{`${statsRow.language}, ${statsRow.difficulty}`}</Typography>
+							<Typography variant="body2">{`${statsRow.state}, ${statsRow.score} Points`}</Typography>
 							<div>
 								<div className={classes.progressInfoContainer}>
-									<Typography>
+									<Typography variant="body2">
 										{statsRow.playedWords ? statsRow.playedWords.length : 0}/{statsRow.words.length}{' '}
 										words played
 									</Typography>
-									<Typography>
+									<Typography variant="body2">
 										{`${Math.floor(statsRow.playedWords.length * 100 / statsRow.words.length)}%`}
 									</Typography>
 								</div>
