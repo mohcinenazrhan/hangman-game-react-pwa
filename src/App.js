@@ -13,7 +13,7 @@ import './App.css';
 import GamePage from './pages/game/GamePage';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
-import StatsPage from './pages/StatsPage';
+import StatsPage from './pages/stats/StatsPage';
 import ResumePage from './pages/game/ResumePage';
 
 const theme = createMuiTheme({
