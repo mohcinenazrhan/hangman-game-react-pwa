@@ -7,9 +7,6 @@ import SessionStats from './components/SessionStats';
 const useStyles = makeStyles((theme) => ({
 	root: {
 		width: '100%'
-	},
-	pageTitle: {
-		marginBottom: theme.spacing(5)
 	}
 }));
 
@@ -39,7 +36,7 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 
 	return (
 		<div className={classes.root}>
-			<Typography variant="h5" component="h1" className={classes.pageTitle}>
+			<Typography variant="h5" component="h1">
 				My sessions stats
 			</Typography>
 			{isReady ? stats.length > 0 ? (
