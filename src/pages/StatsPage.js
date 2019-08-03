@@ -116,7 +116,7 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 							</div>
 							<div className={classes.statsInfo}>
 								<Typography variant="body2">{`${statsRow.language}, ${statsRow.difficulty}`}</Typography>
-								<Typography variant="body2">{`${statsRow.state}, ${statsRow.score} Points`}</Typography>
+								<Typography variant="body2">{`${statsRow.score} Points`}</Typography>
 							</div>
 							<div>
 								<div className={classes.progressInfoContainer}>
