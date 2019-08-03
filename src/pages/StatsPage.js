@@ -48,6 +48,9 @@ const useStyles = makeStyles((theme) => ({
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		width: '100%'
+	},
+	continueBtn: {
+		margin: theme.spacing(1, 0)
 	}
 }));
 
@@ -129,6 +132,7 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 								<Button
 									variant="contained"
 									color="primary"
+									className={classes.continueBtn}
 									onClick={() => {
 										handleResumeSession(statsRow.id);
 									}}
