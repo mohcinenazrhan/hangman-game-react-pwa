@@ -49,7 +49,9 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center',
 		width: '100%'
 	},
-	continueBtn: {
+	actionContainer: {
+		display: 'flex',
+		justifyContent: 'flex-end',
 		margin: theme.spacing(1, 0)
 	}
 }));
@@ -129,17 +131,18 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 							{statsRow.playedWords &&
 							statsRow.playedWords.length > 0 && <SessionWordsStats stats={statsRow.playedWords} />}
 							{statsRow.state === 'Uncompleted' && (
-								<Button
-									variant="contained"
-									color="primary"
-									size="small"
-									className={classes.continueBtn}
-									onClick={() => {
-										handleResumeSession(statsRow.id);
-									}}
-								>
-									continue
-								</Button>
+								<div className={classes.actionContainer}>
+									<Button
+										variant="contained"
+										color="primary"
+										size="small"
+										onClick={() => {
+											handleResumeSession(statsRow.id);
+										}}
+									>
+										continue
+									</Button>
+								</div>
 							)}
 						</Paper>
 						{index < stats.length - 1 && <Divider />}
