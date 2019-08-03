@@ -61,6 +61,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	expandOpen: {
 		transform: 'rotate(180deg)'
+	},
+	expandHide: {
+		visibility: 'hidden'
 	}
 }));
 
@@ -120,18 +123,21 @@ const SessionStats = ({ stats, index, handleResumeSession }) => {
 					<SessionWordsStats stats={stats.playedWords} />
 				</Collapse>
 			)}
-			{stats.state === 'Uncompleted' && (
-				<div className={classes.actionContainer}>
-					<IconButton
-						className={clsx(classes.expand, {
-							[classes.expandOpen]: expanded
-						})}
-						onClick={handleExpandClick}
-						aria-expanded={expanded}
-						aria-label="show words stats"
-					>
-						<ExpandMoreIcon />
-					</IconButton>
+
+			<div className={classes.actionContainer}>
+				<IconButton
+					className={clsx(classes.expand, {
+						[classes.expandOpen]: expanded,
+						[classes.expandHide]: stats.playedWords.length === 0
+					})}
+					onClick={handleExpandClick}
+					aria-expanded={expanded}
+					aria-label="show words stats"
+				>
+					<ExpandMoreIcon />
+				</IconButton>
+
+				{stats.state === 'Uncompleted' && (
 					<Button
 						variant="contained"
 						color="primary"
@@ -142,8 +148,8 @@ const SessionStats = ({ stats, index, handleResumeSession }) => {
 					>
 						continue
 					</Button>
-				</div>
-			)}
+				)}
+			</div>
 		</Paper>
 	);
 };
