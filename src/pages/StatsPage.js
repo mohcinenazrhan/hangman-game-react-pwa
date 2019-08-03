@@ -42,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		justifyContent: 'space-between'
 	},
+	statsInfo: {
+		display: 'flex',
+		justifyContent: 'space-between'
+	},
 	progressInfoContainer: {
 		display: 'flex',
 		flexWrap: 'nowrap',
@@ -110,8 +114,10 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 									{statsRow.date.toLocaleString()}
 								</Typography>
 							</div>
-							<Typography variant="body2">{`${statsRow.language}, ${statsRow.difficulty}`}</Typography>
-							<Typography variant="body2">{`${statsRow.state}, ${statsRow.score} Points`}</Typography>
+							<div className={classes.statsInfo}>
+								<Typography variant="body2">{`${statsRow.language}, ${statsRow.difficulty}`}</Typography>
+								<Typography variant="body2">{`${statsRow.state}, ${statsRow.score} Points`}</Typography>
+							</div>
 							<div>
 								<div className={classes.progressInfoContainer}>
 									<Typography variant="body2">
