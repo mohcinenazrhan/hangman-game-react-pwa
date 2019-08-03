@@ -14,10 +14,9 @@ const useStyles = makeStyles((theme) => ({
 		width: '100%'
 	},
 	paper: {
-		marginTop: theme.spacing(3),
+		margin: theme.spacing(1, 0),
 		width: '100%',
-		overflowX: 'auto',
-		marginBottom: theme.spacing(2)
+		overflowX: 'auto'
 	},
 	tableCell: {
 		padding: '5px'
