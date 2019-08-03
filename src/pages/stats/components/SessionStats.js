@@ -50,12 +50,11 @@ const useStyles = makeStyles((theme) => ({
 	},
 	actionContainer: {
 		display: 'flex',
-		justifyContent: 'flex-end',
-		margin: theme.spacing(1, 0)
+		justifyContent: 'space-between',
+		alignItems: 'center'
 	},
 	expand: {
 		transform: 'rotate(0deg)',
-		marginLeft: 'auto',
 		transition: theme.transitions.create('transform', {
 			duration: theme.transitions.duration.shortest
 		})
