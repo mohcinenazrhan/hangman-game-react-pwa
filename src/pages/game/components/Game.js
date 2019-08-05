@@ -119,6 +119,11 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 
 	return (
 		<React.Fragment>
+			{!isSessionEnd && (
+				<Button variant="contained" color="primary" className={classes.button} onClick={cancelSession}>
+					Cancel
+				</Button>
+			)}
 			<div>
 				<Typography>{`${difficulty}, ${sessionScore} Points`}</Typography>
 				<Typography>
@@ -190,16 +195,6 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 									</Button>
 								)}
 							</React.Fragment>
-						)}
-						{!isSessionEnd && (
-							<Button
-								variant="contained"
-								color="primary"
-								className={classes.button}
-								onClick={cancelSession}
-							>
-								Cancel
-							</Button>
 						)}
 						{isSessionEnd && (
 							<React.Fragment>
