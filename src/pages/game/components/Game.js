@@ -125,6 +125,7 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 				</Button>
 			)}
 			<div>
+				<Typography>{`Session N°${id}`}</Typography>
 				<Typography>{`${difficulty}, ${sessionScore} Points`}</Typography>
 				<Typography>
 					{gameNbr}/{words.length} words
