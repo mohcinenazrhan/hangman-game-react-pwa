@@ -18,11 +18,12 @@ const useStyles = makeStyles((theme) => ({
 		alignSelf: 'center'
 	},
 	progressContainer: {
+		width: '100%'
+	},
+	progressInfo: {
 		display: 'flex',
 		flexWrap: 'nowrap',
-		justifyContent: 'space-around',
-		alignItems: 'center',
-		width: '100%'
+		justifyContent: 'space-between'
 	},
 	link: {
 		margin: theme.spacing(1)
@@ -46,7 +47,7 @@ const BorderLinearProgress = withStyles({
 	root: {
 		height: 5,
 		backgroundColor: lighten('#4CAF50', 0.5),
-		width: '90%',
+		width: '100%',
 		borderRadius: 5
 	},
 	bar: {
@@ -128,9 +129,6 @@ const HomePage = ({ goToPage, resumeSession }) => {
 								<Typography component="p">{`${session.language}, ${session.difficulty}`}</Typography>
 								<Typography component="p">{`${session.playedWords.length}/${session.words
 									.length} Completed, ${session.score} Points`}</Typography>
-								<Typography component="p">
-									{getWordsLeftInfo(session.words, session.playedWords)}
-								</Typography>
 							</div>
 							<div className={classes.paperActionContainer}>
 								<Button
@@ -144,14 +142,19 @@ const HomePage = ({ goToPage, resumeSession }) => {
 								</Button>
 							</div>
 							<div className={classes.progressContainer}>
+								<div className={classes.progressInfo}>
+									<Typography component="p">
+										{getWordsLeftInfo(session.words, session.playedWords)}
+									</Typography>
+									<Typography>
+										{`${Math.floor(session.playedWords.length * 100 / session.words.length)}%`}
+									</Typography>
+								</div>
 								<BorderLinearProgress
 									variant="determinate"
 									color="secondary"
 									value={session.playedWords.length * 100 / session.words.length}
 								/>
-								<Typography>
-									{`${Math.floor(session.playedWords.length * 100 / session.words.length)}%`}
-								</Typography>
 							</div>
 						</Paper>
 					))}
