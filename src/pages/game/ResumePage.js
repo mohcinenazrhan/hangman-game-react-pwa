@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { usePrepGameState } from './usePrepGameState';
 
 const ResumePage = ({ updatePoints, resumeSessionId, goToPage }) => {
-	const { valueDifficulty, alphabets, words, isReady, resumeData } = usePrepGameState(
+	const { valueDifficulty, valueLanguage, alphabets, words, isReady, resumeData } = usePrepGameState(
 		'resumeSession',
 		resumeSessionId
 	);
@@ -25,6 +25,7 @@ const ResumePage = ({ updatePoints, resumeSessionId, goToPage }) => {
 				<Game
 					alphabets={alphabets}
 					difficulty={valueDifficulty}
+					language={valueLanguage}
 					words={words}
 					updateUserPoints={updateUserPoints}
 					prepareNewSession={prepareNewSession}

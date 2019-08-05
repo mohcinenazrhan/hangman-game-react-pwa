@@ -177,6 +177,7 @@ const GamePage = ({ updatePoints }) => {
 				<Game
 					alphabets={alphabets}
 					difficulty={valueDifficulty}
+					language={valueLanguage}
 					words={words}
 					updateUserPoints={updateUserPoints}
 					prepareNewSession={prepareNewSession}

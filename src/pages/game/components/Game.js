@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSession, resumeData = null }) {
+function Game({ id, words, alphabets, language, difficulty, updateUserPoints, prepareNewSession, resumeData = null }) {
 	const classes = useStyles();
 
 	const {
@@ -126,7 +126,7 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 			)}
 			<div>
 				<Typography>{`Session N°${id}`}</Typography>
-				<Typography>{`${difficulty}, ${sessionScore} Points`}</Typography>
+				<Typography>{`${language}, ${difficulty}, ${sessionScore} Points`}</Typography>
 				<Typography>
 					{gameNbr}/{words.length} words
 				</Typography>
@@ -241,6 +241,7 @@ Game.propTypes = {
 	words: PropTypes.array.isRequired,
 	alphabets: PropTypes.array.isRequired,
 	difficulty: PropTypes.string.isRequired,
+	language: PropTypes.string.isRequired,
 	prepareNewSession: PropTypes.func.isRequired,
 	updateUserPoints: PropTypes.func.isRequired
 };
