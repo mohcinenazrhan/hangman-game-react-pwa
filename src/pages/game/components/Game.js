@@ -122,14 +122,6 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 			<div className={classes.gameInfoContainer}>
 				{gameState === 'playing' && (
 					<React.Fragment>
-						<Button
-							variant="contained"
-							disabled={disabledHelpBtnState}
-							className={classes.button}
-							onClick={handleHelpClick}
-						>
-							Get Help = -1 point
-						</Button>
 						<Typography>{`${gainedPointsState} points to win`}</Typography>
 						<Typography>{`${nbrWrongGuessState} guesses left`}</Typography>
 					</React.Fragment>
@@ -151,6 +143,14 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 								btnStyle={classes.button}
 								keyboardLetterClick={handleKeyboardLetterClick}
 							/>
+							<Button
+								variant="contained"
+								disabled={disabledHelpBtnState}
+								className={classes.button}
+								onClick={handleHelpClick}
+							>
+								Help = -1 point
+							</Button>
 						</div>
 					)}
 					<div>
