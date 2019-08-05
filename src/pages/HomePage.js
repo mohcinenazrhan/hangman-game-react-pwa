@@ -126,8 +126,8 @@ const HomePage = ({ goToPage, resumeSession }) => {
 								<Typography variant="h6" component="h3">
 									Session {session.id}
 								</Typography>
-								<Typography component="p">{`${session.language}, ${session.difficulty}`}</Typography>
-								<Typography component="p">{`${session.playedWords.length}/${session.words
+								<Typography variant="body2">{`${session.language}, ${session.difficulty}`}</Typography>
+								<Typography variant="body2">{`${session.playedWords.length}/${session.words
 									.length} Completed, ${session.score} Points`}</Typography>
 							</div>
 							<div className={classes.paperActionContainer}>
@@ -143,10 +143,10 @@ const HomePage = ({ goToPage, resumeSession }) => {
 							</div>
 							<div className={classes.progressContainer}>
 								<div className={classes.progressInfo}>
-									<Typography component="p">
+									<Typography variant="body2">
 										{getWordsLeftInfo(session.words, session.playedWords)}
 									</Typography>
-									<Typography>
+									<Typography variant="body2">
 										{`${Math.floor(session.playedWords.length * 100 / session.words.length)}%`}
 									</Typography>
 								</div>
