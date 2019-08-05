@@ -29,8 +29,7 @@ const useStyles = makeStyles((theme) => ({
 		display: 'flex',
 		flexWrap: 'wrap',
 		justifyContent: 'center',
-		marginTop: theme.spacing(3),
-		marginBottom: theme.spacing(3)
+		margin: theme.spacing(1, 0)
 	},
 	wordLettres: {
 		height: 60,
