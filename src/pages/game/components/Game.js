@@ -18,8 +18,12 @@ const useStyles = makeStyles((theme) => ({
 		}
 	},
 	gameInfoContainer: {
-		marginTop: theme.spacing(3),
-		marginBottom: theme.spacing(3)
+		position: 'absolute',
+		top: 0,
+		left: '-40px',
+		width: '100px',
+		fontSize: '16px',
+		fontWeight: 'bold'
 	},
 	wordContainer: {
 		display: 'flex',
@@ -43,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	drawImgProgress: {
 		background: `url(${progressDraw})`,
+		position: 'relative',
 		width: 208,
 		height: 130,
 		margin: '0 auto',
@@ -53,6 +58,9 @@ const useStyles = makeStyles((theme) => ({
 	},
 	hide: {
 		display: 'none'
+	},
+	textBold: {
+		fontWeight: 'bold'
 	}
 }));
 
@@ -119,17 +127,23 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 					{gameNbr}/{words.length} words
 				</Typography>
 			</div>
-			<div className={classes.gameInfoContainer}>
-				{gameState === 'playing' && (
-					<React.Fragment>
-						<Typography>{`${gainedPointsState} points to win`}</Typography>
-						<Typography>{`${nbrWrongGuessState} guesses left`}</Typography>
-					</React.Fragment>
-				)}
-			</div>
 			{show === 'game' && (
 				<React.Fragment>
-					<div className={classes.drawImgProgress} style={getProgressDraw()} />
+					<div className={classes.drawImgProgress} style={getProgressDraw()}>
+						<div className={classes.gameInfoContainer}>
+							{gameState === 'playing' && (
+								<React.Fragment>
+									<Typography
+										className={classes.textBold}
+									>{`${gainedPointsState} points to win`}</Typography>
+									<br />
+									<Typography
+										className={classes.textBold}
+									>{`${nbrWrongGuessState} guesses left`}</Typography>
+								</React.Fragment>
+							)}
+						</div>
+					</div>
 					<div className={classes.wordContainer}>
 						<Board
 							wordState={wordState}
