@@ -121,8 +121,7 @@ function Game({ id, words, alphabets, difficulty, updateUserPoints, prepareNewSe
 	return (
 		<React.Fragment>
 			<div>
-				<Typography>Session difficulty: {difficulty}</Typography>
-				<Typography>Your session score: {sessionScore}</Typography>
+				<Typography>{`${difficulty}, ${sessionScore} Points`}</Typography>
 				<Typography>
 					{gameNbr}/{words.length} words
 				</Typography>
