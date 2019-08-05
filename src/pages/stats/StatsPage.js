@@ -16,7 +16,7 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 	const [ isReady, setIsReady ] = useState(false);
 
 	useEffect(() => {
-		LocalDb.getLastSessions(5)
+		LocalDb.getLastSessions()
 			.then((rows) => {
 				setStats(rows);
 				setIsReady(true);

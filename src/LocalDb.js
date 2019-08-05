@@ -47,9 +47,11 @@ const LocalDb = {
 			console.log(error.message);
 		}
 	},
-	getLastSessions: (nbr) => {
+	getLastSessions: (nbr = null) => {
 		try {
-			return LocalDb.getDb().table('sessions').orderBy('date').reverse().limit(nbr).toArray((rows) => {
+			let query = LocalDb.getDb().table('sessions').orderBy('date').reverse();
+			if (nbr !== null) query = query.limit(nbr);
+			return query.toArray((rows) => {
 				return Promise.resolve(rows);
 			});
 		} catch (error) {
