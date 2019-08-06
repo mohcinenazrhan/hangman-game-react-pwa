@@ -18,6 +18,11 @@ const ResumePage = ({ updatePoints, resumeSessionId, goToPage, modeFullScreen })
 		modeFullScreen(false);
 	}
 
+	function quitSession() {
+		goToPage('home');
+		modeFullScreen(false);
+	}
+
 	return (
 		<React.Fragment>
 			{!isReady ? (
@@ -32,7 +37,7 @@ const ResumePage = ({ updatePoints, resumeSessionId, goToPage, modeFullScreen })
 					prepareNewSession={prepareNewSession}
 					id={resumeSessionId}
 					resumeData={resumeData}
-					goToPage={goToPage}
+					quitSession={quitSession}
 				/>
 			)}
 		</React.Fragment>

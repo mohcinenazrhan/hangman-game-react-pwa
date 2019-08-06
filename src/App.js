@@ -187,7 +187,9 @@ function App() {
 					{isNotFullScreen() && <div className={classes.toolbar} />}
 					<main className={classes.content}>
 						{page === 'home' && <HomePage goToPage={goToPage} resumeSession={resumeSession} />}
-						{page === 'game' && <GamePage goToPage={goToPage} updatePoints={updatePoints} modeFullScreen={modeFullScreen} />}
+						{page === 'game' && (
+							<GamePage goToPage={goToPage} updatePoints={updatePoints} modeFullScreen={modeFullScreen} />
+						)}
 						{page === 'resume' && (
 							<ResumePage
 								updatePoints={updatePoints}

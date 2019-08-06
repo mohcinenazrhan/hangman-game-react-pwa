@@ -97,6 +97,11 @@ const GamePage = ({ updatePoints, modeFullScreen, goToPage }) => {
 		modeFullScreen(false);
 	}
 
+	function quitSession() {
+		goToPage('home');
+		modeFullScreen(false);
+	}
+
 	return (
 		<React.Fragment>
 			{newSession === false ? (
@@ -184,7 +189,7 @@ const GamePage = ({ updatePoints, modeFullScreen, goToPage }) => {
 					updateUserPoints={updateUserPoints}
 					prepareNewSession={prepareNewSession}
 					id={sessionId}
-					goToPage={goToPage}
+					quitSession={quitSession}
 				/>
 			)}
 		</React.Fragment>

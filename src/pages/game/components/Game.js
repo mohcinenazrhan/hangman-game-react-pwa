@@ -104,7 +104,7 @@ function Game({
 	difficulty,
 	updateUserPoints,
 	prepareNewSession,
-	goToPage,
+	quitSession,
 	resumeData = null
 }) {
 	const classes = useStyles();
@@ -161,7 +161,7 @@ function Game({
 	}
 
 	function saveSessionForLater() {
-		goToPage('home');
+		quitSession();
 	}
 
 	function deleteAndCancelSession() {
