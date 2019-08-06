@@ -42,7 +42,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	dialogActionsBtn: {
 		width: '100%',
-		marginBottom: theme.spacing(2)
+		marginBottom: theme.spacing(2),
+		textTransform: 'none'
 	},
 	gameInfoContainer: {
 		position: 'absolute',
