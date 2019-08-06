@@ -115,7 +115,8 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 		disabledHelpBtnState,
 		setNewGame,
 		getHelp,
-		setGuess
+		setGuess,
+		deleteSession
 	} = useGameState(id, words, alphabets, difficulty, resumeData, updateUserPoints);
 
 	// State to show either the game or its stats
@@ -152,6 +153,12 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 	function cancelSession() {
 		prepareNewSession();
 	}
+
+	function deleteAndCancelSession() {
+		deleteSession();
+		prepareNewSession();
+	}
+
 	const [ expanded, setExpanded ] = React.useState(false);
 
 	function handleExpandClick() {
@@ -204,7 +211,7 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 								variant="contained"
 								color="primary"
 								className={classes.dialogActionsBtn}
-								onClick={cancelSession}
+								onClick={deleteAndCancelSession}
 							>
 								Unsave and Cancel
 							</Button>

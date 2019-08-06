@@ -94,6 +94,13 @@ const LocalDb = {
 		} catch (error) {
 			console.log(error.message);
 		}
+	},
+	deleteSession: (id) => {
+		try {
+			return LocalDb.getDb().table('sessions').delete(id);
+		} catch (error) {
+			console.log(error.message);
+		}
 	}
 };
 

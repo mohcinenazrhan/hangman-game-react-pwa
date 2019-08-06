@@ -138,6 +138,14 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData, updat
 		});
 	};
 
+	const deleteSession = () => {
+		dispatch({
+			type: 'RESET_SESSION',
+			newSate: initialState
+		});
+		LocalDb.deleteSession(id);
+	};
+
 	const setGuess = (letter) => {
 		// Helper variables
 		let isGameEnd = false;
@@ -210,6 +218,7 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData, updat
 	};
 
 	return {
+		deleteSession,
 		wordState,
 		pointsToGain,
 		alphabetsState,
