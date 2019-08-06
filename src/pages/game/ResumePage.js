@@ -3,7 +3,7 @@ import Game from './components/Game';
 import PropTypes from 'prop-types';
 import { usePrepGameState } from './usePrepGameState';
 
-const ResumePage = ({ updatePoints, resumeSessionId, goToPage }) => {
+const ResumePage = ({ updatePoints, resumeSessionId, goToPage, modeFullScreen }) => {
 	const { valueDifficulty, valueLanguage, alphabets, words, isReady, resumeData } = usePrepGameState(
 		'resumeSession',
 		resumeSessionId
@@ -15,6 +15,7 @@ const ResumePage = ({ updatePoints, resumeSessionId, goToPage }) => {
 
 	function prepareNewSession() {
 		goToPage('game');
+		modeFullScreen(false);
 	}
 
 	return (

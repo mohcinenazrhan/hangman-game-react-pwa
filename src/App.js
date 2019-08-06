@@ -62,6 +62,8 @@ function App() {
 	const [ resumeSessionId, setResumeSessionId ] = React.useState(null);
 	// State for current user score points
 	const [ points, setPoints ] = React.useState(0);
+	// State for full screen
+	const [ fullScreen, setFullScreen ] = React.useState(false);
 
 	React.useEffect(() => {
 		const userPoints = localStorage.getItem('userPoints');
@@ -124,84 +126,98 @@ function App() {
 
 	function resumeSession(id) {
 		setResumeSessionId(id);
+		setFullScreen(true);
 		goToPage('resume');
+	}
+
+	function isNotFullScreen() {
+		return fullScreen === false;
+	}
+
+	function modeFullScreen(value) {
+		setFullScreen(value);
 	}
 
 	return (
 		<ThemeProvider theme={theme}>
 			<CssBaseline />
 			<div className={'App ' + classes.root}>
-				<AppBar position="fixed">
-					<Toolbar className={classes.justifyContent}>
-						<Typography variant="h6" noWrap>
-							Hangman Game
-						</Typography>
-						<Typography>{points} points</Typography>
-						{auth && (
-							<div>
-								<IconButton
-									aria-label="Account of current user"
-									aria-controls="menu-appbar"
-									aria-haspopup="true"
-									onClick={handleMenu}
-									color="inherit"
-								>
-									<AccountCircle />
-								</IconButton>
-								<Menu
-									id="menu-appbar"
-									anchorEl={anchorEl}
-									anchorOrigin={{
-										vertical: 'top',
-										horizontal: 'right'
-									}}
-									keepMounted
-									transformOrigin={{
-										vertical: 'top',
-										horizontal: 'right'
-									}}
-									open={open}
-									onClose={handleClose}
-								>
-									<MenuItem onClick={handleClose}>Profile</MenuItem>
-									<MenuItem onClick={handleClose}>My account</MenuItem>
-								</Menu>
-							</div>
-						)}
-					</Toolbar>
-				</AppBar>
+				{isNotFullScreen() && (
+					<AppBar position="fixed">
+						<Toolbar className={classes.justifyContent}>
+							<Typography variant="h6" noWrap>
+								Hangman Game
+							</Typography>
+							<Typography>{points} points</Typography>
+							{auth && (
+								<div>
+									<IconButton
+										aria-label="Account of current user"
+										aria-controls="menu-appbar"
+										aria-haspopup="true"
+										onClick={handleMenu}
+										color="inherit"
+									>
+										<AccountCircle />
+									</IconButton>
+									<Menu
+										id="menu-appbar"
+										anchorEl={anchorEl}
+										anchorOrigin={{
+											vertical: 'top',
+											horizontal: 'right'
+										}}
+										keepMounted
+										transformOrigin={{
+											vertical: 'top',
+											horizontal: 'right'
+										}}
+										open={open}
+										onClose={handleClose}
+									>
+										<MenuItem onClick={handleClose}>Profile</MenuItem>
+										<MenuItem onClick={handleClose}>My account</MenuItem>
+									</Menu>
+								</div>
+							)}
+						</Toolbar>
+					</AppBar>
+				)}
 				<Container maxWidth="lg">
-					<div className={classes.toolbar} />
+					{isNotFullScreen() && <div className={classes.toolbar} />}
 					<main className={classes.content}>
 						{page === 'home' && <HomePage goToPage={goToPage} resumeSession={resumeSession} />}
-						{page === 'game' && <GamePage updatePoints={updatePoints} />}
+						{page === 'game' && <GamePage updatePoints={updatePoints} modeFullScreen={modeFullScreen} />}
 						{page === 'resume' && (
 							<ResumePage
 								updatePoints={updatePoints}
 								resumeSessionId={resumeSessionId}
 								goToPage={goToPage}
+								modeFullScreen={modeFullScreen}
 							/>
 						)}
 						{page === 'stats' && <StatsPage resumeSession={resumeSession} goToPage={goToPage} />}
 						{page === 'about' && <AboutPage goToPage={goToPage} />}
 					</main>
-					<div className={classes.toolbar} />
+					{isNotFullScreen() && <div className={classes.toolbar} />}
 				</Container>
-				<footer className={classes.footer}>
-					<Paper square>
-						<Tabs
-							value={value}
-							onChange={handleTabChange}
-							variant="fullWidth"
-							indicatorColor="secondary"
-							textColor="secondary"
-						>
-							<Tab icon={<Home />} label="Home" />
-							<Tab icon={<Games />} label="Play" />
-							<Tab icon={<Assessment />} label="My stats" />
-						</Tabs>
-					</Paper>
-				</footer>
+				{isNotFullScreen() && (
+					<footer className={classes.footer}>
+						<Paper square>
+							<Tabs
+								value={value}
+								onChange={handleTabChange}
+								variant="fullWidth"
+								indicatorColor="secondary"
+								textColor="secondary"
+							>
+								<Tab icon={<Home />} label="Home" />
+								<Tab icon={<Games />} label="Play" />
+								<Tab icon={<Assessment />} label="My stats" />
+							</Tabs>
+						</Paper>
+					</footer>
+				)}
 			</div>
 		</ThemeProvider>
 	);

@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const GamePage = ({ updatePoints }) => {
+const GamePage = ({ updatePoints, modeFullScreen }) => {
 	const classes = useStyles();
 	const NumberOfWordsRange = {
 		min: '1',
@@ -89,10 +89,12 @@ const GamePage = ({ updatePoints }) => {
 
 	function startNewSession() {
 		setNewSession(true);
+		modeFullScreen(true);
 	}
 
 	function prepareNewSession() {
 		setNewSession(false);
+		modeFullScreen(false);
 	}
 
 	return (
