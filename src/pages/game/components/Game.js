@@ -37,6 +37,12 @@ const useStyles = makeStyles((theme) => ({
 		textAlign: 'center',
 		padding: '20px'
 	},
+	dialogActions: {
+		padding: theme.spacing(3)
+	},
+	dialogActionsBtn: {
+		width: '100%'
+	},
 	gameInfoContainer: {
 		position: 'absolute',
 		top: 0,
@@ -184,11 +190,11 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 						maxWidth="xl"
 					>
 						<DialogTitle id="simple-dialog-title">Paused</DialogTitle>
-						<DialogActions>
+						<DialogActions className={classes.dialogActions}>
 							<Button
 								variant="contained"
 								color="primary"
-								className={classes.button}
+								className={classes.dialogActionsBtn}
 								onClick={cancelSession}
 							>
 								Cancel
