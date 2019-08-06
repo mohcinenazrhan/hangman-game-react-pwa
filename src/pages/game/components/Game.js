@@ -195,6 +195,14 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 								variant="contained"
 								color="primary"
 								className={classes.dialogActionsBtn}
+								onClick={handleClose}
+							>
+								Resume
+							</Button>
+							<Button
+								variant="contained"
+								color="primary"
+								className={classes.dialogActionsBtn}
 								onClick={cancelSession}
 							>
 								Cancel
