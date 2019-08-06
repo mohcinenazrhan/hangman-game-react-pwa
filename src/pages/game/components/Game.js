@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import {
-	Button,
-	makeStyles,
-	Typography,
-	IconButton,
-	Collapse,
-	Dialog,
-	DialogTitle,
-	DialogActions
-} from '@material-ui/core';
+import { Button, makeStyles, Typography, IconButton, Collapse, Dialog, DialogTitle } from '@material-ui/core';
 import clsx from 'clsx';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PauseIcon from '@material-ui/icons/Pause';
