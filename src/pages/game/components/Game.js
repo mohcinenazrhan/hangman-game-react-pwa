@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
 	gameInfoContainer: {
 		position: 'absolute',
 		top: 0,
-		left: '-40px',
-		width: '100px',
+		left: '-10px',
+		width: '70px',
 		fontSize: '16px',
 		fontWeight: 'bold'
 	},
