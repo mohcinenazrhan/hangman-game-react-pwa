@@ -29,13 +29,7 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(1)
 	},
 	button: {
-		margin: theme.spacing(0.5),
-		padding: 0,
-		fontWeight: 'bold',
-		[theme.breakpoints.up('sm')]: {
-			margin: theme.spacing(1),
-			padding: '6px 16px'
-		}
+		fontWeight: 'bold'
 	},
 	marginTopBottom: {
 		marginTop: theme.spacing(5),

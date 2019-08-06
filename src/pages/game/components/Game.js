@@ -11,13 +11,11 @@ import Board from './Board';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
-		margin: theme.spacing(0.5),
-		padding: 0,
+		fontWeight: 'bold'
+	},
+	keyboardBtn: {
 		fontWeight: 'bold',
-		[theme.breakpoints.up('sm')]: {
-			margin: theme.spacing(1),
-			padding: '6px 16px'
-		}
+		margin: theme.spacing(0.5, 1)
 	},
 	gameInfoContainer: {
 		position: 'absolute',
@@ -194,13 +192,13 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 						<div>
 							<Keyboard
 								alphabets={alphabetsState}
-								btnStyle={classes.button}
+								btnStyle={classes.keyboardBtn}
 								keyboardLetterClick={handleKeyboardLetterClick}
 							/>
 							<Button
 								variant="contained"
 								disabled={disabledHelpBtnState}
-								className={classes.button}
+								className={classes.keyboardBtn}
 								onClick={handleHelpClick}
 							>
 								Help = -1 point
