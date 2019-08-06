@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
-import { Button, makeStyles, Typography, IconButton, Collapse } from '@material-ui/core';
+import {
+	Button,
+	makeStyles,
+	Typography,
+	IconButton,
+	Collapse,
+	Dialog,
+	DialogTitle,
+	DialogActions
+} from '@material-ui/core';
 import clsx from 'clsx';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import PauseIcon from '@material-ui/icons/Pause';
 import progressDraw from '../../../assets/progress-draw.png';
 import PropTypes from 'prop-types';
 import SessionWordsStats from '../../common/SessionWordsStats';
@@ -16,6 +26,16 @@ const useStyles = makeStyles((theme) => ({
 	keyboardBtn: {
 		fontWeight: 'bold',
 		margin: theme.spacing(0.5, 1)
+	},
+	pauseBtn: {
+		position: 'absolute',
+		top: 0,
+		left: 0
+	},
+	pauseDialog: {
+		minWidth: '90%',
+		textAlign: 'center',
+		padding: '20px'
 	},
 	gameInfoContainer: {
 		position: 'absolute',
@@ -101,6 +121,8 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 
 	// State to show either the game or its stats
 	const [ show, setShow ] = useState('game');
+	// State to open/close pause dialog
+	const [ open, setOpen ] = React.useState(false);
 
 	function handleKeyboardLetterClick(letter) {
 		setGuess(letter);
@@ -137,13 +159,45 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 		setExpanded(!expanded);
 	}
 
+	function pauseTheGame() {
+		setOpen(true);
+	}
+
+	function handleClose() {
+		setOpen(false);
+	}
+
 	return (
 		<React.Fragment>
 			{!isSessionEnd && (
-				<Button variant="contained" color="primary" className={classes.button} onClick={cancelSession}>
-					Cancel
-				</Button>
+				<React.Fragment>
+					<IconButton className={classes.pauseBtn} aria-label="pause" onClick={pauseTheGame}>
+						<PauseIcon />
+					</IconButton>
+
+					<Dialog
+						onClose={handleClose}
+						aria-labelledby="simple-dialog-title"
+						open={open}
+						className={classes.pauseDialog}
+						fullWidth={true}
+						maxWidth="xl"
+					>
+						<DialogTitle id="simple-dialog-title">Paused</DialogTitle>
+						<DialogActions>
+							<Button
+								variant="contained"
+								color="primary"
+								className={classes.button}
+								onClick={cancelSession}
+							>
+								Cancel
+							</Button>
+						</DialogActions>
+					</Dialog>
+				</React.Fragment>
 			)}
+
 			<div>
 				<div className={classes.sessionInfosContainer}>
 					<Typography>{`Session N°${id}`}</Typography>
