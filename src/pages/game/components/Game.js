@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { Button, makeStyles, Typography } from '@material-ui/core';
+import { Button, makeStyles, Typography, IconButton, Collapse } from '@material-ui/core';
+import clsx from 'clsx';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import progressDraw from '../../../assets/progress-draw.png';
 import PropTypes from 'prop-types';
 import SessionWordsStats from '../../common/SessionWordsStats';
@@ -30,6 +32,20 @@ const useStyles = makeStyles((theme) => ({
 		flexWrap: 'wrap',
 		justifyContent: 'center',
 		margin: theme.spacing(1, 0)
+	},
+	sessionInfosContainer: {
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center'
+	},
+	expand: {
+		transform: 'rotate(0deg)',
+		transition: theme.transitions.create('transform', {
+			duration: theme.transitions.duration.shortest
+		})
+	},
+	expandOpen: {
+		transform: 'rotate(180deg)'
 	},
 	wordLettres: {
 		height: 60,
@@ -116,6 +132,11 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 	function cancelSession() {
 		prepareNewSession();
 	}
+	const [ expanded, setExpanded ] = React.useState(false);
+
+	function handleExpandClick() {
+		setExpanded(!expanded);
+	}
 
 	return (
 		<React.Fragment>
@@ -125,8 +146,22 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 				</Button>
 			)}
 			<div>
-				<Typography>{`Session N°${id}`}</Typography>
-				<Typography>{`${language}, ${difficulty}, ${sessionScore} Points`}</Typography>
+				<div className={classes.sessionInfosContainer}>
+					<Typography>{`Session N°${id}`}</Typography>
+					<IconButton
+						className={clsx(classes.expand, {
+							[classes.expandOpen]: expanded
+						})}
+						onClick={handleExpandClick}
+						aria-expanded={expanded}
+						aria-label="show words stats"
+					>
+						<ExpandMoreIcon />
+					</IconButton>
+				</div>
+				<Collapse in={expanded} timeout="auto" unmountOnExit>
+					<Typography>{`${language}, ${difficulty}, ${sessionScore} Points`}</Typography>
+				</Collapse>
 				<Typography>
 					{gameNbr}/{words.length} words
 				</Typography>
