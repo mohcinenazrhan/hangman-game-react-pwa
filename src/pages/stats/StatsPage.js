@@ -34,16 +34,19 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 	const [ isReady, setIsReady ] = useState(false);
 	const [ listedSessionState, setListedSessionState ] = useState('All');
 
-	useEffect(() => {
-		LocalDb.getLastSessions()
-			.then((rows) => {
-				setStats(rows);
-				setIsReady(true);
-			})
-			.catch((error) => {
-				console.log('error: ' + error);
-			});
-	}, []);
+	useEffect(
+		() => {
+			LocalDb.getLastSessions(listedSessionState)
+				.then((rows) => {
+					setStats(rows);
+					setIsReady(true);
+				})
+				.catch((error) => {
+					console.log('error: ' + error);
+				});
+		},
+		[ listedSessionState ]
+	);
 
 	function handleListedSessionStateChange(event) {
 		setListedSessionState(event.target.value);
