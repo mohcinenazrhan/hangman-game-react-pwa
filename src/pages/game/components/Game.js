@@ -91,6 +91,7 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 		gameNbr,
 		drawProgressState,
 		gainedPointsState,
+		pointsToGain,
 		sessionScore,
 		isSessionEnd,
 		stats,
@@ -174,11 +175,11 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 								<React.Fragment>
 									<Typography
 										className={classes.textBold}
-									>{`${gainedPointsState} points to win`}</Typography>
+									>{`${gainedPointsState}/${pointsToGain} Points`}</Typography>
 									<br />
 									<Typography
 										className={classes.textBold}
-									>{`${nbrWrongGuessState} guesses left`}</Typography>
+									>{`${nbrWrongGuessState}/${nbrWrongGuessAllowed} Guesses`}</Typography>
 								</React.Fragment>
 							)}
 						</div>

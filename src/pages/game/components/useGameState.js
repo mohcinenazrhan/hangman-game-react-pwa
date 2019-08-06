@@ -211,6 +211,7 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData, updat
 
 	return {
 		wordState,
+		pointsToGain,
 		alphabetsState,
 		nbrWrongGuessAllowed,
 		nbrWrongGuessState,
