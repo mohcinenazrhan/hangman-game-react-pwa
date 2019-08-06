@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(3)
 	},
 	dialogActionsBtn: {
-		width: '100%'
+		width: '100%',
+		marginBottom: theme.spacing(2)
 	},
 	gameInfoContainer: {
 		position: 'absolute',
@@ -190,7 +191,7 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 						maxWidth="xl"
 					>
 						<DialogTitle id="simple-dialog-title">Paused</DialogTitle>
-						<DialogActions className={classes.dialogActions}>
+						<div className={classes.dialogActions}>
 							<Button
 								variant="contained"
 								color="primary"
@@ -215,7 +216,7 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 							>
 								Cancel
 							</Button>
-						</DialogActions>
+						</div>
 					</Dialog>
 				</React.Fragment>
 			)}
