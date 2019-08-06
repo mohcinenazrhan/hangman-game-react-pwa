@@ -188,7 +188,7 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 						open={open}
 						className={classes.pauseDialog}
 						fullWidth={true}
-						maxWidth="xl"
+						maxWidth="xs"
 					>
 						<DialogTitle id="simple-dialog-title">Paused</DialogTitle>
 						<div className={classes.dialogActions}>
