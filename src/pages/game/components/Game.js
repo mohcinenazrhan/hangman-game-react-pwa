@@ -206,7 +206,7 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 								className={classes.dialogActionsBtn}
 								onClick={cancelSession}
 							>
-								Save to continue later
+								Save it for later
 							</Button>
 							<Button
 								variant="contained"
@@ -214,7 +214,7 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 								className={classes.dialogActionsBtn}
 								onClick={cancelSession}
 							>
-								Cancel
+								Unsave and Cancel
 							</Button>
 						</div>
 					</Dialog>
