@@ -96,7 +96,17 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Game({ id, words, alphabets, language, difficulty, updateUserPoints, prepareNewSession, resumeData = null }) {
+function Game({
+	id,
+	words,
+	alphabets,
+	language,
+	difficulty,
+	updateUserPoints,
+	prepareNewSession,
+	goToPage,
+	resumeData = null
+}) {
 	const classes = useStyles();
 
 	const {
@@ -150,8 +160,8 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 		setShow('stats');
 	}
 
-	function cancelSession() {
-		prepareNewSession();
+	function saveSessionForLater() {
+		goToPage('home');
 	}
 
 	function deleteAndCancelSession() {
@@ -203,7 +213,7 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 								variant="contained"
 								color="primary"
 								className={classes.dialogActionsBtn}
-								onClick={cancelSession}
+								onClick={saveSessionForLater}
 							>
 								Save it for later
 							</Button>

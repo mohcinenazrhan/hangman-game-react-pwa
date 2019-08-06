@@ -32,6 +32,7 @@ const ResumePage = ({ updatePoints, resumeSessionId, goToPage, modeFullScreen })
 					prepareNewSession={prepareNewSession}
 					id={resumeSessionId}
 					resumeData={resumeData}
+					goToPage={goToPage}
 				/>
 			)}
 		</React.Fragment>

@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const GamePage = ({ updatePoints, modeFullScreen }) => {
+const GamePage = ({ updatePoints, modeFullScreen, goToPage }) => {
 	const classes = useStyles();
 	const NumberOfWordsRange = {
 		min: '1',
@@ -184,6 +184,7 @@ const GamePage = ({ updatePoints, modeFullScreen }) => {
 					updateUserPoints={updateUserPoints}
 					prepareNewSession={prepareNewSession}
 					id={sessionId}
+					goToPage={goToPage}
 				/>
 			)}
 		</React.Fragment>
