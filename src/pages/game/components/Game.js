@@ -14,9 +14,17 @@ const useStyles = makeStyles((theme) => ({
 	button: {
 		fontWeight: 'bold'
 	},
+	keysContainer: {
+		display: 'flex',
+		flexWrap: 'wrap',
+		justifyContent: 'space-between',
+		alignSelf: 'center',
+		maxWidth: '500px',
+		margin: '0 auto'
+	},
 	keyboardBtn: {
 		fontWeight: 'bold',
-		margin: theme.spacing(0.5, 1)
+		margin: theme.spacing(0.25, 0)
 	},
 	nextButton: {
 		fontWeight: 'bold',
@@ -282,7 +290,7 @@ function Game({
 						/>
 					</div>
 					{gameState === 'playing' && (
-						<div>
+						<div className={classes.keysContainer}>
 							<Keyboard
 								alphabets={alphabetsState}
 								btnStyle={classes.keyboardBtn}
