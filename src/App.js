@@ -9,6 +9,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Home, Games, Assessment, AccountCircle } from '@material-ui/icons';
 import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
+import clsx from 'clsx';
 import './App.css';
 import GamePage from './pages/game/GamePage';
 import HomePage from './pages/HomePage';
@@ -198,7 +199,7 @@ function App() {
 				)}
 				<Container maxWidth="lg">
 					{isNotFullScreen() && <div className={classes.toolbar} />}
-					<main className={classes.content}>
+					<main className={clsx(fullScreen === false && classes.content)}>
 						{page === 'home' && <HomePage goToPage={goToPage} resumeSession={resumeSession} />}
 						{page === 'game' && (
 							<GamePage goToPage={goToPage} updatePoints={updatePoints} modeFullScreen={modeFullScreen} />
