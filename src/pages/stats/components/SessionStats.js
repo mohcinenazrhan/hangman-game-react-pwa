@@ -51,7 +51,8 @@ const useStyles = makeStyles((theme) => ({
 	actionContainer: {
 		display: 'flex',
 		justifyContent: 'space-between',
-		alignItems: 'center'
+		alignItems: 'center',
+		marginTop: theme.spacing(1)
 	},
 	expand: {
 		transform: 'rotate(0deg)',
@@ -117,6 +118,7 @@ const SessionStats = ({ stats, index, handleResumeSession }) => {
 					value={stats.playedWords.length * 100 / stats.words.length}
 				/>
 			</div>
+
 			{stats.playedWords &&
 			stats.playedWords.length > 0 && (
 				<Collapse in={expanded} timeout="auto" unmountOnExit>
