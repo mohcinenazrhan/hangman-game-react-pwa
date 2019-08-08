@@ -108,7 +108,9 @@ const HomePage = ({ goToPage, resumeSession }) => {
 					<Typography component="p">{`${nbrCompletedSessions} ${nbrCompletedSessions > 1
 						? 'Sessions'
 						: 'Session'} completed`}</Typography>
-					<Typography component="p">{`${nbrWordGuessedSuccessfully} Words guessed successfully`}</Typography>
+					<Typography component="p">{`${nbrWordGuessedSuccessfully} ${nbrWordGuessedSuccessfully > 1
+						? 'Words'
+						: 'Word'} guessed successfully`}</Typography>
 				</Paper>
 			</section>
 			{uncompletedSessions.length > 0 && (
