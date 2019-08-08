@@ -26,27 +26,7 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: 'bold',
 		margin: theme.spacing(0.25, 0)
 	},
-	nextButton: {
-		fontWeight: 'bold',
-		position: 'absolute',
-		bottom: '10px',
-		maxWidth: '300px',
-		width: '80%',
-		left: '50%',
-		transform: ' translate(-50%,-50%)'
-	},
-	sessionEndActionsContainer: {
-		display: 'flex',
-		flexWrap: 'wrap',
-		justifyContent: 'space-evenly',
-		position: 'absolute',
-		bottom: '10px',
-		left: '50%',
-		transform: 'translate(-50%,-50%)',
-		maxWidth: '300px',
-		width: '80%'
-	},
-	sessionEndStatsActionContainer: {
+	stickyBottomActionsContainer: {
 		display: 'flex',
 		flexWrap: 'wrap',
 		justifyContent: 'space-evenly',
@@ -339,19 +319,21 @@ function Game({
 									)}
 								</Typography>
 								{!isSessionEnd && (
-									<Button
-										variant="contained"
-										color="primary"
-										className={classes.nextButton}
-										onClick={newGame}
-									>
-										NEXT WORD
-									</Button>
+									<div className={classes.stickyBottomActionsContainer}>
+										<Button
+											variant="contained"
+											color="primary"
+											className={classes.button}
+											onClick={newGame}
+										>
+											NEXT WORD
+										</Button>
+									</div>
 								)}
 							</React.Fragment>
 						)}
 						{isSessionEnd && (
-							<div className={classes.sessionEndActionsContainer}>
+							<div className={classes.stickyBottomActionsContainer}>
 								<Button
 									variant="contained"
 									color="primary"
@@ -377,7 +359,7 @@ function Game({
 				<React.Fragment>
 					<Typography>My session stats</Typography>
 					<SessionWordsStats stats={stats} />
-					<div className={classes.sessionEndStatsActionContainer}>
+					<div className={classes.stickyBottomActionsContainer}>
 						<Button variant="contained" color="primary" className={classes.button} onClick={newSession}>
 							Go for another session
 						</Button>
