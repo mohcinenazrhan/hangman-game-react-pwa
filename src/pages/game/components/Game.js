@@ -35,6 +35,17 @@ const useStyles = makeStyles((theme) => ({
 		left: '50%',
 		transform: ' translate(-50%,-50%)'
 	},
+	sessionEndActionsContainer: {
+		display: 'flex',
+		flexWrap: 'wrap',
+		justifyContent: 'space-evenly',
+		position: 'absolute',
+		bottom: '10px',
+		left: '50%',
+		transform: 'translate(-50%,-50%)',
+		maxWidth: '300px',
+		width: '80%'
+	},
 	pauseBtn: {
 		position: 'absolute',
 		top: 0,
@@ -329,25 +340,24 @@ function Game({
 							</React.Fragment>
 						)}
 						{isSessionEnd && (
-							<React.Fragment>
-								<Typography>The session is end</Typography>
-								<Button
-									variant="contained"
-									color="primary"
-									className={classes.button}
-									onClick={sessionstats}
-								>
-									Show my session stats
-								</Button>
+							<div className={classes.sessionEndActionsContainer}>
 								<Button
 									variant="contained"
 									color="primary"
 									className={classes.button}
 									onClick={newSession}
 								>
-									Go for another session
+									New session
 								</Button>
-							</React.Fragment>
+								<Button
+									variant="contained"
+									color="primary"
+									className={classes.button}
+									onClick={sessionstats}
+								>
+									Show stats
+								</Button>
+							</div>
 						)}
 					</div>
 				</React.Fragment>
