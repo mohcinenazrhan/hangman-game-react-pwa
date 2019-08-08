@@ -46,6 +46,17 @@ const useStyles = makeStyles((theme) => ({
 		maxWidth: '300px',
 		width: '80%'
 	},
+	sessionEndStatsActionContainer: {
+		display: 'flex',
+		flexWrap: 'wrap',
+		justifyContent: 'space-evenly',
+		position: 'absolute',
+		bottom: '10px',
+		left: '50%',
+		transform: 'translate(-50%,-50%)',
+		maxWidth: '300px',
+		width: '80%'
+	},
 	pauseBtn: {
 		position: 'absolute',
 		top: 0,
@@ -366,9 +377,11 @@ function Game({
 				<React.Fragment>
 					<Typography>My session stats</Typography>
 					<SessionWordsStats stats={stats} />
-					<Button variant="contained" color="primary" className={classes.button} onClick={newSession}>
-						Go for another session
-					</Button>
+					<div className={classes.sessionEndStatsActionContainer}>
+						<Button variant="contained" color="primary" className={classes.button} onClick={newSession}>
+							Go for another session
+						</Button>
+					</div>
 				</React.Fragment>
 			)}
 		</React.Fragment>
