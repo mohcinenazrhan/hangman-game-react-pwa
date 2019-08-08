@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	group: {
 		margin: theme.spacing(1, 0),
-		flexWrap: 'nowrap',
-		flexDirection: 'row'
+		flexDirection: 'row',
+		justifyContent: 'space-around'
 	}
 }));
 
