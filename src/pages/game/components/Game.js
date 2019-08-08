@@ -196,8 +196,6 @@ function Game({
 						aria-labelledby="simple-dialog-title"
 						open={open}
 						className={classes.pauseDialog}
-						fullWidth={true}
-						maxWidth="xs"
 					>
 						<DialogTitle id="simple-dialog-title">Paused</DialogTitle>
 						<div className={classes.dialogActions}>
