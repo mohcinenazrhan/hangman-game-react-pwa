@@ -261,9 +261,8 @@ function Game({
 									className={classes.textBold}
 								>{`${gainedPointsState}/${pointsToGain} Points`}</Typography>
 								<br />
-								<Typography
-									className={classes.textBold}
-								>{`${nbrWrongGuessState}/${nbrWrongGuessAllowed} Guesses`}</Typography>
+								<Typography className={classes.textBold}>{`${nbrWrongGuessAllowed -
+									nbrWrongGuessState}/${nbrWrongGuessAllowed} Guesses`}</Typography>
 							</React.Fragment>
 						</div>
 					</div>
