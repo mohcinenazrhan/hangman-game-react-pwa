@@ -93,7 +93,7 @@ export const helpers = {
 		return helpers.isWordFounded(newWordState);
 	},
 	isGameLosed: (newNbrWrongGuessState) => {
-		return newNbrWrongGuessState < 0;
+		return newNbrWrongGuessState === 0;
 	},
 	isGameEnded: (newNbrWrongGuessState, wordState, newCandidateLetter) => {
 		return helpers.isGameWon(wordState, newCandidateLetter) || helpers.isGameLosed(newNbrWrongGuessState);
