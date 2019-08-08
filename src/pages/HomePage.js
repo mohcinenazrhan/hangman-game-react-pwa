@@ -6,7 +6,7 @@ import LocalDb from '../LocalDb';
 const useStyles = makeStyles((theme) => ({
 	paper: {
 		padding: theme.spacing(0.5, 1),
-		margin: theme.spacing(2, 0),
+		marginBottom: theme.spacing(1.5),
 		background: '#FAFAFA',
 		textAlign: 'left',
 		display: 'flex',
@@ -32,8 +32,7 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: 'bold'
 	},
 	marginTopBottom: {
-		marginTop: theme.spacing(5),
-		marginBottom: theme.spacing(5)
+		margin: theme.spacing(2, 0)
 	}
 }));
 
