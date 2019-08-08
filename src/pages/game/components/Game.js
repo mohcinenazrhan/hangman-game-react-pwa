@@ -256,17 +256,15 @@ function Game({
 				<React.Fragment>
 					<div className={classes.drawImgProgress} style={getProgressDraw()}>
 						<div className={classes.gameInfoContainer}>
-							{gameState === 'playing' && (
-								<React.Fragment>
-									<Typography
-										className={classes.textBold}
-									>{`${gainedPointsState}/${pointsToGain} Points`}</Typography>
-									<br />
-									<Typography
-										className={classes.textBold}
-									>{`${nbrWrongGuessState}/${nbrWrongGuessAllowed} Guesses`}</Typography>
-								</React.Fragment>
-							)}
+							<React.Fragment>
+								<Typography
+									className={classes.textBold}
+								>{`${gainedPointsState}/${pointsToGain} Points`}</Typography>
+								<br />
+								<Typography
+									className={classes.textBold}
+								>{`${nbrWrongGuessState}/${nbrWrongGuessAllowed} Guesses`}</Typography>
+							</React.Fragment>
 						</div>
 					</div>
 					<div className={classes.wordContainer}>
@@ -297,13 +295,9 @@ function Game({
 							<React.Fragment>
 								<Typography>
 									{gameState === 'succeed' ? (
-										`Great, you've found the word successfully, you win ${gainedPointsState} points, with ${nbrWrongGuessAllowed -
-											nbrWrongGuessState}/${nbrWrongGuessAllowed} wrong attempts`
+										`Great, you've found the word successfully, you win`
 									) : (
-										`Unfortunately, you lose, the word was: ${words[
-											gameNbr - 1
-										]}, you had ${gainedPointsState} points, with ${nbrWrongGuessAllowed -
-											nbrWrongGuessState} wrong attempts`
+										`Unfortunately, you lose, the word was: ${words[gameNbr - 1]}`
 									)}
 								</Typography>
 								{!isSessionEnd && (
