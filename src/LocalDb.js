@@ -108,6 +108,15 @@ const LocalDb = {
 		} catch (error) {
 			console.log(error.message);
 		}
+	},
+	itHasRecords: () => {
+		try {
+			return LocalDb.getDb().table('sessions').count((value) => {
+				return Promise.resolve(value > 0 ? true : false);
+			});
+		} catch (error) {
+			console.log(error.message);
+		}
 	}
 };
 
