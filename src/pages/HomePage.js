@@ -105,7 +105,9 @@ const HomePage = ({ goToPage, resumeSession }) => {
 					My statistics
 				</Typography>
 				<Paper>
-					<Typography component="p">{`${nbrCompletedSessions} Sessions completed`}</Typography>
+					<Typography component="p">{`${nbrCompletedSessions} ${nbrCompletedSessions > 1
+						? 'Sessions'
+						: 'Session'} completed`}</Typography>
 					<Typography component="p">{`${nbrWordGuessedSuccessfully} Words guessed successfully`}</Typography>
 				</Paper>
 			</section>
