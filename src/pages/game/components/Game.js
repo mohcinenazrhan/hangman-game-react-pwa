@@ -204,6 +204,7 @@ function Game({
 							<Button
 								variant="contained"
 								color="primary"
+								size="large"
 								className={classes.dialogActionsBtn}
 								onClick={handleClose}
 							>
@@ -212,6 +213,7 @@ function Game({
 							<Button
 								variant="contained"
 								color="primary"
+								size="large"
 								className={classes.dialogActionsBtn}
 								onClick={saveSessionForLater}
 							>
@@ -220,6 +222,7 @@ function Game({
 							<Button
 								variant="contained"
 								color="primary"
+								size="large"
 								className={classes.dialogActionsBtn}
 								onClick={deleteAndCancelSession}
 							>
