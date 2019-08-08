@@ -12,6 +12,7 @@ function gameReducer(state, action) {
 				nbrWrongGuessAllowed: 0,
 				gainedPointsState: 0,
 				pointsToGain: 0,
+				pointsReductionRate: 0,
 				alphabetsState: [],
 				wordState: [],
 				gameNbr: state.gameNbr + 1,
@@ -27,6 +28,7 @@ function gameReducer(state, action) {
 			const alphabetsInitialState = helpers.getAlphabetsInitialState(alphabets);
 			const pointsToGainInitialState = helpers.getPointsToGain(wordToDiscoverArray, difficulty);
 			const nbrWrongGuessAllowedInitialState = helpers.getNbrWrongGuessAllowed(wordToDiscoverArray, difficulty);
+			const pointsReductionRateInitialState = pointsToGainInitialState / nbrWrongGuessAllowedInitialState;
 			return {
 				...state,
 				...{
@@ -35,7 +37,8 @@ function gameReducer(state, action) {
 					nbrWrongGuessAllowed: nbrWrongGuessAllowedInitialState,
 					nbrWrongGuessState: nbrWrongGuessAllowedInitialState,
 					pointsToGain: pointsToGainInitialState,
-					gainedPointsState: pointsToGainInitialState
+					gainedPointsState: pointsToGainInitialState,
+					pointsReductionRate: pointsReductionRateInitialState
 				}
 			};
 		}
@@ -81,6 +84,7 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData, updat
 		drawProgressState: progressDrawStartStep,
 		gainedPointsState: 0,
 		pointsToGain: 0,
+		pointsReductionRate: 0,
 		sessionScore: resumeData !== null ? resumeData.score : 0,
 		isSessionEnd: false,
 		stats: resumeData !== null ? resumeData.playedWords : [],
@@ -98,6 +102,7 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData, updat
 		drawProgressState,
 		pointsToGain,
 		gainedPointsState,
+		pointsReductionRate,
 		sessionScore,
 		isSessionEnd,
 		stats,
@@ -164,7 +169,8 @@ export const useGameState = (id, words, alphabets, difficulty, resumeData, updat
 		} else {
 			// Remove one point from the score and wrong guess allowed and progress the hangman draw
 			newState.nbrWrongGuessState = nbrWrongGuessState - 1;
-			const newGainedPointsState = gainedPointsState > 1 ? gainedPointsState - 1 : gainedPointsState;
+			const newGainedPointsState =
+				gainedPointsState > 1 ? gainedPointsState - pointsReductionRate : gainedPointsState;
 			newState.gainedPointsState = newGainedPointsState;
 			const newDrawProgressState =
 				drawProgressState + 1 < progressDrawFinalStep ? drawProgressState + 1 : drawProgressState;
