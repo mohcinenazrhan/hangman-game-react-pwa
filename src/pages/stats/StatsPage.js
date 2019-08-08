@@ -74,8 +74,8 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 						<FormControl component="fieldset" className={classes.formControl}>
 							<FormLabel component="legend">Session State</FormLabel>
 							<RadioGroup
-								aria-label="Difficulty"
-								name="difficulty"
+								aria-label="Session State"
+								name="sessionState"
 								className={classes.group}
 								value={listedSessionState}
 								onChange={handleListedSessionStateChange}
