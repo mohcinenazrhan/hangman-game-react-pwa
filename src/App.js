@@ -29,6 +29,12 @@ const theme = createMuiTheme({
 			paper: {
 				margin: 0
 			}
+		},
+		MuiButton: {
+			root: {
+				minWidth: 48,
+				minHeight: 48
+			}
 		}
 	}
 });
