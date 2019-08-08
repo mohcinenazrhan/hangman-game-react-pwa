@@ -18,6 +18,15 @@ const useStyles = makeStyles((theme) => ({
 		fontWeight: 'bold',
 		margin: theme.spacing(0.5, 1)
 	},
+	nextButton: {
+		fontWeight: 'bold',
+		position: 'absolute',
+		bottom: '10px',
+		maxWidth: '300px',
+		width: '80%',
+		left: '50%',
+		transform: ' translate(-50%,-50%)'
+	},
 	pauseBtn: {
 		position: 'absolute',
 		top: 0,
@@ -303,7 +312,7 @@ function Game({
 									<Button
 										variant="contained"
 										color="primary"
-										className={classes.button}
+										className={classes.nextButton}
 										onClick={newGame}
 									>
 										NEXT WORD
