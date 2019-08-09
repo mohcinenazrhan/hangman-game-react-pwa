@@ -2,21 +2,9 @@ import React from 'react';
 import Game from './components/Game';
 import PropTypes from 'prop-types';
 import { usePrepGameState } from './usePrepGameState';
-import { CircularProgress } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles((theme) => ({
-	loaderContainer: {
-		position: 'absolute',
-		left: '50%',
-		top: '50%',
-		transform: 'translate(-50%, -50%)'
-	}
-}));
+import SpinnerLoader from '../common/SpinnerLoader';
 
 const ResumePage = ({ updatePoints, resumeSessionId, goToPage, modeFullScreen }) => {
-	const classes = useStyles();
-
 	const { valueDifficulty, valueLanguage, alphabets, words, isReady, resumeData } = usePrepGameState(
 		'resumeSession',
 		resumeSessionId
@@ -39,10 +27,7 @@ const ResumePage = ({ updatePoints, resumeSessionId, goToPage, modeFullScreen })
 	return (
 		<React.Fragment>
 			{!isReady ? (
-				<div className={classes.loaderContainer}>
-					<p>Preparing the Game</p>
-					<CircularProgress />
-				</div>
+				<SpinnerLoader message="Preparing the Game" fullPageCenter={true} />
 			) : (
 				<Game
 					alphabets={alphabets}

@@ -11,12 +11,12 @@ import {
 	Select,
 	MenuItem,
 	FormHelperText,
-	Input,
-	CircularProgress
+	Input
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Game from './components/Game';
 import { usePrepGameState } from './usePrepGameState';
+import SpinnerLoader from '../common/SpinnerLoader';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -34,12 +34,6 @@ const useStyles = makeStyles((theme) => ({
 	marginTopBottom: {
 		marginTop: theme.spacing(3),
 		marginBottom: theme.spacing(3)
-	},
-	loaderContainer: {
-		position: 'absolute',
-		left: '50%',
-		top: '50%',
-		transform: 'translate(-50%, -50%)'
 	}
 }));
 
@@ -186,10 +180,7 @@ const GamePage = ({ updatePoints, modeFullScreen, goToPage }) => {
 					</Button>
 				</React.Fragment>
 			) : !isReady ? (
-				<div className={classes.loaderContainer}>
-					<p>Preparing the Game</p>
-					<CircularProgress />
-				</div>
+				<SpinnerLoader message="Preparing the Game" fullPageCenter={true} />
 			) : (
 				<Game
 					alphabets={alphabets}

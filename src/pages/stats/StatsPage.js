@@ -8,11 +8,11 @@ import {
 	FormControlLabel,
 	FormLabel,
 	RadioGroup,
-	Radio,
-	CircularProgress
+	Radio
 } from '@material-ui/core';
 import LocalDb from '../../LocalDb';
 import SessionStats from './components/SessionStats';
+import SpinnerLoader from '../common/SpinnerLoader';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -26,9 +26,6 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(1, 0),
 		flexDirection: 'row',
 		justifyContent: 'space-around'
-	},
-	loaderContainer: {
-		margin: '24px auto'
 	}
 }));
 
@@ -135,9 +132,7 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 					)}
 				</React.Fragment>
 			) : (
-				<div className={classes.loaderContainer}>
-					<CircularProgress />
-				</div>
+				<SpinnerLoader />
 			)}
 		</div>
 	);
