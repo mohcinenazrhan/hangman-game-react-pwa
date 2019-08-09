@@ -8,7 +8,8 @@ import {
 	FormControlLabel,
 	FormLabel,
 	RadioGroup,
-	Radio
+	Radio,
+	CircularProgress
 } from '@material-ui/core';
 import LocalDb from '../../LocalDb';
 import SessionStats from './components/SessionStats';
@@ -25,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
 		margin: theme.spacing(1, 0),
 		flexDirection: 'row',
 		justifyContent: 'space-around'
+	},
+	loaderContainer: {
+		margin: '24px auto'
 	}
 }));
 
@@ -131,7 +135,9 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 					)}
 				</React.Fragment>
 			) : (
-				'Loading...'
+				<div className={classes.loaderContainer}>
+					<CircularProgress />
+				</div>
 			)}
 		</div>
 	);
