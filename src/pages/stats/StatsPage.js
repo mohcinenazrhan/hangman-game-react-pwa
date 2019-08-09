@@ -52,7 +52,7 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 				setStats(rows.slice(0, 3));
 				setStatsOriginState(rows);
 				setIsReady(true);
-				setItHasSessions(true);
+				setItHasSessions(rows.length > 0);
 			})
 			.catch((error) => {
 				console.log('error: ' + error);
