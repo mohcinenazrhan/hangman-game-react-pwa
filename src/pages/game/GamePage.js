@@ -11,7 +11,8 @@ import {
 	Select,
 	MenuItem,
 	FormHelperText,
-	Input
+	Input,
+	CircularProgress
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Game from './components/Game';
@@ -33,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
 	marginTopBottom: {
 		marginTop: theme.spacing(3),
 		marginBottom: theme.spacing(3)
+	},
+	loaderContainer: {
+		position: 'absolute',
+		left: '50%',
+		top: '50%',
+		transform: 'translate(-50%, -50%)'
 	}
 }));
 
@@ -179,7 +186,10 @@ const GamePage = ({ updatePoints, modeFullScreen, goToPage }) => {
 					</Button>
 				</React.Fragment>
 			) : !isReady ? (
-				'Preparing'
+				<div className={classes.loaderContainer}>
+					<p>Preparing the Game</p>
+					<CircularProgress />
+				</div>
 			) : (
 				<Game
 					alphabets={alphabets}
