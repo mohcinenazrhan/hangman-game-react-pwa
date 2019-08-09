@@ -2,6 +2,7 @@ import React from 'react';
 import { CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
 	loaderFullPageCenter: {
@@ -27,3 +28,8 @@ const SpinnerLoader = ({ fullPageCenter = false, message = null }) => {
 };
 
 export default SpinnerLoader;
+
+SpinnerLoader.propTypes = {
+	fullPageCenter: PropTypes.bool.isRequired,
+	message: PropTypes.string.isRequired
+};
