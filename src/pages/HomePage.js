@@ -56,7 +56,7 @@ const HomePage = ({ goToPage, resumeSession }) => {
 	const [ nbrWordGuessedSuccessfully, setNbrWordGuessedSuccessfully ] = useState([]);
 
 	useEffect(() => {
-		LocalDb.getLastUncompletedSessions(5)
+		LocalDb.getLastUncompletedSessions(2)
 			.then((rows) => {
 				setUncompletedSessions(rows);
 			})
