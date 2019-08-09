@@ -52,8 +52,8 @@ const BorderLinearProgress = withStyles({
 const HomePage = ({ goToPage, resumeSession }) => {
 	const classes = useStyles();
 	const [ uncompletedSessions, setUncompletedSessions ] = useState([]);
-	const [ nbrCompletedSessions, setNbrCompletedSessions ] = useState([]);
-	const [ nbrWordGuessedSuccessfully, setNbrWordGuessedSuccessfully ] = useState([]);
+	const [ nbrCompletedSessions, setNbrCompletedSessions ] = useState(0);
+	const [ nbrWordGuessedSuccessfully, setNbrWordGuessedSuccessfully ] = useState(0);
 
 	useEffect(() => {
 		LocalDb.getLastUncompletedSessions(2)
