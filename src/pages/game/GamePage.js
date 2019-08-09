@@ -106,7 +106,7 @@ const GamePage = ({ updatePoints, modeFullScreen, goToPage }) => {
 		<React.Fragment>
 			{newSession === false ? (
 				<React.Fragment>
-					<Typography variant="h4" component="h1">
+					<Typography variant="h5" component="h1">
 						Customize your game session
 					</Typography>
 					<div className={classes.marginTopBottom}>
