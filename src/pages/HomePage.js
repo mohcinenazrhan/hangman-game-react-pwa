@@ -96,11 +96,11 @@ const HomePage = ({ goToPage, resumeSession }) => {
 
 	return (
 		<React.Fragment>
-			<Typography variant="h4" component="h1">
+			<Typography variant="h5" component="h1">
 				Play and improve your English
 			</Typography>
 			<section className={classes.marginTopBottom}>
-				<Typography variant="h5" component="h2">
+				<Typography variant="h6" component="h2">
 					My statistics
 				</Typography>
 				<Paper>
@@ -114,7 +114,7 @@ const HomePage = ({ goToPage, resumeSession }) => {
 			</section>
 			{uncompletedSessions.length > 0 && (
 				<section className={classes.marginTopBottom}>
-					<Typography variant="h5" component="h2">
+					<Typography variant="h6" component="h2">
 						Pick up where you left off
 					</Typography>
 					{uncompletedSessions.map((session, index) => (
