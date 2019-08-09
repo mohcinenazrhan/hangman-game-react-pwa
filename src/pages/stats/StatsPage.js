@@ -31,36 +31,38 @@ const useStyles = makeStyles((theme) => ({
 const StatesPage = ({ resumeSession, goToPage }) => {
 	const classes = useStyles();
 	const [ stats, setStats ] = useState([]);
+	const [ statsOgirinState, setStatsOriginState ] = useState([]);
 	const [ isReady, setIsReady ] = useState(false);
 	const [ itHasSessions, setItHasSessions ] = useState(false);
 	const [ listedSessionState, setListedSessionState ] = useState('All');
+	const [ nbrOfSessions, setNbrOfSessions ] = useState({
+		all: 0,
+		completed: 0,
+		uncompleted: 0
+	});
 
-	useEffect(
-		() => {
-			LocalDb.itHasRecords()
-				.then((val) => {
-					if (val === true) {
-						LocalDb.getLastSessions(listedSessionState)
-							.then((rows) => {
-								setStats(rows);
-								setIsReady(true);
-							})
-							.catch((error) => {
-								console.log('error: ' + error);
-							});
-					} else setIsReady(true);
-
-					setItHasSessions(val);
-				})
-				.catch((error) => {
-					console.log('error: ' + error);
+	useEffect(() => {
+		LocalDb.getAllSessions()
+			.then((rows) => {
+				setNbrOfSessions({
+					all: rows.length,
+					completed: rows.filter((row) => row.state === 'Completed').length,
+					uncompleted: rows.filter((row) => row.state === 'Uncompleted').length
 				});
-		},
-		[ listedSessionState ]
-	);
+				setStats(rows.slice(0, 3));
+				setStatsOriginState(rows);
+				setIsReady(true);
+				setItHasSessions(true);
+			})
+			.catch((error) => {
+				console.log('error: ' + error);
+			});
+	}, []);
 
 	function handleListedSessionStateChange(event) {
 		setListedSessionState(event.target.value);
+		if (event.target.value === 'All') setStats(statsOgirinState.slice(0, 3));
+		else setStats(statsOgirinState.filter((row) => row.state === event.target.value).slice(0, 3));
 	}
 
 	function handleResumeSession(id) {
@@ -93,9 +95,21 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 										value={listedSessionState}
 										onChange={handleListedSessionStateChange}
 									>
-										<FormControlLabel value="All" control={<Radio />} label="All" />
-										<FormControlLabel value="Completed" control={<Radio />} label="Completed" />
-										<FormControlLabel value="Uncompleted" control={<Radio />} label="Uncompleted" />
+										<FormControlLabel
+											value="All"
+											control={<Radio />}
+											label={`All (${nbrOfSessions.all})`}
+										/>
+										<FormControlLabel
+											value="Completed"
+											control={<Radio />}
+											label={`Completed (${nbrOfSessions.completed})`}
+										/>
+										<FormControlLabel
+											value="Uncompleted"
+											control={<Radio />}
+											label={`Uncompleted (${nbrOfSessions.uncompleted})`}
+										/>
 									</RadioGroup>
 								</FormControl>
 							</div>

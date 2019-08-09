@@ -117,6 +117,15 @@ const LocalDb = {
 		} catch (error) {
 			console.log(error.message);
 		}
+	},
+	getAllSessions: () => {
+		try {
+			return LocalDb.getDb().table('sessions').orderBy('date').reverse().toArray((rows) => {
+				return Promise.resolve(rows);
+			});
+		} catch (error) {
+			console.log(error.message);
+		}
 	}
 };
 
