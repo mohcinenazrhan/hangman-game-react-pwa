@@ -30,6 +30,6 @@ const SpinnerLoader = ({ fullPageCenter = false, message = null }) => {
 export default SpinnerLoader;
 
 SpinnerLoader.propTypes = {
-	fullPageCenter: PropTypes.bool.isRequired,
-	message: PropTypes.string.isRequired
+	fullPageCenter: PropTypes.bool,
+	message: PropTypes.string
 };
