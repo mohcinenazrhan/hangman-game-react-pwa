@@ -1,8 +1,8 @@
 import React from 'react';
-import Game from './components/Game';
+import GamePage from './GamePage';
 import PropTypes from 'prop-types';
-import { usePrepGameState } from './usePrepGameState';
-import SpinnerLoader from '../common/SpinnerLoader';
+import { usePrepGameState } from '../hooks/usePrepGameState';
+import SpinnerLoader from '../components/SpinnerLoader';
 
 const ResumePage = ({ updatePoints, resumeSessionId, goToPage, modeFullScreen }) => {
 	const { valueDifficulty, valueLanguage, alphabets, words, isReady, resumeData } = usePrepGameState(
@@ -29,7 +29,7 @@ const ResumePage = ({ updatePoints, resumeSessionId, goToPage, modeFullScreen })
 			{!isReady ? (
 				<SpinnerLoader message="Preparing the Game" fullPageCenter={true} />
 			) : (
-				<Game
+				<GamePage
 					alphabets={alphabets}
 					difficulty={valueDifficulty}
 					language={valueLanguage}

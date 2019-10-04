@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { helpers } from './helpers';
-import LocalDb from '../../LocalDb';
+import { helpers } from './../utils/helpers';
+import LocalDb from './../utils/LocalDb';
 
 // Custom hook prepare the game for new session or resume session
 export const usePrepGameState = (type, resumeSessionId = null) => {

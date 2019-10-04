@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Button, Paper, LinearProgress } from '@material-ui/core';
 import { makeStyles, withStyles, lighten } from '@material-ui/core/styles';
-import LocalDb from '../LocalDb';
+import LocalDb from '../utils/LocalDb';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {

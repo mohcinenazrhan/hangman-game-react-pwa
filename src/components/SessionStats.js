@@ -3,7 +3,7 @@ import { makeStyles, withStyles, lighten } from '@material-ui/core/styles';
 import { Typography, Button, Paper, LinearProgress, IconButton, Collapse } from '@material-ui/core';
 import clsx from 'clsx';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import SessionWordsStats from '../../common/SessionWordsStats';
+import SessionWordsStats from './SessionWordsStats';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {

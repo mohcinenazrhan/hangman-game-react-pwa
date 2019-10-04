@@ -3,12 +3,12 @@ import { Button, makeStyles, Typography, IconButton, Collapse, Dialog, DialogTit
 import clsx from 'clsx';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PauseIcon from '@material-ui/icons/Pause';
-import progressDraw from '../../../assets/progress-draw.png';
+import progressDraw from '../assets/progress-draw.png';
 import PropTypes from 'prop-types';
-import SessionWordsStats from '../../common/SessionWordsStats';
-import { useGameState } from './useGameState';
-import Keyboard from './Keyboard';
-import Board from './Board';
+import SessionWordsStats from '../components/SessionWordsStats';
+import { useGameState } from '../hooks/useGameState';
+import Keyboard from '../components/Keyboard';
+import Board from '../components/Board';
 
 const useStyles = makeStyles((theme) => ({
 	button: {

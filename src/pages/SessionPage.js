@@ -14,9 +14,9 @@ import {
 	Input
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import Game from './components/Game';
-import { usePrepGameState } from './usePrepGameState';
-import SpinnerLoader from '../common/SpinnerLoader';
+import GamePage from './GamePage';
+import { usePrepGameState } from '../hooks/usePrepGameState';
+import SpinnerLoader from '../components/SpinnerLoader';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const GamePage = ({ updatePoints, modeFullScreen, goToPage }) => {
+const SessionPage = ({ updatePoints, modeFullScreen, goToPage }) => {
 	const classes = useStyles();
 	const NumberOfWordsRange = {
 		min: '1',
@@ -182,7 +182,7 @@ const GamePage = ({ updatePoints, modeFullScreen, goToPage }) => {
 			) : !isReady ? (
 				<SpinnerLoader message="Preparing the Game" fullPageCenter={true} />
 			) : (
-				<Game
+				<GamePage
 					alphabets={alphabets}
 					difficulty={valueDifficulty}
 					language={valueLanguage}
@@ -197,4 +197,4 @@ const GamePage = ({ updatePoints, modeFullScreen, goToPage }) => {
 	);
 };
 
-export default GamePage;
+export default SessionPage;

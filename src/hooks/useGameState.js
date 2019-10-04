@@ -1,6 +1,6 @@
 import { useEffect, useReducer } from 'react';
-import { helpers } from './../helpers';
-import LocalDb from '../../../LocalDb';
+import { helpers } from './../utils/helpers';
+import LocalDb from './../utils/LocalDb';
 
 function gameReducer(state, action) {
 	switch (action.type) {

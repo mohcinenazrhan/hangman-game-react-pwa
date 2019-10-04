@@ -10,9 +10,9 @@ import {
 	RadioGroup,
 	Radio
 } from '@material-ui/core';
-import LocalDb from '../../LocalDb';
-import SessionStats from './components/SessionStats';
-import SpinnerLoader from '../common/SpinnerLoader';
+import LocalDb from '../utils/LocalDb';
+import SessionStats from '../components/SessionStats';
+import SpinnerLoader from '../components/SpinnerLoader';
 
 const useStyles = makeStyles((theme) => ({
 	root: {

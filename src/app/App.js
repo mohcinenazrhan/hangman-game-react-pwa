@@ -11,11 +11,11 @@ import { Home, Games, Assessment, AccountCircle } from '@material-ui/icons';
 import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
 import clsx from 'clsx';
 import './App.css';
-import GamePage from './pages/game/GamePage';
-import HomePage from './pages/HomePage';
-import AboutPage from './pages/AboutPage';
-import StatsPage from './pages/stats/StatsPage';
-import ResumePage from './pages/game/ResumePage';
+import SessionPage from './../pages/SessionPage';
+import HomePage from './../pages/HomePage';
+import AboutPage from './../pages/AboutPage';
+import StatsPage from './../pages/StatsPage';
+import ResumePage from './../pages/ResumePage';
 
 const theme = createMuiTheme({
 	palette: {
@@ -202,7 +202,11 @@ function App() {
 					<main className={clsx(fullScreen === false && classes.content)}>
 						{page === 'home' && <HomePage goToPage={goToPage} resumeSession={resumeSession} />}
 						{page === 'game' && (
-							<GamePage goToPage={goToPage} updatePoints={updatePoints} modeFullScreen={modeFullScreen} />
+							<SessionPage
+								goToPage={goToPage}
+								updatePoints={updatePoints}
+								modeFullScreen={modeFullScreen}
+							/>
 						)}
 						{page === 'resume' && (
 							<ResumePage
