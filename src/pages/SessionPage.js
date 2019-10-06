@@ -38,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const SessionPage = ({ updatePoints, goToPage }) => {
+const SessionPage = ({ updatePoints }) => {
 	const classes = useStyles();
 	const dispatch = useAppDispatch();
 
@@ -102,7 +102,7 @@ const SessionPage = ({ updatePoints, goToPage }) => {
 	}
 
 	function quitSession() {
-		goToPage('home');
+		dispatch({ type: 'NAVIGATE_TO_PAGE', page: 'home' });
 		dispatch({ type: 'MODE_NAVIGATE' });
 	}
 

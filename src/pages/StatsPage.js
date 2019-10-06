@@ -13,6 +13,7 @@ import {
 import LocalDb from '../utils/LocalDb';
 import SessionStats from '../components/SessionStats';
 import SpinnerLoader from '../components/SpinnerLoader';
+import { useAppDispatch } from '../context/app-context';
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -29,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const StatesPage = ({ goToPage }) => {
+const StatesPage = () => {
 	const classes = useStyles();
+	const dispatch = useAppDispatch();
 	const [ stats, setStats ] = useState([]);
 	const [ statsOgirinState, setStatsOriginState ] = useState([]);
 	const [ isReady, setIsReady ] = useState(false);
@@ -67,7 +69,7 @@ const StatesPage = ({ goToPage }) => {
 	}
 
 	function handleFirstSession() {
-		goToPage('game');
+		dispatch({ type: 'NAVIGATE_TO_PAGE', page: 'game' });
 	}
 
 	return (

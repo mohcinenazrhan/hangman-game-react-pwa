@@ -1,6 +1,7 @@
 import React from 'react';
 import { Typography, Button, Link } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useAppDispatch } from '../context/app-context';
 
 const useStyles = makeStyles((theme) => ({
 	link: {
@@ -21,11 +22,12 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const AboutPage = ({ goToPage }) => {
+const AboutPage = () => {
 	const classes = useStyles();
+	const dispatch = useAppDispatch();
 
 	function handleOnClick() {
-		goToPage('game');
+		dispatch({ type: 'NAVIGATE_TO_PAGE', page: 'game' });
 	}
 
 	return (

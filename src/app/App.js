@@ -84,10 +84,6 @@ function App() {
 		setAnchorEl(null);
 	}
 
-	function goToPage(page) {
-		return dispatch({ type: 'NAVIGATE_TO_PAGE', page });
-	}
-
 	function isNotFullScreen() {
 		return state.fullScreen === false;
 	}
@@ -140,17 +136,13 @@ function App() {
 				<Container maxWidth="lg">
 					{isNotFullScreen() && <div className={classes.toolbar} />}
 					<main className={clsx(state.fullScreen === false && classes.content)}>
-						{state.page === 'home' && <HomePage goToPage={goToPage} />}
-						{state.page === 'game' && <SessionPage goToPage={goToPage} updatePoints={updatePoints} />}
+						{state.page === 'home' && <HomePage />}
+						{state.page === 'game' && <SessionPage updatePoints={updatePoints} />}
 						{state.page === 'resume' && (
-							<ResumePage
-								updatePoints={updatePoints}
-								resumeSessionId={state.resumeSessionId}
-								goToPage={goToPage}
-							/>
+							<ResumePage updatePoints={updatePoints} resumeSessionId={state.resumeSessionId} />
 						)}
-						{state.page === 'stats' && <StatsPage goToPage={goToPage} />}
-						{state.page === 'about' && <AboutPage goToPage={goToPage} />}
+						{state.page === 'stats' && <StatsPage />}
+						{state.page === 'about' && <AboutPage />}
 					</main>
 					{isNotFullScreen() && <div className={classes.toolbar} />}
 				</Container>

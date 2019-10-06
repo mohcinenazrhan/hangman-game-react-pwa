@@ -50,7 +50,7 @@ const BorderLinearProgress = withStyles({
 	}
 })(LinearProgress);
 
-const HomePage = ({ goToPage }) => {
+const HomePage = () => {
 	const classes = useStyles();
 	const dispatch = useAppDispatch();
 
@@ -85,7 +85,7 @@ const HomePage = ({ goToPage }) => {
 	}, []);
 
 	function handleNewSessionClick() {
-		goToPage('game');
+		dispatch({ type: 'NAVIGATE_TO_PAGE', page: 'game' });
 	}
 
 	function handleContinueClick(id) {
