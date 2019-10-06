@@ -14,6 +14,9 @@ function appReducer(initState, action) {
 		case 'MODE_NAVIGATE': {
 			return { ...initState, fullScreen: false };
 		}
+		case 'ADD_POINTS': {
+			return { ...initState, points: action.pointsToAdd + initState.points };
+		}
 		default: {
 			throw new Error(`Unhandled action type: ${action.type}`);
 		}
@@ -24,7 +27,8 @@ function AppProvider({ children }) {
 	const [ state, dispatch ] = React.useReducer(appReducer, {
 		page: 'home',
 		resumeSessionId: null,
-		points: 0,
+		points:
+			window.localStorage.getItem('userPoints') == null ? 0 : parseInt(window.localStorage.getItem('userPoints')),
 		fullScreen: false
 	});
 	return (

@@ -65,19 +65,18 @@ function App() {
 
 	// State for resumeSessionId
 	const [ resumeSessionId, setResumeSessionId ] = React.useState(null);
-	// State for current user score points
-	const [ points, setPoints ] = React.useState(0);
 
-	React.useEffect(() => {
-		const userPoints = localStorage.getItem('userPoints');
-		if (userPoints !== null) setPoints(parseInt(localStorage.getItem('userPoints')));
-		else localStorage.setItem('userPoints', 0);
-	}, []);
+	// listens for changes in the state, when changed it updates
+	// the localStorage value of userPoints
+	React.useEffect(
+		() => {
+			window.localStorage.setItem('userPoints', state.points);
+		},
+		[ state.points ]
+	);
 
 	function updatePoints(pointsToAdd) {
-		const newPoints = points + pointsToAdd;
-		setPoints(newPoints);
-		localStorage.setItem('userPoints', newPoints);
+		dispatch({ type: 'ADD_POINTS', pointsToAdd });
 	}
 
 	function handleMenu(event) {
@@ -112,7 +111,7 @@ function App() {
 							<Typography variant="h6" noWrap>
 								Hangman Game
 							</Typography>
-							<Typography>{points} points</Typography>
+							<Typography>{state.points} points</Typography>
 							{auth && (
 								<div>
 									<IconButton
