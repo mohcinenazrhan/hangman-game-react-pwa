@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SessionWordsStats from './SessionWordsStats';
 import { useAppDispatch } from '../context/app-context';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -82,7 +83,7 @@ const BorderLinearProgress = withStyles({
 	}
 })(LinearProgress);
 
-const SessionStats = ({ stats, index }) => {
+const SessionStats = ({ stats }) => {
 	const classes = useStyles();
 	const dispatch = useAppDispatch();
 
@@ -160,3 +161,7 @@ const SessionStats = ({ stats, index }) => {
 };
 
 export default SessionStats;
+
+SessionStats.propTypes = {
+	stats: PropTypes.object.isRequired
+};
