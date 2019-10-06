@@ -20,6 +20,9 @@ function appReducer(state, action) {
 		case 'RESUME_SESSION': {
 			return { ...state, ...{ resumeSessionId: action.id, fullScreen: true, page: 'resume' } };
 		}
+		case 'QUIT_SAVE_SESSION': {
+			return { ...state, ...{ fullScreen: false, page: 'home' } };
+		}
 		default: {
 			throw new Error(`Unhandled action type: ${action.type}`);
 		}

@@ -22,11 +22,6 @@ const ResumePage = ({ updatePoints, resumeSessionId }) => {
 		dispatch({ type: 'MODE_NAVIGATE' });
 	}
 
-	function quitSession() {
-		dispatch({ type: 'NAVIGATE_TO_PAGE', page: 'home' });
-		dispatch({ type: 'MODE_NAVIGATE' });
-	}
-
 	return (
 		<React.Fragment>
 			{!isReady ? (
@@ -41,7 +36,6 @@ const ResumePage = ({ updatePoints, resumeSessionId }) => {
 					prepareNewSession={prepareNewSession}
 					id={resumeSessionId}
 					resumeData={resumeData}
-					quitSession={quitSession}
 				/>
 			)}
 		</React.Fragment>

@@ -101,11 +101,6 @@ const SessionPage = ({ updatePoints }) => {
 		dispatch({ type: 'MODE_NAVIGATE' });
 	}
 
-	function quitSession() {
-		dispatch({ type: 'NAVIGATE_TO_PAGE', page: 'home' });
-		dispatch({ type: 'MODE_NAVIGATE' });
-	}
-
 	return (
 		<React.Fragment>
 			{newSession === false ? (
@@ -193,7 +188,6 @@ const SessionPage = ({ updatePoints }) => {
 					updateUserPoints={updateUserPoints}
 					prepareNewSession={prepareNewSession}
 					id={sessionId}
-					quitSession={quitSession}
 				/>
 			)}
 		</React.Fragment>

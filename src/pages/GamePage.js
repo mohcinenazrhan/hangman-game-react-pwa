@@ -9,6 +9,7 @@ import SessionWordsStats from '../components/SessionWordsStats';
 import { useGameState } from '../hooks/useGameState';
 import Keyboard from '../components/Keyboard';
 import Board from '../components/Board';
+import { useAppDispatch } from '../context/app-context';
 
 const useStyles = makeStyles((theme) => ({
 	button: {
@@ -115,18 +116,9 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Game({
-	id,
-	words,
-	alphabets,
-	language,
-	difficulty,
-	updateUserPoints,
-	prepareNewSession,
-	quitSession,
-	resumeData = null
-}) {
+function Game({ id, words, alphabets, language, difficulty, updateUserPoints, prepareNewSession, resumeData = null }) {
 	const classes = useStyles();
+	const dispatch = useAppDispatch();
 
 	const {
 		wordState,
@@ -180,7 +172,7 @@ function Game({
 	}
 
 	function saveSessionForLater() {
-		quitSession();
+		dispatch({ type: 'QUIT_SAVE_SESSION' });
 	}
 
 	function deleteAndCancelSession() {
