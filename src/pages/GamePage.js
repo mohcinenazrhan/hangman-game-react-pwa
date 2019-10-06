@@ -116,7 +116,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-function Game({ id, words, alphabets, language, difficulty, updateUserPoints, prepareNewSession, resumeData = null }) {
+function Game({ id, words, alphabets, language, difficulty, updateUserPoints, resumeData = null }) {
 	const classes = useStyles();
 	const dispatch = useAppDispatch();
 
@@ -164,7 +164,8 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 	}
 
 	function newSession() {
-		prepareNewSession();
+		dispatch({ type: 'NAVIGATE_TO_PAGE', page: 'game' });
+		dispatch({ type: 'MODE_NAVIGATE' });
 	}
 
 	function sessionstats() {
@@ -177,7 +178,8 @@ function Game({ id, words, alphabets, language, difficulty, updateUserPoints, pr
 
 	function deleteAndCancelSession() {
 		deleteSession();
-		prepareNewSession();
+		dispatch({ type: 'NAVIGATE_TO_PAGE', page: 'game' });
+		dispatch({ type: 'MODE_NAVIGATE' });
 	}
 
 	const [ expanded, setExpanded ] = React.useState(false);
@@ -370,6 +372,5 @@ Game.propTypes = {
 	alphabets: PropTypes.array.isRequired,
 	difficulty: PropTypes.string.isRequired,
 	language: PropTypes.string.isRequired,
-	prepareNewSession: PropTypes.func.isRequired,
 	updateUserPoints: PropTypes.func.isRequired
 };

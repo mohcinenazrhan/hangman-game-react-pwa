@@ -9,7 +9,6 @@ export const usePrepGameState = (type, resumeSessionId = null) => {
 	const [ numberOfWords, setNumberOfWords ] = useState(5);
 	const [ alphabets, setAlphabets ] = useState([]);
 	const [ words, setWords ] = useState([]);
-	const [ newSession, setNewSession ] = useState(false);
 	// State for session ID
 	const [ sessionId, setSessionId ] = useState(null);
 	// State for the dependencies if ready
@@ -33,7 +32,7 @@ export const usePrepGameState = (type, resumeSessionId = null) => {
 					});
 			}
 
-			if (type === 'newSession' && newSession) {
+			if (type === 'newSession') {
 				// fetch('https://random-word-api.herokuapp.com/word?key=TE2AB90K&number=10')
 				// 	.then((response) => response.json())
 				// 	.then((data) => {
@@ -115,11 +114,10 @@ export const usePrepGameState = (type, resumeSessionId = null) => {
 					});
 			}
 		},
-		[ resumeSessionId, newSession, valueLanguage, valueDifficulty, numberOfWords, type ]
+		[ resumeSessionId, valueLanguage, valueDifficulty, numberOfWords, type ]
 	);
 
 	return {
-		newSession,
 		sessionId,
 		numberOfWords,
 		valueLanguage,
@@ -130,7 +128,6 @@ export const usePrepGameState = (type, resumeSessionId = null) => {
 		resumeData,
 		setValueLanguage,
 		setValueDifficulty,
-		setNumberOfWords,
-		setNewSession
+		setNumberOfWords
 	};
 };

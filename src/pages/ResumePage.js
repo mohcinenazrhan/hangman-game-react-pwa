@@ -3,7 +3,6 @@ import GamePage from './GamePage';
 import PropTypes from 'prop-types';
 import { usePrepGameState } from '../hooks/usePrepGameState';
 import SpinnerLoader from '../components/SpinnerLoader';
-import { useAppDispatch } from '../context/app-context';
 
 const ResumePage = ({ updatePoints, resumeSessionId }) => {
 	const { valueDifficulty, valueLanguage, alphabets, words, isReady, resumeData } = usePrepGameState(
@@ -11,15 +10,8 @@ const ResumePage = ({ updatePoints, resumeSessionId }) => {
 		resumeSessionId
 	);
 
-	const dispatch = useAppDispatch();
-
 	function updateUserPoints(newPoints) {
 		updatePoints(newPoints);
-	}
-
-	function prepareNewSession() {
-		dispatch({ type: 'NAVIGATE_TO_PAGE', page: 'game' });
-		dispatch({ type: 'MODE_NAVIGATE' });
 	}
 
 	return (
@@ -33,7 +25,6 @@ const ResumePage = ({ updatePoints, resumeSessionId }) => {
 					language={valueLanguage}
 					words={words}
 					updateUserPoints={updateUserPoints}
-					prepareNewSession={prepareNewSession}
 					id={resumeSessionId}
 					resumeData={resumeData}
 				/>

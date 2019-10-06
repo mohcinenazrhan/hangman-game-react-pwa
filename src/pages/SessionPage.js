@@ -50,7 +50,6 @@ const SessionPage = ({ updatePoints }) => {
 	const [ invalidNbrWordsInput, setInvalidNbrWordsInput ] = React.useState(false);
 
 	const {
-		newSession,
 		sessionId,
 		numberOfWords,
 		valueLanguage,
@@ -60,9 +59,10 @@ const SessionPage = ({ updatePoints }) => {
 		isReady,
 		setValueLanguage,
 		setValueDifficulty,
-		setNumberOfWords,
-		setNewSession
+		setNumberOfWords
 	} = usePrepGameState('newSession');
+
+	const [ newSession, setNewSession ] = React.useState(false);
 
 	function handleLanguageChange(event) {
 		setValueLanguage(event.target.value);
@@ -94,11 +94,6 @@ const SessionPage = ({ updatePoints }) => {
 	function startNewSession() {
 		setNewSession(true);
 		dispatch({ type: 'MODE_GAME' });
-	}
-
-	function prepareNewSession() {
-		setNewSession(false);
-		dispatch({ type: 'MODE_NAVIGATE' });
 	}
 
 	return (
@@ -186,7 +181,6 @@ const SessionPage = ({ updatePoints }) => {
 					language={valueLanguage}
 					words={words}
 					updateUserPoints={updateUserPoints}
-					prepareNewSession={prepareNewSession}
 					id={sessionId}
 				/>
 			)}
