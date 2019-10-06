@@ -63,9 +63,6 @@ function App() {
 	const [ anchorEl, setAnchorEl ] = React.useState(null);
 	const open = Boolean(anchorEl);
 
-	// State for resumeSessionId
-	const [ resumeSessionId, setResumeSessionId ] = React.useState(null);
-
 	// listens for changes in the state, when changed it updates
 	// the localStorage value of userPoints
 	React.useEffect(
@@ -89,12 +86,6 @@ function App() {
 
 	function goToPage(page) {
 		return dispatch({ type: 'NAVIGATE_TO_PAGE', page });
-	}
-
-	function resumeSession(id) {
-		setResumeSessionId(id);
-		dispatch({ type: 'MODE_GAME' });
-		dispatch({ type: 'NAVIGATE_TO_PAGE', page: 'resume' });
 	}
 
 	function isNotFullScreen() {
@@ -149,16 +140,16 @@ function App() {
 				<Container maxWidth="lg">
 					{isNotFullScreen() && <div className={classes.toolbar} />}
 					<main className={clsx(state.fullScreen === false && classes.content)}>
-						{state.page === 'home' && <HomePage goToPage={goToPage} resumeSession={resumeSession} />}
+						{state.page === 'home' && <HomePage goToPage={goToPage} />}
 						{state.page === 'game' && <SessionPage goToPage={goToPage} updatePoints={updatePoints} />}
 						{state.page === 'resume' && (
 							<ResumePage
 								updatePoints={updatePoints}
-								resumeSessionId={resumeSessionId}
+								resumeSessionId={state.resumeSessionId}
 								goToPage={goToPage}
 							/>
 						)}
-						{state.page === 'stats' && <StatsPage resumeSession={resumeSession} goToPage={goToPage} />}
+						{state.page === 'stats' && <StatsPage goToPage={goToPage} />}
 						{state.page === 'about' && <AboutPage goToPage={goToPage} />}
 					</main>
 					{isNotFullScreen() && <div className={classes.toolbar} />}

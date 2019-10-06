@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const StatesPage = ({ resumeSession, goToPage }) => {
+const StatesPage = ({ goToPage }) => {
 	const classes = useStyles();
 	const [ stats, setStats ] = useState([]);
 	const [ statsOgirinState, setStatsOriginState ] = useState([]);
@@ -64,10 +64,6 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 		setListedSessionState(event.target.value);
 		if (event.target.value === 'All') setStats(statsOgirinState.slice(0, 3));
 		else setStats(statsOgirinState.filter((row) => row.state === event.target.value).slice(0, 3));
-	}
-
-	function handleResumeSession(id) {
-		resumeSession(id);
 	}
 
 	function handleFirstSession() {
@@ -116,7 +112,7 @@ const StatesPage = ({ resumeSession, goToPage }) => {
 							</div>
 							{stats.map((statsRow, index) => (
 								<React.Fragment key={index}>
-									<SessionStats stats={statsRow} handleResumeSession={handleResumeSession} />
+									<SessionStats stats={statsRow} />
 									{index < stats.length - 1 && <Divider />}
 								</React.Fragment>
 							))}

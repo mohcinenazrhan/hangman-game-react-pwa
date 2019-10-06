@@ -17,6 +17,9 @@ function appReducer(state, action) {
 		case 'ADD_POINTS': {
 			return { ...state, points: action.pointsToAdd + state.points };
 		}
+		case 'RESUME_SESSION': {
+			return { ...state, ...{ resumeSessionId: action.id, fullScreen: true, page: 'resume' } };
+		}
 		default: {
 			throw new Error(`Unhandled action type: ${action.type}`);
 		}

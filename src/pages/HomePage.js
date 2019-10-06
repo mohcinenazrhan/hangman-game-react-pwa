@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Typography, Button, Paper, LinearProgress } from '@material-ui/core';
 import { makeStyles, withStyles, lighten } from '@material-ui/core/styles';
 import LocalDb from '../utils/LocalDb';
+import { useAppDispatch } from '../context/app-context';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -49,8 +50,10 @@ const BorderLinearProgress = withStyles({
 	}
 })(LinearProgress);
 
-const HomePage = ({ goToPage, resumeSession }) => {
+const HomePage = ({ goToPage }) => {
 	const classes = useStyles();
+	const dispatch = useAppDispatch();
+
 	const [ uncompletedSessions, setUncompletedSessions ] = useState([]);
 	const [ nbrCompletedSessions, setNbrCompletedSessions ] = useState(0);
 	const [ nbrWordGuessedSuccessfully, setNbrWordGuessedSuccessfully ] = useState(0);
@@ -86,7 +89,7 @@ const HomePage = ({ goToPage, resumeSession }) => {
 	}
 
 	function handleContinueClick(id) {
-		resumeSession(id);
+		dispatch({ type: 'RESUME_SESSION', id });
 	}
 
 	function getWordsLeftInfo(words, playedWords) {

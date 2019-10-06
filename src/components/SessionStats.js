@@ -4,6 +4,7 @@ import { Typography, Button, Paper, LinearProgress, IconButton, Collapse } from 
 import clsx from 'clsx';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SessionWordsStats from './SessionWordsStats';
+import { useAppDispatch } from '../context/app-context';
 
 const useStyles = makeStyles((theme) => ({
 	paper: {
@@ -81,8 +82,10 @@ const BorderLinearProgress = withStyles({
 	}
 })(LinearProgress);
 
-const SessionStats = ({ stats, index, handleResumeSession }) => {
+const SessionStats = ({ stats, index }) => {
 	const classes = useStyles();
+	const dispatch = useAppDispatch();
+
 	const [ expanded, setExpanded ] = React.useState(false);
 
 	function handleExpandClick() {
@@ -145,7 +148,7 @@ const SessionStats = ({ stats, index, handleResumeSession }) => {
 						color="primary"
 						size="small"
 						onClick={() => {
-							handleResumeSession(stats.id);
+							dispatch({ type: 'RESUME_SESSION', id: stats.id });
 						}}
 					>
 						continue
