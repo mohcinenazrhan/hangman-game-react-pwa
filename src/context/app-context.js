@@ -3,19 +3,19 @@ import React from 'react';
 const AppStateContext = React.createContext();
 const AppDispatchContext = React.createContext();
 
-function appReducer(initState, action) {
+function appReducer(state, action) {
 	switch (action.type) {
 		case 'NAVIGATE_TO_PAGE': {
-			return { ...initState, page: action.page };
+			return { ...state, page: action.page };
 		}
 		case 'MODE_GAME': {
-			return { ...initState, fullScreen: true };
+			return { ...state, fullScreen: true };
 		}
 		case 'MODE_NAVIGATE': {
-			return { ...initState, fullScreen: false };
+			return { ...state, fullScreen: false };
 		}
 		case 'ADD_POINTS': {
-			return { ...initState, points: action.pointsToAdd + initState.points };
+			return { ...state, points: action.pointsToAdd + state.points };
 		}
 		default: {
 			throw new Error(`Unhandled action type: ${action.type}`);
