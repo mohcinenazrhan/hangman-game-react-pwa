@@ -4,10 +4,7 @@ import { makeStyles, createMuiTheme } from '@material-ui/core/styles';
 import { blue, grey } from '@material-ui/core/colors';
 import { ThemeProvider } from '@material-ui/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import { Home, Games, Assessment, AccountCircle } from '@material-ui/icons';
+import { AccountCircle } from '@material-ui/icons';
 import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@material-ui/core';
 import clsx from 'clsx';
 import './App.css';
@@ -16,6 +13,8 @@ import HomePage from './../pages/HomePage';
 import AboutPage from './../pages/AboutPage';
 import StatsPage from './../pages/StatsPage';
 import ResumePage from './../pages/ResumePage';
+import NavBar from './../components/NavBar';
+import { useAppDispatch, useAppState } from '../context/app-context';
 
 const theme = createMuiTheme({
 	palette: {
@@ -50,13 +49,6 @@ const useStyles = makeStyles((theme) => ({
 		paddingTop: theme.spacing(3),
 		paddingBottom: theme.spacing(3)
 	},
-	footer: {
-		width: '100%',
-		flexGrow: 1,
-		position: 'fixed',
-		bottom: 0,
-		borderTop: '1px solid #eaeaea'
-	},
 	justifyContent: {
 		justifyContent: 'space-between'
 	}
@@ -64,14 +56,13 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
 	const classes = useStyles();
-	const [ value, setValue ] = React.useState(0);
+	const dispatch = useAppDispatch();
+	const state = useAppState();
 
 	const [ auth ] = React.useState(true);
 	const [ anchorEl, setAnchorEl ] = React.useState(null);
 	const open = Boolean(anchorEl);
 
-	// State for the current page
-	const [ page, setPage ] = React.useState('home');
 	// State for resumeSessionId
 	const [ resumeSessionId, setResumeSessionId ] = React.useState(null);
 	// State for current user score points
@@ -99,49 +90,14 @@ function App() {
 		setAnchorEl(null);
 	}
 
-	function handleTabChange(event, newValue) {
-		setValue(newValue);
-		switch (newValue) {
-			case 0:
-				setPage('home');
-				break;
-			case 1:
-				setPage('game');
-				break;
-			case 2:
-				setPage('stats');
-				break;
-
-			default:
-				setPage('home');
-				break;
-		}
-	}
-
 	function goToPage(page) {
-		setPage(page);
-		switch (page) {
-			case 'home':
-				setValue(0);
-				break;
-			case 'game':
-			case 'resume':
-				setValue(1);
-				break;
-			case 'stats':
-				setValue(2);
-				break;
-
-			default:
-				setValue(0);
-				break;
-		}
+		return dispatch({ type: 'NAVIGATE_TO_PAGE', page });
 	}
 
 	function resumeSession(id) {
 		setResumeSessionId(id);
 		setFullScreen(true);
-		goToPage('resume');
+		dispatch({ type: 'NAVIGATE_TO_PAGE', page: 'resume' });
 	}
 
 	function isNotFullScreen() {
@@ -200,15 +156,15 @@ function App() {
 				<Container maxWidth="lg">
 					{isNotFullScreen() && <div className={classes.toolbar} />}
 					<main className={clsx(fullScreen === false && classes.content)}>
-						{page === 'home' && <HomePage goToPage={goToPage} resumeSession={resumeSession} />}
-						{page === 'game' && (
+						{state.page === 'home' && <HomePage goToPage={goToPage} resumeSession={resumeSession} />}
+						{state.page === 'game' && (
 							<SessionPage
 								goToPage={goToPage}
 								updatePoints={updatePoints}
 								modeFullScreen={modeFullScreen}
 							/>
 						)}
-						{page === 'resume' && (
+						{state.page === 'resume' && (
 							<ResumePage
 								updatePoints={updatePoints}
 								resumeSessionId={resumeSessionId}
@@ -216,28 +172,12 @@ function App() {
 								modeFullScreen={modeFullScreen}
 							/>
 						)}
-						{page === 'stats' && <StatsPage resumeSession={resumeSession} goToPage={goToPage} />}
-						{page === 'about' && <AboutPage goToPage={goToPage} />}
+						{state.page === 'stats' && <StatsPage resumeSession={resumeSession} goToPage={goToPage} />}
+						{state.page === 'about' && <AboutPage goToPage={goToPage} />}
 					</main>
 					{isNotFullScreen() && <div className={classes.toolbar} />}
 				</Container>
-				{isNotFullScreen() && (
-					<footer className={classes.footer}>
-						<Paper square>
-							<Tabs
-								value={value}
-								onChange={handleTabChange}
-								variant="fullWidth"
-								indicatorColor="secondary"
-								textColor="secondary"
-							>
-								<Tab icon={<Home />} label="Home" />
-								<Tab icon={<Games />} label="Play" />
-								<Tab icon={<Assessment />} label="My stats" />
-							</Tabs>
-						</Paper>
-					</footer>
-				)}
+				{isNotFullScreen() && <NavBar />}
 			</div>
 		</ThemeProvider>
 	);
