@@ -8,6 +8,12 @@ function appReducer(initState, action) {
 		case 'NAVIGATE_TO_PAGE': {
 			return { ...initState, page: action.page };
 		}
+		case 'MODE_GAME': {
+			return { ...initState, fullScreen: true };
+		}
+		case 'MODE_NAVIGATE': {
+			return { ...initState, fullScreen: false };
+		}
 		default: {
 			throw new Error(`Unhandled action type: ${action.type}`);
 		}

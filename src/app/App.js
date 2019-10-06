@@ -67,8 +67,6 @@ function App() {
 	const [ resumeSessionId, setResumeSessionId ] = React.useState(null);
 	// State for current user score points
 	const [ points, setPoints ] = React.useState(0);
-	// State for full screen
-	const [ fullScreen, setFullScreen ] = React.useState(false);
 
 	React.useEffect(() => {
 		const userPoints = localStorage.getItem('userPoints');
@@ -96,16 +94,12 @@ function App() {
 
 	function resumeSession(id) {
 		setResumeSessionId(id);
-		setFullScreen(true);
+		dispatch({ type: 'MODE_GAME' });
 		dispatch({ type: 'NAVIGATE_TO_PAGE', page: 'resume' });
 	}
 
 	function isNotFullScreen() {
-		return fullScreen === false;
-	}
-
-	function modeFullScreen(value) {
-		setFullScreen(value);
+		return state.fullScreen === false;
 	}
 
 	return (
@@ -155,21 +149,14 @@ function App() {
 				)}
 				<Container maxWidth="lg">
 					{isNotFullScreen() && <div className={classes.toolbar} />}
-					<main className={clsx(fullScreen === false && classes.content)}>
+					<main className={clsx(state.fullScreen === false && classes.content)}>
 						{state.page === 'home' && <HomePage goToPage={goToPage} resumeSession={resumeSession} />}
-						{state.page === 'game' && (
-							<SessionPage
-								goToPage={goToPage}
-								updatePoints={updatePoints}
-								modeFullScreen={modeFullScreen}
-							/>
-						)}
+						{state.page === 'game' && <SessionPage goToPage={goToPage} updatePoints={updatePoints} />}
 						{state.page === 'resume' && (
 							<ResumePage
 								updatePoints={updatePoints}
 								resumeSessionId={resumeSessionId}
 								goToPage={goToPage}
-								modeFullScreen={modeFullScreen}
 							/>
 						)}
 						{state.page === 'stats' && <StatsPage resumeSession={resumeSession} goToPage={goToPage} />}

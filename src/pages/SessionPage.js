@@ -17,6 +17,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import GamePage from './GamePage';
 import { usePrepGameState } from '../hooks/usePrepGameState';
 import SpinnerLoader from '../components/SpinnerLoader';
+import { useAppDispatch } from '../context/app-context';
 
 const useStyles = makeStyles((theme) => ({
 	formControl: {
@@ -37,8 +38,10 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-const SessionPage = ({ updatePoints, modeFullScreen, goToPage }) => {
+const SessionPage = ({ updatePoints, goToPage }) => {
 	const classes = useStyles();
+	const dispatch = useAppDispatch();
+
 	const NumberOfWordsRange = {
 		min: '1',
 		max: '15'
@@ -90,17 +93,17 @@ const SessionPage = ({ updatePoints, modeFullScreen, goToPage }) => {
 
 	function startNewSession() {
 		setNewSession(true);
-		modeFullScreen(true);
+		dispatch({ type: 'MODE_GAME' });
 	}
 
 	function prepareNewSession() {
 		setNewSession(false);
-		modeFullScreen(false);
+		dispatch({ type: 'MODE_NAVIGATE' });
 	}
 
 	function quitSession() {
 		goToPage('home');
-		modeFullScreen(false);
+		dispatch({ type: 'MODE_NAVIGATE' });
 	}
 
 	return (
