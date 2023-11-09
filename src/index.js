@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import AppProviders from './context';
 import App from './app/App';
 import * as serviceWorker from './pwa/serviceWorker';
+import { inject } from '@vercel/analytics';
+
+inject();
 
 ReactDOM.render(
 	<AppProviders>
